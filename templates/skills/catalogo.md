@@ -94,7 +94,7 @@ Skills externas prontas pra instalar. Use como referencia ao criar skills novas 
 **O que faz:** Transcreve videos de qualquer plataforma (YouTube, Instagram, TikTok, X/Twitter, Vimeo e 1000+ sites) usando yt-dlp + Whisper. Mais robusta que YT Transcript.
 **Bom pra:** Transcrever Reels, TikToks, posts de X/Twitter com video, qualquer URL de video
 **Precisa de:** yt-dlp + ffmpeg (a skill faz setup automatico)
-**Como instalar:** `git clone https://github.com/duduesh/transcribe ~/.claude/skills/transcribe`
+**Como instalar:** baixe o zip da **transcribe** na plataforma (Materiais) e descompacte em `~/.claude/skills/`
 **Fonte:** Skill da Ratos de IA, repo publico
 
 ---
@@ -105,27 +105,27 @@ Skills externas prontas pra instalar. Use como referencia ao criar skills novas 
 **O que faz:** Le dados do Google Analytics 4 via API oficial. 13 subcomandos: realtime, landing pages, conversoes, fontes de trafego, comportamento.
 **Bom pra:** Relatorios de trafego, dashboards de site, analise de campanhas UTM, tempo real
 **Precisa de:** Service account com acesso de leitura na propriedade GA4
-**Como instalar:** `git clone https://github.com/duduesh/ga4-ratos ~/.claude/skills/ga4-ratos`. Setup conversacional na primeira vez
+**Como instalar:** baixe o zip da **ga4-ratos** na plataforma (Materiais) e descompacte em `~/.claude/skills/`. Setup conversacional na primeira vez
 **Fonte:** Skill da Ratos de IA, repo publico
 
 ### Ads Ratos (cerebro orquestrador)
 **O que faz:** Diagnostico, relatorio, auditoria e estrategia para Meta Ads e Google Ads. Usa benchmarks brasileiros, Quality Gates e Health Score. Orquestra `meta-ads-ratos`, `google-ads-ratos` e `ga4-ratos`.
 **Bom pra:** Diagnostico de conta, relatorio de performance, auditoria de tragefo, identificar problemas de campanha
-**Como instalar:** `git clone https://github.com/duduesh/ads-ratos ~/.claude/skills/ads-ratos`
+**Como instalar:** baixe o zip da **ads-ratos** na plataforma (Materiais) e descompacte em `~/.claude/skills/`
 **Fonte:** Skill da Ratos de IA, repo publico
 
 ### Meta Ads Ratos
 **O que faz:** Gerencia campanhas Meta Ads (Facebook/Instagram) via SDK oficial. 43 subcomandos: CRUD completo, targeting, criativos, insights, duplicar campanhas, trocar URL tags.
 **Bom pra:** Gestao de Meta Ads, criar/pausar campanhas, ajustar orcamento, ler metricas
 **Precisa de:** Token Meta Business
-**Como instalar:** `git clone https://github.com/duduesh/meta-ads-ratos ~/.claude/skills/meta-ads-ratos`
+**Como instalar:** baixe o zip da **meta-ads-ratos** na plataforma (Materiais) e descompacte em `~/.claude/skills/`
 **Fonte:** Skill da Ratos de IA, repo publico
 
 ### Google Ads Ratos
 **O que faz:** Gerencia campanhas Google Ads via SDK oficial. 30 subcomandos: GAQL, CRUD, Quality Score, Keyword Planner com volume e CPC.
 **Bom pra:** Gestao de Google Ads, pesquisa de keywords, relatorios via GAQL, monitorar quality score
 **Precisa de:** Conta Google Ads + developer token
-**Como instalar:** `git clone https://github.com/duduesh/google-ads-ratos ~/.claude/skills/google-ads-ratos`
+**Como instalar:** baixe o zip da **google-ads-ratos** na plataforma (Materiais) e descompacte em `~/.claude/skills/`
 **Fonte:** Skill da Ratos de IA, repo publico
 
 ---

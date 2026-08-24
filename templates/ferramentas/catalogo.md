@@ -205,19 +205,19 @@ gh release create v1.0.0
 ### Google Analytics 4 (Data API)
 **O que faz:** Le dados de propriedades GA4: sessoes, usuarios, pageviews, conversoes, fontes de trafego, landing pages, dados em tempo real
 **Precisa de conta:** Sim, propriedade GA4 + service account com acesso de leitura
-**Recomendacao:** Use a skill `/ga4-ratos` (ja vem com 13 subcomandos prontos: realtime, landing pages, conversoes, etc). Repo: github.com/duduesh/ga4-ratos
+**Recomendacao:** Use a skill `/ga4-ratos` (ja vem com 13 subcomandos prontos: realtime, landing pages, conversoes, etc)
 **Quando usar:** Skills que precisam ler trafego, performance de landing pages, conversoes, dados de comportamento do site
 
 ### Meta Ads (Marketing API)
 **O que faz:** Gerencia campanhas no Facebook/Instagram Ads: criar, editar, pausar, duplicar, ler insights, configurar publicos
 **Precisa de conta:** Sim, conta de anuncios Meta + token de longa duracao
-**Recomendacao:** Use a skill `/meta-ads-ratos` (43 subcomandos cobrindo CRUD completo + targeting). Orquestrada por `/ads-ratos` quando precisar de diagnostico/relatorio. Repo: github.com/duduesh/meta-ads-ratos
+**Recomendacao:** Use a skill `/meta-ads-ratos` (43 subcomandos cobrindo CRUD completo + targeting). Orquestrada por `/ads-ratos` quando precisar de diagnostico/relatorio
 **Quando usar:** Skills de gestao de midia paga Meta, relatorios de performance, criacao de campanhas, ajuste de orcamento
 
 ### Google Ads API
 **O que faz:** Le e edita campanhas Google Ads (Search, Performance Max, Shopping), busca keywords, le quality score, gera relatorios via GAQL
 **Precisa de conta:** Sim, conta Google Ads + developer token
-**Recomendacao:** Use a skill `/google-ads-ratos` (30 subcomandos: GAQL + CRUD + Quality Score + Keyword Planner). Orquestrada por `/ads-ratos` quando precisar de diagnostico/relatorio. Repo: github.com/duduesh/google-ads-ratos
+**Recomendacao:** Use a skill `/google-ads-ratos` (30 subcomandos: GAQL + CRUD + Quality Score + Keyword Planner). Orquestrada por `/ads-ratos` quando precisar de diagnostico/relatorio
 **Quando usar:** Skills de gestao Google Ads, pesquisa de keywords, relatorios de quality score, monitoramento de campanhas
 
 ---
