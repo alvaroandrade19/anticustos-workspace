@@ -1,43 +1,94 @@
-# Claude Code OS — Kit Ratos de IA
+# Anti Custos | Claude Code OS
 
-Este repositório é o kit de boas-vindas do curso Claude Code OS.
+## O que é esse workspace
 
-Se você acabou de clonar esse repositório:
-1. Rode `/setup` pra configurar o sistema pro seu negócio (uns 5 minutos)
-2. Depois rode `/mapear` pra criar skills personalizadas pro que você faz no dia a dia
+Workspace de trabalho da Anti Custos, negócio do Alvaro de Andrade que presta serviços de IA para pequenas e médias empresas. Aqui vive tudo que gera e sustenta demanda: conteúdo para redes, propostas comerciais, apresentações e o material de cada cliente.
+
+**Estrutura de pastas:**
+- `_contexto/`: memória do sistema (não apagar)
+- `clientes/`: uma pasta por cliente, criada a partir de `_modelo-cliente/`
+- `conteudo/`: produção de conteúdo, dividida em `carrosseis/`, `roteiros/`, `linkedin/` e `ideias.md`. Carrossel sai da skill `/carrossel`, uma pasta por peça
+- `propostas/`: propostas que ainda não têm cliente definido ou que servem de modelo
+- `apresentacoes/`: decks comerciais e institucionais
+- `marca/`: identidade visual, `design-guide.md` e arquivos de logo
+- `dados/`: arquivos para análise (CSV, PDF, imagem, print)
+- `templates/skills/`: templates de skills prontos pra personalizar com /mapear
+- `templates/ferramentas/catalogo.md`: APIs e ferramentas disponíveis pra usar em skills
+- `tarefas.md`: lista de tarefas corrente
+
+## Sobre o negócio
+
+A Anti Custos vende implementação de IA para PME com uma promessa específica: cortar custo operacional e trazer previsibilidade, não "inovação" genérica. O negócio está em fase inicial, sem clientes fechados e sem audiência construída. O conteúdo orgânico em Instagram e LinkedIn é a principal aposta de aquisição no momento.
+
+O escopo atual (conteúdo, proposta, apresentação) é ponto de partida. A oferta pode expandir para outras funções, então não tratar essa lista como limite.
+
+## O que mais fazemos aqui
+
+- Conteúdo para Instagram e LinkedIn: carrossel, roteiro, post de texto
+- Propostas comerciais para PME
+- Apresentações e decks de venda
+- Material de diagnóstico e escopo para conversas com prospect
+
+## Clientes e contexto
+
+Clientes externos, pequenas e médias empresas. Ainda nenhum fechado. Alvaro trabalha solo e acumula todas as funções: prospecção, produção de conteúdo, proposta, entrega.
+
+Quando o primeiro cliente entrar, criar `clientes/[nome-cliente]/` copiando `clientes/_modelo-cliente/`.
+
+## Tom de voz
+
+Direto, mas não superficial. Profundo, mas não prolixo. Tese clara logo no começo, raciocínio próprio, distinção entre fato, interpretação e especulação. Quando houver várias possibilidades, hierarquizar e recomendar em vez de listar tudo no mesmo peso. Em assunto criativo, fazer escolhas fortes em vez de entregar opções genéricas. Responder também à pergunta implícita: o que isso realmente significa.
+
+**Regra dura: nunca usar travessão.** Vírgula, dois-pontos, parênteses ou frase curta no lugar. Vale para qualquer output, incluindo peça visual, proposta e post.
+
+Evitar tudo que denuncia texto de IA. Lista completa de clichês e detalhe de estilo em `_contexto/preferencias.md`.
+
+## Ferramentas conectadas
+
+Ferramentas em uso: Google Drive, Instagram, LinkedIn, Canva, WhatsApp Business, Meta Ads.
+
+Nenhum conector instalado ainda. A lista do que configurar está em `tarefas.md`.
 
 ---
 
-## Como este kit é organizado (Claude Code e Codex)
+## Como este workspace é organizado
 
-Este kit funciona nos dois agentes. Quem lê o quê:
+`AGENTS.md` é a fonte de instrução (este arquivo), `CLAUDE.md` tem só `@AGENTS.md` e nunca recebe conteúdo. Skills ficam em `.claude/skills/<nome>/SKILL.md`, e a ponte `.agents/skills` (junction, fora do git) faz o Codex enxergar as mesmas skills automaticamente.
 
-- **Instruções:** `AGENTS.md` é a fonte (este arquivo). `CLAUDE.md` tem só uma linha (`@AGENTS.md`),
-  que é como o Claude Code importa este conteúdo. O Codex lê `AGENTS.md` direto. Nunca escrever
-  conteúdo no `CLAUDE.md`.
-- **Skills:** ficam em `.claude/skills/<nome>/SKILL.md`. O Claude Code lê daí direto. Pro Codex
-  enxergar, existe `.agents/skills` apontando pra `.claude/skills` (symlink no Mac/Linux, cópia no
-  Windows), criado pelo `/setup` na sua máquina. **Esse ponte não vai pro git** — cada máquina cria
-  a sua. As 6 skills do kit vêm versionadas; as que você criar com `/mapear` ficam locais.
-- Se você abrir este kit no Codex e ele não achar as skills, rode `/setup` (ou peça pro agente ler e
-  seguir `.claude/skills/setup/SKILL.md`) — ele cria a ponte.
+## Roteamento de modelo
 
-<!-- Este arquivo será atualizado pelo /setup com o contexto do seu negócio. -->
+Opus é o padrão da thread principal, por decisão. Ao despachar subagente, escolher pelo trabalho, não por reflexo:
+
+- **Haiku:** trabalho mecânico e verificável (listar arquivo, contar, checar status, coletar dado bruto, aplicar edição já especificada).
+- **Sonnet:** leitura e síntese de escopo médio, revisão, rascunho que ainda vai passar por edição.
+- **Opus:** decisão de arquitetura, texto que vai pro cliente, julgamento editorial, qualquer coisa em que errar custa retrabalho.
+
+---
 
 ## Contexto do negócio
 
 No início de toda conversa, ler os seguintes arquivos (se existirem e estiverem configurados):
 
-1. `_contexto/empresa.md` — quem é o usuário, o que faz, como funciona o negócio
-2. `_contexto/preferencias.md` — tom de voz, estilo de escrita, o que evitar
-3. `_contexto/estrategia.md` — foco atual, prioridades, o que pode esperar
-4. `_contexto/agora.md` — contexto vivo: onde paramos, decisões recentes, pendências (atualizado a cada sessão)
+1. `_contexto/empresa.md`: quem é o usuário, o que faz, como funciona o negócio
+2. `_contexto/preferencias.md`: tom de voz, estilo de escrita, o que evitar
+3. `_contexto/estrategia.md`: foco atual, prioridades, o que pode esperar
+4. `_contexto/agora.md`: contexto vivo, onde paramos, decisões recentes, pendências (atualizado a cada sessão)
 
 Usar essas informações como base pra qualquer resposta ou decisão. Ao sugerir prioridades, formatos ou abordagens, considerar o foco atual descrito em `estrategia.md`.
 
 Para qualquer tarefa visual (carrossel, proposta, slide, landing page), consultar `marca/design-guide.md` como referência de estilo.
 
 Não é necessário listar o que foi lido nem confirmar a leitura. Apenas usar o contexto naturalmente.
+
+---
+
+## Trabalho visual
+
+Qualquer peça visual (carrossel, story, proposta, slide, landing page, post): **ler `marca/design-guide.md` antes de construir** e não inventar cor, fonte, tamanho ou espaçamento fora dele. Ele é a única fonte para tipografia, neutros, acento e medidas de formato.
+
+Roteamento: **carrossel de Instagram vai pela skill `/carrossel`**, nunca montado na mão. **Todo o resto vai pela `/impeccable`** (`shape`, depois `critique` e `audit`, depois `polish`).
+
+**Precedência quando os dois discordam:** o `design-guide.md` é o brief, e a própria impeccable define que o brief vence as regras genéricas dela. Onde o guia é específico, ele manda. Onde é omisso, vale a impeccable.
 
 ---
 
@@ -55,58 +106,36 @@ Não perguntar pra tarefas pontuais ou perguntas simples. Só quando o padrão d
 
 ---
 
-## Aprender com correções
+## Manter a memória em dia
 
-Quando o usuário corrigir algo, melhorar uma resposta ou dar uma instrução que parece permanente (frases como "na verdade é assim", "não faça mais isso", "prefiro assim", "sempre que...", "evita...", "da próxima vez..."), perguntar:
+Dois gatilhos disparam isso, e os dois precisam ser reconhecidos:
+
+**Gatilho 1, correção do usuário.** Ele corrige algo, melhora uma resposta ou dá instrução que soa permanente ("na verdade é assim", "não faça mais isso", "prefiro assim", "sempre que...", "evita...", "da próxima vez..."). Perguntar:
 
 > "Quer que eu salve isso pra não precisar repetir?"
 
-Se sim, identificar onde faz mais sentido salvar:
-
-- **Sobre o negócio** (quem são os clientes, como funciona a empresa, serviços, mercado) → adicionar em `_contexto/empresa.md`
-- **Sobre preferências e estilo** (tom de voz, formato de resposta, o que evitar, como estruturar textos) → adicionar em `_contexto/preferencias.md`
-- **Sobre prioridades e foco atual** (projetos em andamento, metas do momento, prazos importantes, o que é prioridade agora) → adicionar em `_contexto/estrategia.md`
-- **Regra de comportamento nessa pasta** (onde salvar arquivos, como nomear, fluxos específicos) → adicionar no próprio `AGENTS.md`
-
-Salvar com uma linha nova clara, sem reformatar o arquivo inteiro. Confirmar o que foi salvo mostrando a linha adicionada.
-
-Não perguntar se a correção for óbvia de contexto imediato (ex: "na verdade o arquivo se chama X"). Só perguntar quando a informação tiver valor duradouro.
-
----
-
-## Manter contexto atualizado
-
-Ao terminar uma tarefa que mudou algo relevante no projeto (novo cliente, nova skill, mudança de foco, novo processo, ferramenta instalada, estrutura de pastas alterada), perguntar:
+**Gatilho 2, tarefa que mudou o projeto.** Terminou algo que alterou o estado real: novo cliente, nova skill, mudança de foco, novo processo, ferramenta instalada, estrutura de pastas mexida. Perguntar:
 
 > "Isso mudou algo no teu contexto. Quer que eu atualize os arquivos de memória?"
 
-Se sim, identificar o que precisa atualizar:
+Se sim, em qualquer um dos dois casos, rotear assim:
 
-- **Novo cliente, serviço, ferramenta, equipe** → `_contexto/empresa.md`
-- **Mudança de prioridade ou foco** → `_contexto/estrategia.md`
-- **Correção de tom ou estilo** → `_contexto/preferencias.md`
-- **Nova pasta, regra de organização, skill criada** → `AGENTS.md`
-- **Mudança visual (cores, fontes, logo)** → `marca/design-guide.md`
+| O que é | Onde salvar |
+|---|---|
+| Negócio, clientes, serviços, mercado, ferramenta nova | `_contexto/empresa.md` |
+| Tom de voz, estilo, formato de resposta, o que evitar | `_contexto/preferencias.md` |
+| Prioridade, foco atual, meta, prazo | `_contexto/estrategia.md` |
+| Onde vai o quê, como nomear, fluxo desta pasta, skill criada | `AGENTS.md` |
+| Cor, fonte, logo, medida | `marca/design-guide.md` |
 
-Mostrar o que vai mudar antes de salvar. Não reformatar o arquivo inteiro, só adicionar ou editar a linha relevante.
+Mostrar a mudança antes de salvar. Adicionar ou editar só a linha relevante, nunca reformatar o arquivo inteiro. Confirmar mostrando a linha.
 
-**Quando NÃO perguntar:**
-- Tarefas pontuais que não mudam o contexto (ex: escrever um email, criar um post avulso)
-- Perguntas simples ou conversas sem ação
-- Mudanças que já foram salvas pelo bloco "Aprender com correções"
+**Quando NÃO perguntar:** correção óbvia do contexto imediato ("na verdade o arquivo se chama X"), tarefa pontual que não muda estado (um email, um post avulso), conversa sem ação.
 
-**Dica:** se não sabe se algo mudou, rode `/atualizar` pra uma varredura completa.
+**Dica:** na dúvida, rodar `/atualizar` pra uma varredura completa.
 
 ---
 
 ## Criação de skills
 
-Quando o usuário pedir pra criar uma nova skill:
-
-1. Verificar se existe um template relevante em `templates/skills/`. Se existir, usar como base e adaptar pro contexto do usuário
-2. Perguntar: "Essa skill é específica pra esse projeto ou vai ser útil em qualquer projeto?"
-   - Específica desse negócio → salvar em `.claude/skills/nome-da-skill/SKILL.md` (local)
-   - Útil em qualquer projeto → salvar em `~/.claude/skills/nome-da-skill/SKILL.md` (global)
-3. Ler `_contexto/empresa.md` e `_contexto/preferencias.md` pra calibrar o conteúdo da skill ao contexto do negócio
-4. Se a skill precisar de arquivos de apoio (templates, referências, exemplos), criar dentro da pasta da skill
-5. Seguir o fluxo da skill-creator nativa do Claude Code
+Quando o usuário pedir pra criar uma skill nova, usar a skill `/criar-skill`, que carrega o procedimento completo.

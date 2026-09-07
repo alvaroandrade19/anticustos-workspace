@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Carrossel tweet | Anti Custos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* Spec: .claude/skills/carrossel/references/formato-tweet.md */
+:root{
+  --bg:#0A0A0B; --line:rgba(255,255,255,.14);
+  --tx:#FFFFFF; --tx-3:rgba(255,255,255,.52);
+  --g1:#CDE8FF; --g2:#62A0FF; --g3:#4A72F0;
+  --grad:linear-gradient(180deg,var(--g1) 0%,var(--g2) 48%,var(--g3) 100%);
+  --F:'Schibsted Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{background:#000;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0;
+  font-family:var(--F);-webkit-font-smoothing:antialiased}
+
+/* Fundo liso: sem grão, sem atmosfera, sem glow. A limpeza é o design. */
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--bg);color:var(--tx)}
+
+.cabecalho{position:absolute;top:110px;left:80px;right:80px;display:flex;align-items:center;gap:18px}
+.avatar{width:88px;height:88px;border-radius:50%;background:var(--grad);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:38px;font-weight:800;color:#0A0A0B}
+.nome{font-size:30px;font-weight:700;line-height:1.2}
+.handle{font-size:26px;font-weight:400;color:var(--tx-3);margin-top:2px}
+
+.tweet{position:absolute;top:278px;left:80px;right:80px;
+  font-size:40px;font-weight:400;line-height:1.5;letter-spacing:-.01em;color:var(--tx)}
+.tweet b{font-weight:700}
+.tweet p + p{margin-top:30px}
+.tweet.capa{font-size:48px;line-height:1.42}
+
+.dado{font-size:72px;font-weight:700;color:var(--g2);line-height:1.1;display:block;margin:14px 0}
+
+.item{display:flex;gap:18px;margin-top:22px}
+.item .mk{color:var(--g2);flex-shrink:0}
+
+.anexo{width:100%;height:520px;margin-top:40px;border-radius:16px;border:1px solid var(--line);
+  overflow:hidden;background-color:rgba(255,255,255,.05);background-position:center}
+.anexo.foto{background-size:cover}
+.anexo.print{background-size:contain;background-repeat:no-repeat}
+.ph{background-image:radial-gradient(120% 90% at 50% 30%,#3A3F4A 0%,#22252C 45%,#111318 100%)}
+
+.fecha .acao{font-weight:700}
+.fecha .perfil{color:var(--g2);font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- Formato tweet: 3 a 5 slides. Acima disso, usar template.html -->
+
+<!-- 01 · capa -->
+<section class="slide">
+  <div class="cabecalho">
+    <div class="avatar">A</div>
+    <div><div class="nome">Alvaro de Andrade</div><div class="handle">@anticustos.ia</div></div>
+  </div>
+  <div class="tweet capa">
+    <p>Toda PME de serviço paga por um custo que não tem nome na planilha.</p>
+    <p>Ele aparece disfarçado de <b>salário</b>, e por isso nunca entra em reunião de corte.</p>
+  </div>
+</section>
+
+<!-- 02 · desenvolvimento -->
+<section class="slide">
+  <div class="cabecalho">
+    <div class="avatar">A</div>
+    <div><div class="nome">Alvaro de Andrade</div><div class="handle">@anticustos.ia</div></div>
+  </div>
+  <div class="tweet">
+    <p>A conta é simples e qualquer dono consegue refazer.</p>
+    <p>Um salário de R$ 2.500 custa perto de R$ 4.000 com encargos. Se 60% do tempo vai em responder o que já foi respondido, a repetição custa:</p>
+    <span class="dado">R$ 2.400 por mês</span>
+    <p>Estimativa, com a base inteira à mostra.</p>
+  </div>
+</section>
+
+<!-- 03 · com anexo -->
+<section class="slide">
+  <div class="cabecalho">
+    <div class="avatar">A</div>
+    <div><div class="nome">Alvaro de Andrade</div><div class="handle">@anticustos.ia</div></div>
+  </div>
+  <div class="tweet">
+    <p>O mesmo roteiro fixo aparece em clínica, contabilidade e advocacia. <b>Perguntas diferentes, estrutura idêntica.</b></p>
+    <div class="anexo print ph"></div>
+  </div>
+</section>
+
+<!-- 04 · fechamento -->
+<section class="slide fecha">
+  <div class="cabecalho">
+    <div class="avatar">A</div>
+    <div><div class="nome">Alvaro de Andrade</div><div class="handle">@anticustos.ia</div></div>
+  </div>
+  <div class="tweet">
+    <p>Ninguém corta o que não consegue nomear. É por isso que esse custo atravessa o ano inteiro sem ser discutido.</p>
+    <p class="acao">Faz a conta da sua e me conta qual pergunta a sua equipe mais repete.</p>
+    <p class="perfil">@anticustos.ia</p>
+  </div>
+</section>
+
+</body>
+</html>

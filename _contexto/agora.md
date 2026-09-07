@@ -1,18 +1,58 @@
-# Agora — contexto vivo
+# Agora: contexto vivo
 
-<!-- NOT CONFIGURED -->
 > Este é o contexto que muda toda semana (diferente de `estrategia.md`, que é o foco de fundo).
 > O `/iniciar` lê isto no começo da sessão; o `/atualizar` escreve aqui no fim.
 > Mantenha curto: o que passou de ~30 dias sai daqui (vai pro histórico ou some).
 
 ## Onde paramos
-[a última coisa em que você estava trabalhando, pra retomar rápido]
+Carrossel do imposto de prateleira pronto e renderizado em `conteudo/carrosseis/imposto-de-prateleira/`, com legenda e rastreabilidade dos números. Próximo passo: publicar e medir. Primeira prova de primeira mão da marca registrada no PRODUCT.md: auditoria de 34 para 3 ferramentas, ~1.290 tokens a menos por mensagem.
+
+<!-- anterior -->
+Skill `/carrossel` criada, com o método editorial da BrandsDecoded adaptado à marca. A primeira versão do carrossel foi reprovada e o template novo está em `conteudo/carrosseis/custo-invisivel-v2/`. Próximo passo: rodar `/carrossel` de verdade num tema e publicar.
 
 ## Decisões recentes
-[decisões tomadas nas últimas semanas, uma linha cada, com data]
+
+- 2026-09-05: identidade visual definida como base dark com acento azul único, inspiração Apple. Carmim e rosa do site antigo (NEXUS AI) descartados.
+- 2026-09-05: tipografia definida como **Schibsted Grotesk**, com IBM Plex Mono para número. Inter saiu primeiro, Geist entrou e também saiu: o detector da `/impeccable` lista as duas como faces saturadas por peça gerada por IA. Schibsted passa limpa no detector.
+- 2026-09-05: neutros passaram a ter viés azul. Cinza puro como texto secundário está fora.
+- 2026-09-05: botão primário usa `#1D4ED8`, não `#2563EB`. Branco sobre `#2563EB` dá 4,1:1 e reprova em contraste AA.
+- 2026-09-05: `.gitignore` alterado para versionar o trabalho (`clientes/`, `conteudo/`, `propostas/`, `tarefas.md`) e as skills criadas localmente. Continuam ignorados `.env`, `dados/*` e `*.png`.
+- 2026-09-05: skill `/impeccable` instalada por cópia do repositório, sem o instalador `npx` e **sem os hooks** que rodariam a cada edição. Decisão revisitável.
+- 2026-09-05: `PRODUCT.md` criado. Público definido como dono de PME de serviço que opera dentro do negócio. Posicionamento definido como **operação assistida contínua**, não projeto avulso.
+- 2026-09-05: stack delegada ao agente e decidida como HTML e CSS estático, sem build. Astro fica como troca natural se surgir site com muitas páginas.
+- 2026-09-05: primeiro carrossel terá objetivo de alcance, não de conversão. Conversão vira uma segunda superfície, separada.
+- 2026-09-05: preço definido. R$ 3.000 de instalação, cobrança única, mais R$ 1.500 por mês de recorrência, cobrindo manutenção no ar, atualização e proposta de melhorias.
+- 2026-09-05: meta de capacidade definida em 20 clientes ativos, patamar em que entra contratação de equipe.
+- 2026-09-05: a instalação de R$ 3.000 compra tempo de projeto (desenhar e montar a automação), não licença nem ferramenta.
+- 2026-09-05: primeiro carrossel produzido. Ângulo escolhido: o custo da repetição escondido dentro do salário. Sem prova e sem hype, o ativo que gera alcance é ponto de vista próprio.
+- 2026-09-05: fluxo de render definido. `node scripts/render-carrossel.js <html>` fatia cada `.slide` em PNG 1080x1350 em 2x, via Playwright.
+- 2026-09-06: primeira versão do carrossel reprovada pelo Alvaro (design minimalista demais, resultado fraco).
+- 2026-09-06: skill `/carrossel` criada a partir dos cinco documentos da BrandsDecoded, misturados com o design guide e o PRODUCT.md. Método editorial da BD mantido, identidade visual da Anti Custos por cima.
+- 2026-09-06: exceção tipográfica aberta no design guide. Headline de carrossel usa Barlow Condensed 900 uppercase, porque o formato é julgado em miniatura no feed. Vale só para a headline.
+- 2026-09-06: criada a regra das duas fontes de número, que é como a marca resolve não ter prova nenhuma: todo número é dado público com fonte, ou conta aberta com a base à mostra. Não existe terceira opção.
+- 2026-09-06: handle definido, @anticustos.ia.
+- 2026-09-06: identidade visual do carrossel corrigida a partir de dez peças reais que o Alvaro mandou. Três decisões minhas foram revertidas: Barlow Condensed uppercase saiu (as peças usam grotesca em caixa de frase), a regra do terço inferior saiu (as peças preenchem o canvas) e o azul deixou de ser o acento do carrossel.
+- 2026-09-06: azul confirmado como cor primária. O gradiente da headline é #CDE8FF a #62A0FF a #4A72F0, do gelo ao azul saturado, com contraste de 15,6:1, 7,5:1 e 4,7:1. A família quente âmbar foi testada e descartada.
+- 2026-09-06: rodapé do carrossel definido como rótulo da seção, barra de progresso e contador. A pílula "arraste para o lado" das referências foi descartada.
+- 2026-09-06: gradiente em texto passou a ser permitido, contra o que o design guide e a /impeccable dizem, porque é a assinatura visual real da marca. Restrito à headline, com todos os stops verificados em contraste.
+- 2026-09-06: borda lateral colorida grossa recusada. A proibição do design guide e da /impeccable vale, e o repertório da skill de referência que dependia dela ficou de fora.
+- 2026-09-06: gradiente de fundo liberado como "atmosfera", só em slide sem imagem, com amplitude de 1,9x de luminância. Atmosfera e glow são mutuamente exclusivos: um slide recebe um ou outro, nunca os dois.
+- 2026-09-06: formato tweet adicionado como alternativa pontual, de 3 a 5 slides, em `template-tweet.html` e `references/formato-tweet.md`. A skill pergunta o formato no começo e a escolha é do Alvaro.
+- 2026-09-06: skill `carrossel-ratos` avaliada. Entraram dela: regra de escolha entre foto de fundo e caixa, `contain` para print e `cover` para foto, glow radial para slide sem imagem, realce de palavra com fundo claro, layouts de citação e split, e a exigência de o CTA parecer diferente dos demais.
+- 2026-09-06: das peças de referência entraram duas coisas apenas, por decisão do Alvaro: integração de imagem (caixa arredondada e foto de fundo com scrim de duas camadas) e a escrita chamativa (diagramação de ênfase e headline em gradiente). O resto segue o que já estava definido.
 
 ## Pendências
-[coisas em aberto esperando você ou terceiros — o que precisa acontecer]
+
+- Apurar o custo real de operação por cliente. A estimativa de R$ 500/mês nunca foi verificada, e ela decide se o lucro por cliente é R$ 1.000 ou bem menos.
+- Nomear os entregáveis da instalação. Sabe-se que ela compra tempo de projeto, falta dizer o que o cliente recebe por escrito no fim.
+- Definir se existe prazo mínimo de contrato. O modelo só fecha a partir do mês 3.
+- Definir quais processos atacar primeiro dentro da PME de serviço.
+
+- Rodar `/mapear` para criar as skills do dia a dia.
+- Rodar `/syncar` para conectar ao GitHub.
+- Configurar integrações. Lista em `tarefas.md`.
+- Definir logo da Anti Custos e preencher o handle das redes em `marca/design-guide.md`.
 
 ## Quente agora
-[o que está ativo esta semana: prazos, threads, entregas em andamento]
+
+Produção da primeira peça de conteúdo. A restrição que domina tudo: não existe prova nenhuma (nem case, nem número, nem cliente), e fabricar prova está proibido no `PRODUCT.md`. Sem prova e sem hype, o único ativo que gera alcance é ponto de vista próprio. É isso que precisa aparecer no conteúdo.

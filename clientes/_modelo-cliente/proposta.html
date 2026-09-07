@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proposta | Anti Custos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Tokens de marca/design-guide.md. Não inventar cor fora daqui. */
+  :root{
+    --bg:#05060A;
+    --surface:#0C0E14;
+    --surface-2:#141821;
+    --line:rgba(126,146,196,.16);
+    --text:#F2F4F8;
+    --text-2:#A8AEBF;
+    --text-3:#767D91;
+    --accent:#2563EB;
+    --accent-strong:#1D4ED8;
+    --accent-hover:#1E40AF;
+    --accent-link:#7CA5F5;
+    --radius:18px;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:dark}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Schibsted Grotesk",system-ui,sans-serif;
+    font-size:17px;
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Superfícies do navegador: seleção, foco, scrollbar. */
+  ::selection{background:var(--accent-strong);color:#fff}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:9999px}
+  ::-webkit-scrollbar-thumb:hover{background:#1D2330}
+
+  .wrap{max-width:884px;margin:0 auto;padding:96px 32px}
+  .marca{font-weight:600;letter-spacing:-.02em;font-size:18px}
+
+  h1{font-size:clamp(34px,5vw,56px);font-weight:600;letter-spacing:-.03em;line-height:1.1;text-wrap:balance;margin:64px 0 24px}
+  h2{font-size:32px;font-weight:600;letter-spacing:-.02em;text-wrap:balance;margin:0 0 24px}
+  h3{font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px;color:var(--text)}
+  p{color:var(--text-2);max-width:68ch;margin:0 0 16px}
+  .lead{font-size:20px;color:var(--text-2);max-width:60ch}
+  a{color:var(--accent-link)}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  header{padding-bottom:32px}
+
+  .etapa{border-top:1px solid var(--line);padding:32px 0}
+  .etapa:first-of-type{border-top:0;padding-top:8px}
+  .etapa p{color:var(--text-3);margin:0}
+
+  .valor{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:48px;font-weight:500;letter-spacing:-.02em;
+    color:var(--text);font-variant-numeric:tabular-nums;
+    margin-bottom:16px
+  }
+
+  .btn{
+    display:inline-block;background:var(--accent-strong);color:#fff;text-decoration:none;
+    font-weight:500;font-size:16px;padding:14px 28px;border-radius:9999px;
+    transition:background .2s var(--ease)
+  }
+  .btn:hover{background:var(--accent-hover)}
+
+  footer{padding-top:48px;border-top:1px solid var(--line);color:var(--text-3);font-size:15px}
+
+  @media (max-width:640px){
+    .wrap{padding:56px 20px}
+    section{padding:48px 0}
+  }
+  @media print{
+    body{background:#fff;color:#111}
+    p,.lead{color:#333}
+    h1,h2,h3,.marca,.valor{color:#111}
+    .etapa p{color:#444}
+    footer{color:#444}
+    a{color:#1D4ED8}
+    section,.etapa,footer{border-color:#D8DCE4}
+    .btn{background:#1D4ED8;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="marca">Anti Custos</div>
+    <h1>[A promessa em uma linha, com o nome do cliente dentro]</h1>
+    <p class="lead">[Uma ou duas frases dizendo o que muda na operação e em quanto tempo. Sem adjetivo vazio.]</p>
+  </header>
+
+  <section>
+    <h2>O que custa hoje</h2>
+    <p>[O custo que já existe, com número quando possível. Fato antes de interpretação. Se a conta for estimativa, dizer que é estimativa e mostrar a base.]</p>
+  </section>
+
+  <section>
+    <h2>O que vamos fazer</h2>
+    <div class="etapa"><h3>[Etapa 1]</h3><p>[O que acontece, quem participa, o que sai daqui.]</p></div>
+    <div class="etapa"><h3>[Etapa 2]</h3><p>[...]</p></div>
+    <div class="etapa"><h3>[Etapa 3]</h3><p>[...]</p></div>
+  </section>
+
+  <section>
+    <h2>O que fica de fora</h2>
+    <p>[Delimitar explicitamente. Protege os dois lados e é o que separa proposta séria de promessa.]</p>
+  </section>
+
+  <section>
+    <h2>Investimento</h2>
+    <div class="valor">R$ [valor]</div>
+    <p>[Condição de pagamento, prazo de implementação, recorrência se houver.]</p>
+    <p style="margin-top:32px"><a class="btn" href="[link do WhatsApp]">Seguir com a proposta</a></p>
+  </section>
+
+  <footer>
+    Anti Custos | Alvaro de Andrade | [contato] | Proposta válida até [data]
+  </footer>
+
+</div>
+</body>
+</html>

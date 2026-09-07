@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>O preço invisível de ter tudo à mão | Anti Custos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@200;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Spec: .claude/skills/carrossel/references/design-system.md */
+:root{
+  --bg:#0A0A0B; --bg-2:#111114; --line:rgba(255,255,255,.14);
+  --tx:#FFFFFF; --tx-2:rgba(255,255,255,.78); --tx-3:rgba(255,255,255,.52);
+  --g1:#CDE8FF; --g2:#62A0FF; --g3:#4A72F0;
+  --grad:linear-gradient(180deg,var(--g1) 0%,var(--g2) 48%,var(--g3) 100%);
+  --r:40px;
+  --F:'Schibsted Grotesk',system-ui,sans-serif;
+  --M:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{background:#000;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0;
+  font-family:var(--F);-webkit-font-smoothing:antialiased}
+::selection{background:var(--g3);color:#fff}
+
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--bg);color:var(--tx)}
+
+.grao{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.atmosfera{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(160deg,#101218 0%,#0A0A0B 58%,#08080A 100%)}
+.glow{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(56% 40% at 50% 60%,rgba(98,160,255,.13) 0%,transparent 72%)}
+
+/* Foto dessaturada: a peça fica com uma fonte de cor só, o gradiente azul */
+.foto{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center top;
+  filter:grayscale(.88) contrast(1.06)}
+.scrim-base{position:absolute;inset:0;z-index:1;background:rgba(8,8,10,.55)}
+.scrim-rampa{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
+  rgba(8,8,10,.10) 0%,rgba(8,8,10,.35) 38%,rgba(8,8,10,.86) 66%,rgba(8,8,10,.97) 100%)}
+
+.marca{position:absolute;top:56px;left:56px;right:56px;z-index:10;display:flex;
+  justify-content:space-between;font-size:22px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tx-3)}
+
+.corpo-area{position:absolute;left:56px;right:56px;top:150px;bottom:130px;z-index:10;
+  display:flex;flex-direction:column;justify-content:center}
+.corpo-area.base{top:auto;justify-content:flex-end}
+.corpo-area.top{justify-content:flex-start}
+.corpo-area.abaixo{top:900px;justify-content:flex-start}
+
+.hl{font-weight:800;letter-spacing:-.03em;line-height:.95;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hl-capa{font-size:80px}
+.hl-int{font-size:82px;line-height:.98;letter-spacing:-.025em}
+
+.corpo{font-size:38px;font-weight:400;line-height:1.32;letter-spacing:-.01em;color:var(--tx-2);
+  margin-top:34px}
+.corpo b{font-weight:700;color:var(--tx)}
+.corpo + .corpo{margin-top:22px}
+.corpo-sm{font-size:34px}
+.corpo-lg{font-size:42px}
+.fonte{font-size:22px;color:var(--tx-3);margin-top:30px;font-style:italic}
+
+.num{font-size:120px;font-weight:200;line-height:1;letter-spacing:-.02em;color:var(--tx)}
+.regua{height:1px;background:var(--line);margin:28px 0 40px}
+
+.caixa{position:absolute;top:120px;left:40px;right:40px;height:740px;z-index:5;
+  border-radius:var(--r);overflow:hidden;background-size:cover;background-position:center}
+
+.rodape{position:absolute;bottom:0;left:0;right:0;padding:0 56px 48px;z-index:10;
+  display:flex;align-items:center;gap:26px}
+.tag{font-size:16px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--g2);white-space:nowrap;flex-shrink:0}
+.trilho{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.10);overflow:hidden}
+.preench{height:100%;border-radius:2px;background:var(--g2)}
+.passo{font-family:var(--M);font-size:16px;font-weight:500;letter-spacing:.08em;color:var(--tx-3)}
+
+.tab{width:100%;border-collapse:collapse;margin-top:24px}
+.tab th{background:rgba(255,255,255,.06);padding:18px 24px;font-size:18px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3);text-align:left}
+.tab th:last-child{text-align:right}
+.tab td{padding:24px;font-size:31px;color:var(--tx-2);border-bottom:1px solid var(--line)}
+.tab td:last-child{font-family:var(--M);font-weight:500;color:var(--tx);text-align:right;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.tab tr:last-child td{border-bottom:none;color:var(--tx);font-weight:600}
+.resultado{font-family:var(--M);font-size:118px;font-weight:500;line-height:1;letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums;margin-top:40px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.res-label{font-size:30px;color:var(--tx-3);margin-top:10px}
+.nota{font-size:23px;line-height:1.35;color:var(--tx-3);margin-top:28px}
+
+.linha{display:flex;gap:22px;margin-top:26px}
+.linha .mk{color:var(--g2);font-size:34px;line-height:1.3;flex-shrink:0}
+.linha .tx{font-size:34px;line-height:1.32;color:var(--tx-2)}
+.linha .tx b{color:var(--tx);font-weight:700}
+
+.realce{background:var(--g1);color:#0A0A0B;padding:.04em .26em;border-radius:6px;
+  font-weight:700;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+</style>
+</head>
+<body>
+
+<!-- 01 · capa com foto de fundo -->
+<section class="slide">
+  <div class="foto" style="background-image:url('imagens/capa.jpg')"></div>
+  <div class="scrim-base"></div><div class="scrim-rampa"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area base">
+    <h1 class="hl hl-capa">O preço invisível de ter tudo à mão: quanto mais instrução disputa espaço ao mesmo tempo, pior cada uma delas funciona</h1>
+  </div>
+  <div class="rodape"><span class="tag">Diagnóstico</span><div class="trilho"><div class="preench" style="width:11%"></div></div><span class="passo">01/09</span></div>
+</section>
+
+<!-- 02 · hook -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <h2 class="hl hl-int">Contei 34 ferramentas instaladas no meu agente</h2>
+    <p class="corpo"><b>Onze delas nem eram minhas, vieram junto de outra pessoa.</b></p>
+    <p class="corpo">E todas cobravam alguma coisa em cada mensagem que eu mandava, inclusive as que eu nunca tinha aberto uma única vez.</p>
+  </div>
+  <div class="rodape"><span class="tag">O problema</span><div class="trilho"><div class="preench" style="width:22%"></div></div><span class="passo">02/09</span></div>
+</section>
+
+<!-- 03 · imagem em caixa -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="caixa" style="background-image:url('imagens/agente.jpg')"></div>
+  <div class="corpo-area abaixo">
+    <p class="corpo"><b>A palavra instalar esconde uma coisa.</b> O manual da ferramenta fica guardado no disco, só que o resumo dela fica colado em toda conversa. Precisa ficar, senão o agente nem sabe que ela existe.</p>
+  </div>
+  <div class="rodape"><span class="tag">Como funciona</span><div class="trilho"><div class="preench" style="width:33%"></div></div><span class="passo">03/09</span></div>
+</section>
+
+<!-- 04 · numerado, a conta pública -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area top">
+    <div><div class="num">01</div><div class="regua"></div></div>
+    <p class="corpo corpo-lg"><b>Um paper publicado em agosto mediu esse custo.</b> São de 50 a 280 tokens por ferramenta, cobrados em toda mensagem, ela sendo usada ou não.</p>
+    <p class="corpo corpo-lg">Token é a unidade que o modelo lê, e é a mesma que se paga. Multiplicado por 34, vira uma linha fixa que ninguém abre.</p>
+    <p class="fonte">Yin et al., @skills: Attention is all you have, arXiv:2608.12610, agosto de 2026</p>
+  </div>
+  <div class="rodape"><span class="tag">A conta pública</span><div class="trilho"><div class="preench" style="width:44%"></div></div><span class="passo">04/09</span></div>
+</section>
+
+<!-- 05 · os três efeitos -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <h2 class="hl hl-int" style="font-size:72px">O dinheiro é o menor dos problemas</h2>
+    <p class="corpo">O que a estante cheia consome é <span class="realce">atenção</span>, e o efeito tem três partes:</p>
+    <div class="linha"><span class="mk">›</span><span class="tx">A instrução vai ficando cada vez mais longe da pergunta, e o modelo <b>obedece menos</b></span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx">A conta chega também nas mil mensagens em que aquela instrução <b>não serve para nada</b></span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx">Quanto mais instrução disputa espaço ao mesmo tempo, <b>pior cada uma é seguida</b></span></div>
+  </div>
+  <div class="rodape"><span class="tag">O que custa mais</span><div class="trilho"><div class="preench" style="width:55%"></div></div><span class="passo">05/09</span></div>
+</section>
+
+<!-- 06 · numerado, o incentivo -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area top">
+    <div><div class="num">02</div><div class="regua"></div></div>
+    <p class="corpo corpo-lg"><b>Tem um detalhe que piora tudo.</b> Como a ferramenta só é usada se o resumo dela convencer o modelo, quem escreve ferramenta escreve resumo cada vez maior, cheio de condições, para não ser ignorado.</p>
+    <p class="corpo corpo-lg">O paper mostra uma da Stripe com 150 palavras só para dizer quando ela serve, cerca de vinte vezes o tamanho de uma descrição enxuta. E são 56.804 dessas ferramentas em repositórios públicos, contadas em julho.</p>
+  </div>
+  <div class="rodape"><span class="tag">O incentivo</span><div class="trilho"><div class="preench" style="width:66%"></div></div><span class="passo">06/09</span></div>
+</section>
+
+<!-- 07 · a conta aberta -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <h2 class="hl hl-int" style="font-size:64px">A minha conta, com a base à mostra</h2>
+    <table class="tab">
+      <tr><th>Entrada</th><th>Valor</th></tr>
+      <tr><td>Ferramentas instaladas antes</td><td>34</td></tr>
+      <tr><td>Ferramentas que sobraram</td><td>3</td></tr>
+      <tr><td>Redução</td><td>91%</td></tr>
+    </table>
+    <div class="resultado">~1.290 tokens</div>
+    <div class="res-label">a menos em toda mensagem que eu mando</div>
+    <p class="nota">Medição própria, no meu ambiente, antes e depois. As 31 que saíram foram para uma pasta que o agente não lê, e voltam com um comando se um dia precisar.</p>
+  </div>
+  <div class="rodape"><span class="tag">A minha conta</span><div class="trilho"><div class="preench" style="width:77%"></div></div><span class="passo">07/09</span></div>
+</section>
+
+<!-- 08 · o que não está provado -->
+<section class="slide">
+  <div class="glow"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <h2 class="hl hl-int" style="font-size:72px">O que o paper não prova</h2>
+    <p class="corpo"><b>Os próprios autores registram que não provaram que esse modelo é melhor em todos os casos.</b> É proposta bem argumentada, não é lei, e quase nenhum resumo do paper menciona isso.</p>
+    <p class="corpo">Mesmo assim, uma pergunta resolve quase tudo: isso precisa funcionar sozinho, ou basta ir buscar na hora que precisar?</p>
+  </div>
+  <div class="rodape"><span class="tag">Honestidade</span><div class="trilho"><div class="preench" style="width:88%"></div></div><span class="passo">08/09</span></div>
+</section>
+
+<!-- 09 · CTA -->
+<section class="slide">
+  <div class="glow"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area base">
+    <p class="corpo" style="margin-bottom:6px">O mesmo formato existe fora de software. A assinatura aprovada uma vez e nunca revista, a licença por usuário de quem já saiu da empresa, o relatório que alguém pediu em 2023 e continua sendo montado toda segunda.</p>
+    <h2 class="hl hl-int" style="margin-top:36px;font-size:76px">Custo recorrente que ninguém revisa</h2>
+    <p class="corpo"><b>Salva esse post</b> e faz a pergunta em três coisas que a sua empresa paga todo mês. Me conta nos comentários quantas sobreviveram.</p>
+  </div>
+  <div class="rodape"><span class="tag">Anti Custos</span><div class="trilho"><div class="preench" style="width:100%"></div></div><span class="passo">09/09</span></div>
+</section>
+
+</body>
+</html>

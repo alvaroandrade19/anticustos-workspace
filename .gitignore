@@ -18,27 +18,12 @@ dados/*.pdf
 dados/*.json
 !dados/README.md
 
-# Pastas de trabalho do usuário (geradas pelo /setup, conteúdo pessoal)
-clientes/
-propostas/
-conteudo/
-projetos/
-briefings/
-trabalho/
-estudos/
-publicacoes/
-anotacoes/
-curriculo/
-tarefas.md
+# Pastas de trabalho: no repositório do curso elas eram ignoradas pra ninguém subir
+# material pessoal. Aqui o repositório é meu e privado, então o trabalho PRECISA ser
+# versionado, senão o /syncar não protege nada. Bloco removido de propósito.
 
-# Skills: as 6 do kit vêm versionadas; as que o aluno cria com /mapear ficam locais.
-.claude/skills/*
-!.claude/skills/setup/
-!.claude/skills/iniciar/
-!.claude/skills/syncar/
-!.claude/skills/mapear/
-!.claude/skills/novo-projeto/
-!.claude/skills/atualizar/
+# Skills: todas versionadas, inclusive as que eu criar com /mapear. São o ativo mais
+# caro de recriar. (No kit original só as 6 originais subiam.)
 
 # Ponte pro Codex enxergar as skills — criada pelo /setup em CADA máquina
 # (symlink no Mac/Linux, cópia no Windows). Nunca vai pro git.
