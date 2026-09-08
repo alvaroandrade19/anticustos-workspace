@@ -11,6 +11,12 @@ Duas coisas, nessa ordem de dependência:
 
 As duas se retroalimentam, mas quando houver conflito de tempo, o que estiver mais perto de virar cliente ganha.
 
+## Distribuição por canal
+
+Instagram publica pela página da Anti Custos. LinkedIn publica pelo perfil pessoal do Alvaro, decisão tomada por alcance orgânico: no LinkedIn, perfil de pessoa entrega bem mais que página de empresa.
+
+Consequência editorial: post de LinkedIn é escrito em primeira pessoa do singular, com voz de pessoa, não de marca. Texto institucional saindo de perfil pessoal soa como propaganda infiltrada. A skill `/postar-linkedin` já carrega essa regra, e o detalhe está em `.claude/skills/postar-linkedin/references/voz-linkedin.md`.
+
 ## Meta de crescimento
 
 20 clientes ativos. É o patamar em que a operação deixa de ser solo e entra contratação de equipe.

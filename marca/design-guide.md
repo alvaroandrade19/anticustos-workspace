@@ -29,11 +29,13 @@ Todos os neutros têm um leve viés azul. Cinza puro em fundo colorido é um dos
 
 **Contraste, já verificado contra o fundo `#05060A`:**
 
-- `--text` e `--text-2`: acima de 9:1. Folgado.
-- `--text-3`: 4,87:1. Passa em corpo, mas só use em texto curto e não crítico.
-- `--accent` como texto: 3,9:1. **Só em texto grande, ícone ou borda. Nunca em corpo.**
-- Branco sobre `--accent`: 4,1:1, reprova. Por isso o botão primário usa `--accent-strong`, onde branco dá 6,7:1.
-- `--accent-link` sobre o fundo: 8,2:1. Esse é o azul de link.
+- `--text`: 18,39:1. `--text-2`: 9,13:1. Folgado nos dois.
+- `--text-3`: 4,93:1. Passa em corpo, mas só use em texto curto e não crítico.
+- `--accent` como texto: 3,92:1. **Só em texto grande, ícone ou borda. Nunca em corpo.**
+- Branco sobre `--accent`: 5,17:1, passa em AA para corpo. Ainda assim o botão primário usa `--accent-strong`, onde branco dá 6,70:1: em alvo de toque a folga vale mais que a saturação.
+- `--accent-link` sobre o fundo: 8,25:1. Esse é o azul de link.
+
+*Recalculado em 2026-09-08 pela fórmula WCAG. Duas correções: branco sobre `--accent` constava aqui como 4,1:1 e "reprova", o que estava errado, e `--text` estava subdeclarado como "acima de 9:1" quando dá 18,39:1. Stop ou token novo só entra depois do mesmo recálculo.*
 
 **Superfícies claras (carrossel e apresentação).** O dark é a base da marca, mas o carrossel alterna
 claro e escuro por ritmo de leitura. Os tokens claros são estes, e não outros:
@@ -46,8 +48,8 @@ claro e escuro por ritmo de leitura. Os tokens claros são estes, e não outros:
 | `--LT2` | `#454C5C` | Texto secundário no claro, 7,6:1 |
 | `--LL` | `#D8DEE9` | Borda e divisor no claro |
 
-Sobre fundo claro o acento é `--accent-strong` (5,9:1). `--accent` puro dá 4,5:1 no limite e não deve
-carregar corpo de texto.
+Sobre fundo claro o acento é `--accent-strong` (5,92:1). `--accent` puro dá 4,57:1, no limite, e não
+deve carregar corpo de texto.
 
 ## Gradientes da marca
 
@@ -100,9 +102,15 @@ corpo é peso, não cor.
 | Corpo pequeno | `15px` | 400 | `0` |
 | Label | `13px` | 500 | `0.01em` |
 
-**Exceção do carrossel.** Uma família só, Schibsted Grotesk, em três pesos: **800 na headline**,
-600 na ênfase dentro do corpo e 400 no corpo. Headline em caixa de frase, nunca em uppercase, com
-entrelinha apertada (0,95) e tracking negativo.
+**Exceção do carrossel.** Uma família só, Schibsted Grotesk, em **exatamente três pesos: 800 na
+headline, 600 na ênfase dentro do corpo e 400 no corpo**. Peso 700 não existe nesse sistema, nem
+aqui nem fora daqui. Headline em caixa de frase, nunca em uppercase, com entrelinha apertada (0,95)
+e tracking negativo.
+
+**Teto de tamanho da headline de carrossel.** O formato é julgado em miniatura no feed, então ele
+tem teto próprio de **104px**, acima do teto geral de 96px. Em troca, vale o limite de extensão:
+headline com mais de 60 caracteres desce um degrau de tamanho, e acima de 100 caracteres desce dois.
+Frase inteira em corpo de display ocupa a tela toda e não sobra hierarquia para nada.
 
 Barlow Condensed uppercase foi testado e descartado: as peças reais da Anti Custos usam grotesca
 neutra em caixa de frase, e a coerência de família única entre headline e corpo é parte do que faz
@@ -111,7 +119,7 @@ o feed parecer de uma marca só. Detalhe em `.claude/skills/carrossel/references
 **Regras (fora da exceção acima):**
 - Peso máximo 600. Nunca 700, 800 ou 900. Presença vem de tamanho e de espaço em volta
 - Piso de tracking: `-0.04em`. Não apertar mais que isso
-- Teto de display: 6rem, ou 96px
+- Teto de display: 6rem, ou 96px. A única exceção é a headline de carrossel, especificada acima
 - Medida de linha do corpo: 65 a 75 caracteres. Em HTML, `max-width: 68ch`
 - `line-height` 1.1 em título, 1.6 em corpo
 - Título de duas linhas ou mais leva `text-wrap: balance`
@@ -122,9 +130,14 @@ o feed parecer de uma marca só. Detalhe em `.claude/skills/carrossel/references
 
 Escala de 4px. Usar só estes valores: **4, 8, 12, 16, 24, 32, 48, 64, 96, 128**.
 
+Isso vale também para os componentes especificados neste arquivo. Se uma medida daqui não está na
+escala, a medida está errada, não a escala. Valor fora dela só entra com token nomeado e motivo
+escrito. Medida de formato de peça (1080x1350, margem de 80px do carrossel, zona segura de story)
+não é espaçamento de layout e não passa por essa regra.
+
 - Grupo relacionado fica junto, grupo diferente fica longe. A distância comunica a relação
 - Sempre mais espaço acima de um título do que abaixo dele. O título pertence ao que vem depois
-- Padding vertical de seção: 96px no desktop, 56px no mobile
+- Padding vertical de seção: 96px no desktop, 48px no mobile
 - Padding lateral do container: 32px no desktop, 20px no mobile
 - Largura máxima de conteúdo de leitura: 820px
 
@@ -141,10 +154,10 @@ Se a peça parece cheia, o problema quase nunca é falta de organização. É ex
 ## Componentes
 
 **Card**
-Fundo `--surface`, borda 1px `--line`, radius 18px, padding 32px. Card existe pra agrupar coisa que de fato pertence junto. Card dentro de card está proibido, sem exceção. Fileira de cards iguais com ícone, título e texto como estrutura da página também está proibida: é o layout mais previsível que existe.
+Fundo `--surface`, borda 1px `--line`, radius 16px, padding 32px. Card existe pra agrupar coisa que de fato pertence junto. Card dentro de card está proibido, sem exceção. Fileira de cards iguais com ícone, título e texto como estrutura da página também está proibida: é o layout mais previsível que existe.
 
 **Botão**
-- Primário: fundo `--accent-strong`, texto branco, peso 500, padding 14px 28px, radius 9999px
+- Primário: fundo `--accent-strong`, texto branco, peso 500, padding 12px 32px, radius 9999px. Altura mínima de 44px, que é o alvo de toque
 - Secundário: fundo transparente, borda 1px `--line`, texto `--text`
 - Transição de 200ms em `background`. Sem escala, sem bounce
 
@@ -176,13 +189,104 @@ Isso é o que separa página construída de página montada, e é o que mais se 
 
 ---
 
+## Apresentação de número
+
+O Princípio 1 do produto é "número antes de adjetivo", e a única prova que a marca tem é uma
+medição. Logo, o número não é ornamento da peça, é o argumento dela. Esta seção diz como ele
+aparece, porque proibir sem especificar o positivo produz peça tímida.
+
+**Forma padrão.** IBM Plex Mono, `font-variant-numeric: tabular-nums`, tamanho de H2 (32px), peso
+500, cor `--text`. Tamanho de display fica reservado para a headline, não para o número: quem
+convence é a conta, não o corpo tipográfico.
+
+**Todo número carrega a fonte colada nele.** Logo abaixo, em Label (13px, `--text-3`), uma linha
+dizendo de onde ele veio. Sem essa linha, o número não entra na peça. Vale a regra das duas fontes:
+ou é dado público com referência, ou é conta aberta com a base à mostra. Não existe terceira opção.
+
+**Percentual nunca aparece sozinho.** Sempre com o valor absoluto ao lado ("de 34 para 3", não
+"queda de 91%"). Percentual sem base é a forma mais fácil de inflar resultado sem mentir, e é
+exatamente o que a marca se proibiu de fazer.
+
+**Comparação antes e depois.** Barra horizontal simples, ordenada por magnitude, rótulo e valor
+escritos direto na barra, nunca em legenda separada. Máximo de uma série por peça. Barra em
+`--accent`, trilho em `--surface-2`. Eixo com rótulo ou sem eixo, nunca eixo mudo.
+
+**Medição própria é sempre nomeada como própria.** "Medição no meu ambiente" ou equivalente, na
+mesma peça, com o mesmo peso visual do número. Nunca projetada como resultado de cliente, nunca
+generalizada em "empresas economizam X".
+
+**Proibido:**
+- Número em tamanho de display com label minúsculo embaixo, com ou sem stats de apoio. É o template
+  de métrica de herói, e continua banido
+- Mais de uma série de dados na mesma peça
+- Sparkline, anel de progresso, medidor e barra de progresso como enfeite de dado
+- Cor sozinha carregando o significado de uma categoria. Sempre rótulo direto junto
+- Número arredondado para cima "para ficar melhor". Se precisa arredondar, arredonda para baixo
+
+---
+
 ## Movimento
 
 - Um momento autoral por peça, não efeito espalhado por toda seção
 - Entrada: `opacity` de 0 a 1 mais `translateY` de 8px, duração 400ms, easing `cubic-bezier(.16,1,.3,1)`
 - Partir de um estado já visível. Nada de conteúdo que só existe depois do scroll
 - Proibido: bounce, elastic, marquee, beam giratório, brilho pulsante, parallax pesado, contador regressivo
-- Respeitar `prefers-reduced-motion`
+- **Respeitar `prefers-reduced-motion`, e isso é condição de entrega.** Peça sem esse bloco não está
+pronta. O bloco é sempre o mesmo, copiado inteiro:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+---
+
+## Superfície de conversão
+
+Cobre proposta, landing e qualquer página onde a atenção vira contato. O carrossel gera atenção e
+para aqui: sem esta seção especificada, o funil termina num vazio.
+
+**Base clara, e isso é deliberado.** Proposta e landing usam os tokens claros (`--LB` de fundo,
+`--LS` de card, `--LT` de texto, `--LT2` de secundário, `--LL` de borda), com `--accent-strong` como
+acento. O Instagram continua escuro, sem exceção. Três motivos: o comprador abre no celular no meio
+do expediente, muitas vezes sob luz de dia; a proposta é impressa ou vira PDF, e fundo `#05060A` em
+papel lê como amador; e a compra é de previsibilidade, onde o claro carrega menos teatro. O dark
+premium é o figurino padrão da categoria de hype de IA contra a qual a marca se posiciona, e é
+justamente na hora de fechar que vale não parecer com ela.
+
+*Para reverter esta decisão, troque os cinco tokens claros pelos escuros equivalentes e o acento por
+`--accent-link`. O resto da seção continua valendo igual.*
+
+**Ordem de seção da landing.** Hero com a tese, demonstração do mecanismo, oferta, caminho para o
+contato. É o padrão Trust & Authority com uma substituição obrigatória: **onde o padrão pede prova
+de terceiro (logo de cliente, selo, depoimento, case), entra demonstração do mecanismo**, ou seja,
+mostrar o processo funcionando. A marca não tem prova social e está proibida de fabricar. Essa é a
+regra que mais vai ser tentada de contornar sob pressão de encher a página, e ela não se contorna.
+
+**Formulário e contato.**
+- Label sempre visível acima do campo. Placeholder sozinho fazendo papel de label está proibido
+- Erro abaixo do campo que o causou, com `aria-describedby`. Nunca só um erro geral no topo
+- Depois do envio, estado de carregando e depois sucesso ou falha. Nunca silêncio
+- Menos campo é mais. Nome e WhatsApp bastam para abrir conversa
+- Alvo de toque mínimo de 44px de altura, com 8px de folga entre alvos vizinhos
+
+**Foco visível.** `:focus-visible` com anel de 2px em `--accent-strong` e 2px de deslocamento.
+Remover anel de foco está proibido, sem exceção.
+
+**Impressão.** Toda proposta leva `@media print`: fundo branco, texto `--LT`, borda `--LL`, link com
+o destino escrito por extenso, e nenhuma sombra. A proposta existe para ser impressa e mostrada ao
+sócio.
+
+**Compartilhamento.** Toda página tem `<html lang="pt-BR">`, favicon e imagem de Open Graph em
+1200x630. A OG usa fundo escuro da marca, porque ali ela aparece dentro do feed de outra pessoa e
+volta a valer a lógica do Instagram. Toda imagem com conteúdo leva `alt` descritivo; imagem
+decorativa leva `alt=""`.
 
 ---
 

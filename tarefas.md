@@ -7,7 +7,9 @@
 - [ ] **Instagram (publicação automática):** criar conta em postforme.dev e salvar `POSTFORME_API_KEY` no `.env`
 - [ ] **Meta Ads:** token de longa duração da Marketing API, ou usar a skill `/meta-ads-ratos`
 - [ ] **WhatsApp Business:** WhatsApp Cloud API (oficial Meta) ou Z-API. Tokens no `.env`
-- [ ] **LinkedIn:** sem conector pronto no catálogo. Publicação manual por enquanto
+- [x] **LinkedIn:** configurado e testado em 08/09/2026. App criado, produtos self-serve liberados, token no `.env`. Fluxo completo validado de ponta a ponta (publicação com 9 imagens e despublicação). Comandos: `/linkedin` ou `/postar-linkedin`
+- [ ] **LinkedIn, renovação:** token vence em 07/11/2026. Rodar `node .claude/skills/postar-linkedin/scripts/auth.js --servidor` quando o `status.js` avisar. Ele reenvia o token pro Worker sozinho
+- [x] **Agendamento de post:** Worker na Cloudflare com cron de 5 minutos, publica com o PC desligado. Grátis. Subdomínio `anticustos.workers.dev`
 
 ## Marca
 

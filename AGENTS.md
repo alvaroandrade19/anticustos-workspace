@@ -7,7 +7,7 @@ Workspace de trabalho da Anti Custos, negócio do Alvaro de Andrade que presta s
 **Estrutura de pastas:**
 - `_contexto/`: memória do sistema (não apagar)
 - `clientes/`: uma pasta por cliente, criada a partir de `_modelo-cliente/`
-- `conteudo/`: produção de conteúdo, dividida em `carrosseis/`, `roteiros/`, `linkedin/` e `ideias.md`. Carrossel sai da skill `/carrossel`, uma pasta por peça
+- `conteudo/`: produção de conteúdo, dividida em `carrosseis/`, `roteiros/`, `linkedin/` e `ideias.md`. Carrossel sai da skill `/carrossel`, uma pasta por peça. Post de LinkedIn sai da skill `/postar-linkedin`, que escreve e publica pela API oficial, uma pasta por post
 - `propostas/`: propostas que ainda não têm cliente definido ou que servem de modelo
 - `apresentacoes/`: decks comerciais e institucionais
 - `marca/`: identidade visual, `design-guide.md` e arquivos de logo
@@ -47,7 +47,9 @@ Evitar tudo que denuncia texto de IA. Lista completa de clichês e detalhe de es
 
 Ferramentas em uso: Google Drive, Instagram, LinkedIn, Canva, WhatsApp Business, Meta Ads.
 
-Nenhum conector instalado ainda. A lista do que configurar está em `tarefas.md`.
+LinkedIn já publica direto pela API oficial, de graça, pela skill `/postar-linkedin` (credenciais no `.env`, token renovado a cada 60 dias). Post agendado roda num Worker da Cloudflare com cron, também de graça, e publica com o computador desligado. O resto ainda não tem conector instalado. A lista do que configurar está em `tarefas.md`.
+
+**Distribuição por canal:** Instagram publica pela página da Anti Custos. LinkedIn publica pelo perfil pessoal do Alvaro, por alcance orgânico. Isso muda a escrita, não só o destino: post de LinkedIn é em primeira pessoa do singular. Detalhe em `.claude/skills/postar-linkedin/references/voz-linkedin.md`.
 
 ---
 
@@ -88,7 +90,19 @@ Qualquer peça visual (carrossel, story, proposta, slide, landing page, post): *
 
 Roteamento: **carrossel de Instagram vai pela skill `/carrossel`**, nunca montado na mão. **Todo o resto vai pela `/impeccable`** (`shape`, depois `critique` e `audit`, depois `polish`).
 
-**Precedência quando os dois discordam:** o `design-guide.md` é o brief, e a própria impeccable define que o brief vence as regras genéricas dela. Onde o guia é específico, ele manda. Onde é omisso, vale a impeccable.
+**Consulta de dados de design:** a skill `ui-ux-pro-max` é uma base local pesquisável (estilos, paletas, pares tipográficos, 119 diretrizes de UX, padrões de landing, presets de animação, guias por stack). Não é etapa obrigatória do fluxo, é consulta sob demanda, e vale quando a decisão é aberta e o guia é omisso: estrutura de uma landing nova, padrão de UX de formulário, checagem de contraste, escolha de tipo de gráfico. Roda offline, sem API e sem dependência externa:
+
+```bash
+python .claude/skills/ui-ux-pro-max/scripts/search.py "<consulta>" --domain <ux|style|color|typography|landing|chart|icons|gsap>
+```
+
+**Precedência quando discordam, do mais forte pro mais fraco:**
+
+1. `marca/design-guide.md`, o brief. Cor, fonte, medida e formato saem daqui sempre. Paleta ou par tipográfico devolvido pelo `ui-ux-pro-max` não substitui o guia, serve no máximo de referência pra evoluir o guia numa decisão consciente.
+2. `ui-ux-pro-max`, para estrutura, padrão de interação e acessibilidade onde o guia não fala.
+3. `/impeccable`, para julgamento de execução e acabamento. A própria impeccable define que o brief vence as regras genéricas dela.
+
+O `ui-ux-pro-max` entra como evidência, não como decisão pronta. Se a busca voltar vazia, dizer isso em vez de inventar resultado.
 
 ---
 

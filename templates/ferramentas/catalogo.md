@@ -69,6 +69,30 @@ node --env-file=.env scripts/publish-postforme.js
 ```
 **Quando usar:** Skills de carrossel, conteudo visual, publicacao automatica
 
+### LinkedIn API (oficial, gratuita)
+**O que faz:** Publica no perfil pessoal do LinkedIn: texto, link com preview, imagem unica e carrossel de ate 20 imagens
+**Precisa de conta:** Sim, app gratuito em developer.linkedin.com. Nenhuma assinatura, nenhuma aprovacao
+**Configurar:** Produtos self-serve "Share on LinkedIn" e "Sign In with LinkedIn using OpenID Connect". Tokens no `.env` via `node .claude/skills/postar-linkedin/scripts/auth.js`
+**Como usar numa skill:**
+```bash
+node .claude/skills/postar-linkedin/scripts/publish.js --texto post.md --imagem 01.png
+```
+**Limites:** 3000 caracteres por post, 150 chamadas por dia, token vence a cada 60 dias (renovacao manual)
+**Atencao:** so publica no perfil pessoal. Pagina de empresa exige a Community Management API, que tem fila de aprovacao
+**Quando usar:** Skills de conteudo organico, distribuicao de carrossel, publicacao de post de texto
+
+### Agendador de post (Cloudflare Worker + KV)
+**O que faz:** Publica post do LinkedIn na hora marcada, com o computador desligado
+**Precisa de conta:** Sim, Cloudflare (gratis: cron trigger incluso, KV com 1 GB e 1k escritas/dia)
+**Configurar:** `CLOUDFLARE_API_TOKEN` e `CLOUDFLARE_ACCOUNT_ID` no `.env`, depois `node .claude/skills/postar-linkedin/scripts/deploy-worker.js`
+**Como usar numa skill:**
+```bash
+node .claude/skills/postar-linkedin/scripts/agendar.js --texto post.md --quando "2026-09-10 08:30"
+```
+**Desenho:** as imagens sobem direto pro LinkedIn na hora do agendamento, e so texto mais URN vao pro KV. Nenhum binario passa pela Cloudflare
+**Atencao:** granularidade de 5 minutos (intervalo do cron). Token do LinkedIn fica duplicado no secret do Worker, e o `auth.js` sincroniza os dois
+**Quando usar:** Qualquer skill que precise de cron rodando fora da maquina, nao so LinkedIn. O `lib-cloudflare.js` e generico
+
 ### WhatsApp Cloud API / Z-API
 **O que faz:** Envia e recebe mensagens de WhatsApp programaticamente (atendimento, notificacao, automacao)
 **Precisa de conta:** Sim. Dois caminhos:
