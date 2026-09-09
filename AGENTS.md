@@ -47,7 +47,7 @@ Evitar tudo que denuncia texto de IA. Lista completa de clichês e detalhe de es
 
 Ferramentas em uso: Google Drive, Instagram, LinkedIn, Canva, WhatsApp Business, Meta Ads.
 
-LinkedIn já publica direto pela API oficial, de graça, pela skill `/postar-linkedin` (credenciais no `.env`, token renovado a cada 60 dias). Post agendado roda num Worker da Cloudflare com cron, também de graça, e publica com o computador desligado. O resto ainda não tem conector instalado. A lista do que configurar está em `tarefas.md`.
+LinkedIn e Instagram já publicam direto pelas APIs oficiais, de graça: LinkedIn pela skill `/postar-linkedin`, Instagram pela `/publicar-social-ratos` (Graph API, conta `anticustos.ia`). Credenciais no `.env`, tokens de 60 dias nos dois casos. Post agendado do LinkedIn roda num Worker da Cloudflare com cron, também de graça, e publica com o computador desligado. O Instagram ainda não tem agendamento: a Content Publishing API não oferece agendamento nativo e o container de mídia expira em 24h, então agendar exigiria adaptar o mesmo Worker. Publicar no Instagram sobe as imagens antes pro catbox.moe, porque a API só aceita URL pública. O resto ainda não tem conector instalado. A lista do que configurar está em `tarefas.md`.
 
 **Distribuição por canal:** Instagram publica pela página da Anti Custos. LinkedIn publica pelo perfil pessoal do Alvaro, por alcance orgânico. Isso muda a escrita, não só o destino: post de LinkedIn é em primeira pessoa do singular. Detalhe em `.claude/skills/postar-linkedin/references/voz-linkedin.md`.
 

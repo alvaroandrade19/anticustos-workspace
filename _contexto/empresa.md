@@ -6,7 +6,7 @@
 **Perfil:** freelancer (solo, cliente externo, serviço próprio), com peso alto em produção de conteúdo
 **Atende clientes:** sim, clientes externos (PMEs)
 **Equipe:** solo. Hoje é só o Alvaro tocando tudo.
-**Ferramentas:** Google Drive, Instagram, LinkedIn, Canva, WhatsApp Business, Meta Ads
+**Ferramentas:** Google Drive, Instagram, LinkedIn, Canva, WhatsApp Business, Meta Ads. Instagram e LinkedIn publicam por API oficial direto do Claude Code, de graça.
 **Principais entregas:** conteúdo para redes sociais, propostas comerciais, apresentações
 **Modelo comercial:** R$ 3.000 de instalação (uma vez) + R$ 1.500/mês de recorrência (manter no ar, atualizar, propor melhorias)
 **Meta de capacidade:** 20 clientes ativos, patamar em que entra contratação de equipe
