@@ -101,9 +101,16 @@ Se escolheu Graph API:
    Se retornar `username`, tá pronto.
 
 6. **Avisar sobre renovação:**
-   > "Teu token dura 60 dias. Quando expirar, renova com:
-   > `curl -s 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=TEU_TOKEN'`
-   > Ou roda /publicar que eu te guio."
+   > "Teu token dura 60 dias. Pra ver quanto falta e renovar:
+   > `node .claude/skills/publicar-social-ratos/scripts/renovar-token.js --status`
+   > `node .claude/skills/publicar-social-ratos/scripts/renovar-token.js`
+   > O script grava o token novo no `.env` e reenvia pro Worker sozinho."
+
+7. **Se quiser agendar post** (opcional, ver seção "Agendamento" abaixo):
+   ```bash
+   node .claude/skills/publicar-social-ratos/scripts/deploy-worker.js
+   ```
+   Exige `CLOUDFLARE_API_TOKEN` e `CLOUDFLARE_ACCOUNT_ID` no `.env`.
 
 ---
 
@@ -150,6 +157,71 @@ curl -s -F "reqtype=fileupload" -F "fileToUpload=@imagem.png" "https://catbox.mo
 - `media_type` do carrossel é `CAROUSEL`, não `CAROUSEL_ALBUM` (esse era da API antiga)
 - Tokens IGA já vêm de longa duração (60 dias), não precisa converter
 - Poll de status a cada 3s com timeout de 60s (vídeos: 180s)
+- **Peso da imagem:** o catbox dá 504 em arquivo grande. O `/carrossel` renderiza em 2x
+  (2160x2700, uns 5MB por slide) e o Instagram reamostra tudo pra 1080 de largura de
+  qualquer jeito, então esse peso não vira qualidade. Rodar `otimizar.js` antes:
+  ```bash
+  node .claude/skills/publicar-social-ratos/scripts/otimizar.js conteudo/carrosseis/<slug>
+  ```
+  Gera `web/` com JPEG de 1080 de largura (uns 140KB por slide). Publicar apontando pra essa pasta.
+- **Proporção:** a API só aceita entre 0.8 (4:5) e 1.91. O 1080x1350 do `/carrossel`
+  fica exatamente no limite de baixo, e passa.
+
+---
+
+## Agendamento (só Graph API)
+
+A Content Publishing API **não tem agendamento nativo**: não existe `scheduled_publish_time`
+como na API de Páginas do Facebook, e o container de mídia expira em 24h, então nem adianta
+criar container com antecedência. Quem agenda precisa guardar os dados numa fila própria e
+criar o container só na hora.
+
+É o que este Worker faz. Mesmo padrão do `/postar-linkedin`, com Worker, KV e cron próprios,
+tudo no plano gratuito da Cloudflare.
+
+**Como funciona:** no agendamento, as imagens sobem pro catbox aqui da máquina e só a URL e a
+legenda vão pro KV. Nenhum byte de imagem passa pela Cloudflare. Na hora marcada o cron acorda,
+cria os containers, espera ficar `FINISHED` e publica.
+
+```bash
+# implantar ou atualizar o Worker (idempotente, rodar de novo depois de renovar o token)
+node .claude/skills/publicar-social-ratos/scripts/deploy-worker.js
+
+# agendar (--dry mostra tudo sem subir nem agendar)
+node .claude/skills/publicar-social-ratos/scripts/agendar.js \
+  --pasta conteudo/carrosseis/<slug>/web --quando "2026-09-10 08:30"
+node ... agendar.js --pasta <pasta> --quando +2h --dry
+
+# ver a fila, cancelar, disparar na hora (teste)
+node .claude/skills/publicar-social-ratos/scripts/fila.js
+node ... fila.js --cancelar <id>
+node ... fila.js --disparar
+```
+
+`--quando` aceita `"AAAA-MM-DD HH:MM"` (horário local) ou relativo: `+30min`, `+2h`, `+1d`.
+A legenda sai do `legenda.md` da pasta (ou da pasta acima, quando se aponta pra `web/`),
+usando só o bloco `## Legenda (Instagram)`.
+
+### Convivência com o Worker do LinkedIn
+São dois Workers separados, cada um com seu KV e seu cron:
+
+| | LinkedIn | Instagram |
+|---|---|---|
+| Worker | `anticustos-linkedin-agendador` | `anticustos-instagram-agendador` |
+| KV | `anticustos-linkedin-fila` | `anticustos-instagram-fila` |
+| Cron | `*/5 * * * *` | `*/5 * * * *` |
+
+Separados de propósito: as skills são unidades distribuíveis independentes, e bug num
+não derruba o outro. O custo é orçamento de KV. `list` no plano grátis tem teto de 1000
+por dia por conta, e cada cron de 5 minutos gasta 288. Dois Workers = 576/dia, com folga
+de uns 40% para as consultas manuais do `fila.js`.
+
+### Por que existe trava de publicação
+Se o Worker publicasse e caísse antes de gravar o resultado, o ciclo seguinte republicaria
+e o carrossel apareceria duplicado no feed. Antes de publicar, o item é marcado com
+`publicando`. Se o ciclo seguinte achar essa marca velha (mais de 10 min), ele **pergunta
+ao Instagram** se o post saiu, comparando os 80 primeiros caracteres da legenda com as
+últimas 10 mídias da conta. Só republica se tiver certeza que não saiu.
 
 ---
 
@@ -266,3 +338,9 @@ Se o usuário quiser publicar no TikTok também (e usar Post for Me), perguntar:
 - Imagem única: 1 imagem
 - Vídeo: 1 arquivo de vídeo (Graph API publica como Reels)
 - Nunca commitar `.env` no git
+- Agendar é publicar: pedir confirmação igual, e mostrar o horário em fuso local
+- Imagem acima de uns 2MB: rodar `otimizar.js` antes, senão o catbox dá 504
+- Depois de renovar o token, rodar `deploy-worker.js` de novo, senão o Worker fica com o
+  token velho e o post agendado falha em silêncio (o `renovar-token.js` já faz isso sozinho)
+- O catbox é host público sem conta: toda imagem publicada fica acessível por link aberto.
+  Irrelevante pra peça de marketing, relevante se um dia for material de cliente
