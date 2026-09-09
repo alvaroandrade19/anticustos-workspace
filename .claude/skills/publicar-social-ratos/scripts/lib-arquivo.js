@@ -152,14 +152,24 @@ function devolverDaFila(rede, slug) {
   return destino;
 }
 
-// Acha a pasta de uma peça agendada pelo slug, para mover quando o post sair.
-function acharAgendado(rede, slug) {
-  const direto = path.join(AGENDADO, rede, slug);
+function acharEm(base, slug) {
+  const direto = path.join(base, slug);
   if (fs.existsSync(direto)) return direto;
-  const base = path.join(AGENDADO, rede);
   if (!fs.existsSync(base)) return null;
   const parecido = fs.readdirSync(base).find((n) => n === slug || n.startsWith(slug + '-'));
   return parecido ? path.join(base, parecido) : null;
+}
+
+// Acha a pasta de uma peça agendada pelo slug, para mover quando o post sair.
+function acharAgendado(rede, slug) {
+  return acharEm(path.join(AGENDADO, rede), slug);
+}
+
+// Diz se a peça já está arquivada como publicada. Serve para o fila.js saber que
+// aquele resultado já foi reconciliado e pode sair da fila na Cloudflare: o histórico
+// passa a viver no _estado.md, que é versionado no git.
+function acharPublicado(rede, slug) {
+  return acharEm(path.join(PUBLICADO, rede), slug);
 }
 
 module.exports = {
@@ -175,4 +185,5 @@ module.exports = {
   paraPublicado,
   devolverDaFila,
   acharAgendado,
+  acharPublicado,
 };

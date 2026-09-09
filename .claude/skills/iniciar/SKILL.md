@@ -14,7 +14,32 @@ Use essa skill no começo de cada sessão de trabalho.
 3. Verificar se `_contexto/estrategia.md` existe e está configurado
 4. Ler `_contexto/agora.md` (contexto vivo: onde paramos, decisões recentes, pendências) se estiver configurado
 5. Ler AGENTS.md se existir
-6. Apresentar um resumo de contexto e perguntar o que o usuário quer fazer
+6. Sincronizar a fila de publicação (ver abaixo)
+7. Apresentar um resumo de contexto e perguntar o que o usuário quer fazer
+
+## Sincronizar a fila de publicação
+
+Rodar sempre, antes de montar o resumo:
+
+```bash
+node scripts/sincronizar-publicacoes.js
+```
+
+O Worker que publica os posts agendados roda na Cloudflare e não alcança o disco desta
+máquina. Então, quando um post agendado sai, a pasta da peça só migra de
+`conteudo/agendado/` para `conteudo/publicado/` quando alguém roda isso aqui. O post vai
+ao ar de qualquer jeito: o que fica desatualizado é a organização das pastas.
+
+O script fica quieto quando não há nada. Se ele imprimir algo, incluir no resumo:
+
+- Post publicado desde a última sessão: dizer qual e o link
+- Post ainda na fila: dizer qual e o horário marcado
+- Post que falhou: **avisar em destaque**, com o erro. É a coisa mais importante do
+  resumo, porque significa conteúdo que o usuário achava que tinha saído e não saiu
+- Aviso de token perto de vencer: mencionar, com o comando de renovação
+
+Se o script falhar (Cloudflare fora do ar, token vencido), não travar o início da
+sessão: mencionar em uma linha e seguir.
 
 ## Fluxo
 

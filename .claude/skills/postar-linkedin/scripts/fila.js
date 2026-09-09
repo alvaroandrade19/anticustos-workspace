@@ -94,18 +94,28 @@ function local(iso) {
     // O Worker publica na Cloudflare e nao alcanca o disco daqui, entao e aqui que a
     // peca sai de conteudo/agendado/ e vai para conteudo/publicado/.
     const pendente = arq.acharAgendado(REDE, r.slug);
-    if (!pendente) continue;
-    if (r.ok) {
-      const destino = arq.paraPublicado(pendente, REDE, {
-        modo: r.modo, url: r.url, publicadoEm: r.publicadoEm,
-      });
-      console.log('  peca movida para ' + arq.relativo(destino));
-    } else {
+
+    if (pendente && !r.ok) {
       const estado = arq.lerEstado(pendente) || {};
       arq.gravarEstado(pendente, Object.assign({}, estado, {
         rede: REDE, slug: r.slug, estado: 'falhou', erro: r.erro,
       }));
       console.log('  peca segue em ' + arq.relativo(pendente) + ' (estado: falhou)');
+      continue; // falha fica na fila da Cloudflare ate alguem resolver
+    }
+
+    if (pendente) {
+      const destino = arq.paraPublicado(pendente, REDE, {
+        modo: r.modo, url: r.url, publicadoEm: r.publicadoEm,
+      });
+      console.log('  peca movida para ' + arq.relativo(destino));
+    }
+
+    // Reconciliado: o historico passa a viver no _estado.md, que e versionado no git.
+    // Sem isso o mesmo resultado reaparece no resumo de todas as sessoes futuras.
+    if (r.ok && arq.acharPublicado(REDE, r.slug)) {
+      await cfl.kvApagar(ns, chave.name);
+      console.log('  historico arquivado, resultado removido da fila');
     }
   }
 })().catch(function (erro) {
