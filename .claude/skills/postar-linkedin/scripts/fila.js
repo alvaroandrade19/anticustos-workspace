@@ -8,6 +8,9 @@
 
 const lib = require('./lib-linkedin.js');
 const cfl = require('./lib-cloudflare.js');
+const arq = require('./lib-arquivo.js');
+
+const REDE = 'linkedin';
 
 function args() {
   const saida = {};
@@ -36,6 +39,14 @@ function local(iso) {
     if (!existente) throw new Error('Não achei esse agendamento: ' + chave);
     await cfl.kvApagar(ns, chave);
     console.log('Cancelado: ' + chave);
+
+    // Cancelar devolve a peca para a area de producao de onde ela saiu.
+    try {
+      const devolvida = arq.devolverDaFila(REDE, existente.slug);
+      if (devolvida) console.log('Peca devolvida para ' + arq.relativo(devolvida));
+    } catch (erro) {
+      console.log('Aviso: nao consegui devolver a pasta (' + erro.message + ').');
+    }
     console.log('As imagens já enviadas ao LinkedIn ficam órfãs, e isso não gera post nem cobrança.');
     return;
   }
@@ -79,6 +90,23 @@ function local(iso) {
     if (!r) continue;
     if (r.ok) console.log('- ' + r.slug + ' publicado em ' + local(r.publicadoEm) + '\n  ' + r.url);
     else console.log('- ' + r.slug + ' FALHOU em ' + local(r.falhouEm) + '\n  ' + r.erro);
+
+    // O Worker publica na Cloudflare e nao alcanca o disco daqui, entao e aqui que a
+    // peca sai de conteudo/agendado/ e vai para conteudo/publicado/.
+    const pendente = arq.acharAgendado(REDE, r.slug);
+    if (!pendente) continue;
+    if (r.ok) {
+      const destino = arq.paraPublicado(pendente, REDE, {
+        modo: r.modo, url: r.url, publicadoEm: r.publicadoEm,
+      });
+      console.log('  peca movida para ' + arq.relativo(destino));
+    } else {
+      const estado = arq.lerEstado(pendente) || {};
+      arq.gravarEstado(pendente, Object.assign({}, estado, {
+        rede: REDE, slug: r.slug, estado: 'falhou', erro: r.erro,
+      }));
+      console.log('  peca segue em ' + arq.relativo(pendente) + ' (estado: falhou)');
+    }
   }
 })().catch(function (erro) {
   console.error('\nErro: ' + erro.message);

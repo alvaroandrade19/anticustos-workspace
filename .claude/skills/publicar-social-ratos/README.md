@@ -74,9 +74,25 @@ publicar-social-ratos/
     ├── deploy-worker.js       implanta ou atualiza o Worker
     ├── renovar-token.js       renova o token de 60 dias e reenvia pro Worker
     ├── otimizar.js            gera versões leves das imagens (1080px, JPEG)
+    ├── lib-arquivo.js         move a pasta da peça entre produção, fila e publicado
     ├── lib-instagram.js       env, validações, upload, Graph API
     └── lib-cloudflare.js      cliente mínimo de KV e Workers
 ```
+
+## Ciclo de vida da peça
+
+A pasta da peça anda por três estados, e a skill move sozinha:
+
+```
+conteudo/carrosseis/<slug>              em produção, ainda não saiu
+conteudo/agendado/instagram/<slug>      na fila, esperando a hora
+conteudo/publicado/instagram/<slug>     no ar
+```
+
+Cada pasta movida ganha um `_estado.md` com o link do post, o horário e de onde ela veio.
+Cancelar um agendamento devolve a peça para a origem. Para publicar sem mover, `--sem-mover`.
+
+A mesma estrutura vale para o LinkedIn, na skill `postar-linkedin`.
 
 ## Pré-requisitos
 

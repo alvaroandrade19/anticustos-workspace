@@ -15,6 +15,9 @@ const fs = require('fs');
 const path = require('path');
 const lib = require('./lib-linkedin.js');
 const cfl = require('./lib-cloudflare.js');
+const arq = require('./lib-arquivo.js');
+
+const REDE = 'linkedin';
 
 const LIMITE_AVISO_DIAS = 7;
 
@@ -151,6 +154,14 @@ function formatarLocal(data) {
   console.log('id: ' + id);
   console.log('Publica em: ' + formatarLocal(quando));
   console.log('O Worker acorda de 5 em 5 minutos, então a publicação sai nessa janela.');
+  // A peca sai da area de producao e vai para a fila, para conteudo/linkedin/ ficar
+  // so com o que ainda nao saiu. O fila.js move de novo quando o post for publicado.
+  const pastaPeca = arq.pastaDaPeca(arquivoTexto);
+  if (!opcoes['sem-mover'] && fs.existsSync(pastaPeca)) {
+    const destino = arq.paraAgendado(pastaPeca, REDE, { modo: modo, quando: item.quando, idFila: id });
+    console.log('Peca movida para ' + arq.relativo(destino));
+  }
+
   console.log('Ver ou cancelar: node .claude/skills/postar-linkedin/scripts/fila.js');
 })().catch(function (erro) {
   console.error('\nErro: ' + erro.message);

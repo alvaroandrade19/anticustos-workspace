@@ -13,6 +13,9 @@
 const fs = require('fs');
 const path = require('path');
 const lib = require('./lib-linkedin.js');
+const arq = require('./lib-arquivo.js');
+
+const REDE = 'linkedin';
 
 const LIMITE_TEXTO = lib.LIMITE_TEXTO;
 const MAX_IMAGENS = lib.MAX_IMAGENS;
@@ -153,6 +156,17 @@ function urlDoPost(headers) {
   console.log('\nPublicado (' + modo + ').');
   if (url) console.log(url);
   else console.log('Post criado, mas o LinkedIn não devolveu o id. Confere no feed do perfil.');
+
+  // A peca sai da area de producao e vai para conteudo/publicado/linkedin/.
+  const pastaPeca = arq.pastaDaPeca(arquivoTexto);
+  if (!opcoes['sem-mover'] && fs.existsSync(pastaPeca)) {
+    const destino = arq.paraPublicado(pastaPeca, REDE, {
+      modo: modo,
+      url: url || null,
+      publicadoEm: new Date().toISOString(),
+    });
+    console.log('Peca movida para ' + arq.relativo(destino));
+  }
 })().catch(function (erro) {
   console.error('\nErro: ' + erro.message);
   if (erro.status === 401) console.error('Token vencido ou inválido. Rode auth.js de novo.');

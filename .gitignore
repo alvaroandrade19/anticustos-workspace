@@ -9,7 +9,7 @@ _configurar-mcps.md
 # Outputs de renderização (binários pesados)
 *.png
 # Versões leves geradas pelo otimizar.js: derivadas dos PNG, que também não sobem
-conteudo/carrosseis/*/web/
+conteudo/**/web/
 
 # Arquivos de dados do usuário (CSVs, planilhas, etc)
 dados/*.csv

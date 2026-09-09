@@ -8,6 +8,9 @@
 
 const lib = require('./lib-instagram.js');
 const cfl = require('./lib-cloudflare.js');
+const arq = require('./lib-arquivo.js');
+
+const REDE = 'instagram';
 
 function args() {
   const saida = {};
@@ -39,6 +42,15 @@ function local(iso) {
     }
     await cfl.kvApagar(ns, chave);
     console.log('Cancelado: ' + chave);
+
+    // Cancelar devolve a peça para a área de produção de onde ela saiu.
+    try {
+      const devolvida = arq.devolverDaFila(REDE, existente.slug);
+      if (devolvida) console.log('Peça devolvida para ' + arq.relativo(devolvida));
+    } catch (erro) {
+      console.log('Aviso: não consegui devolver a pasta (' + erro.message + '). Ela segue em conteudo/agendado/.');
+    }
+
     console.log('As imagens seguem no catbox com link público. Nada foi postado.');
     return;
   }
@@ -86,6 +98,23 @@ function local(iso) {
     if (!r) continue;
     if (r.ok) console.log('- ' + r.slug + ' publicado em ' + local(r.publicadoEm) + '\n  ' + (r.url || '(sem permalink)'));
     else console.log('- ' + r.slug + ' FALHOU em ' + local(r.falhouEm) + '\n  ' + r.erro);
+
+    // O Worker publica na Cloudflare e não alcança o disco daqui, então é aqui que a
+    // peça sai de conteudo/agendado/ e vai para conteudo/publicado/.
+    const pendente = arq.acharAgendado(REDE, r.slug);
+    if (!pendente) continue;
+    if (r.ok) {
+      const destino = arq.paraPublicado(pendente, REDE, {
+        tipo: r.tipo, mediaId: r.mediaId, url: r.url, publicadoEm: r.publicadoEm,
+      });
+      console.log('  peça movida para ' + arq.relativo(destino));
+    } else {
+      const estado = arq.lerEstado(pendente) || {};
+      arq.gravarEstado(pendente, Object.assign({}, estado, {
+        rede: REDE, slug: r.slug, estado: 'falhou', erro: r.erro,
+      }));
+      console.log('  peça segue em ' + arq.relativo(pendente) + ' (estado: falhou)');
+    }
   }
 
   const dias = lib.diasAte(process.env.INSTAGRAM_TOKEN_EXPIRA_EM);

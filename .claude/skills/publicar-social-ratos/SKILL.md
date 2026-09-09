@@ -91,8 +91,8 @@ Se escolheu Graph API:
    ```
    Só essas 2 variáveis. Não precisa de imgbb, catbox key, nem nada a mais.
 
-4. **Instalar o script:**
-   Copiar `scripts/publish-graph-api.js` (que vem com esta skill) pra pasta `scripts/` do projeto do usuário.
+4. **Nada a instalar:**
+   Os scripts rodam direto da pasta da skill, como os do `/postar-linkedin`. Nao copiar para `scripts/` do projeto: a copia solta fica desatualizada e nao enxerga as libs da skill.
 
 5. **Testar conexão:**
    ```bash
@@ -274,19 +274,19 @@ node --env-file=.env scripts/publish-postforme.js \
   --dry-run
 
 # Graph API — carrossel
-node --env-file=.env scripts/publish-graph-api.js \
+node .claude/skills/publicar-social-ratos/scripts/publish-graph-api.js \
   --images "slide-01.png,slide-02.png,..." \
   --caption "legenda" \
   --dry-run
 
 # Graph API — imagem única
-node --env-file=.env scripts/publish-graph-api.js \
+node .claude/skills/publicar-social-ratos/scripts/publish-graph-api.js \
   --images "imagem.png" \
   --caption "legenda" \
   --dry-run
 
 # Graph API — vídeo (Reels)
-node --env-file=.env scripts/publish-graph-api.js \
+node .claude/skills/publicar-social-ratos/scripts/publish-graph-api.js \
   --video "video.mp4" \
   --caption "legenda" \
   --dry-run
@@ -312,7 +312,7 @@ node --env-file=.env scripts/publish-postforme.js \
   --draft
 
 # Graph API — carrossel/imagem/video (o script detecta automaticamente)
-node --env-file=.env scripts/publish-graph-api.js \
+node .claude/skills/publicar-social-ratos/scripts/publish-graph-api.js \
   --images "slide-01.png,slide-02.png,..." \
   --caption "legenda"
 ```
@@ -324,6 +324,28 @@ Após publicação:
 
 Se o usuário quiser publicar no TikTok também (e usar Post for Me), perguntar:
 > "Quer publicar no TikTok também? Vai como rascunho pra tu escolher a música no app."
+
+---
+
+## Ciclo de vida da peca
+
+A pasta da peca anda por tres estados, e as skills movem sozinhas. Nunca mover a mao.
+
+| Estado | Onde fica | Quem move pra la |
+|---|---|---|
+| Em producao | `conteudo/carrosseis/<slug>` | `/carrossel` |
+| Na fila | `conteudo/agendado/instagram/<slug>` | `agendar.js` |
+| No ar | `conteudo/publicado/instagram/<slug>` | `publish-graph-api.js` na hora, ou `fila.js` quando o Worker publica |
+
+Cada pasta movida ganha um `_estado.md` com rede, horario, link do post e caminho de
+origem. Cancelar um agendamento (`fila.js --cancelar`) devolve a peca para a origem
+registrada ali.
+
+O Worker roda na Cloudflare e nao alcanca o disco desta maquina, entao a passagem de
+"na fila" para "no ar" acontece quando o `fila.js` roda aqui e ve o resultado. Rodar
+`fila.js` de vez em quando mantem as pastas em dia.
+
+Para publicar sem mover nada, passar `--sem-mover`.
 
 ---
 

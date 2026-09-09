@@ -241,6 +241,28 @@ publicar com uma imagem só e registrar o caso, em vez de insistir.
 - O token do LinkedIn vive em dois lugares (`.env` e secret do Worker). O `auth.js` sincroniza os
   dois, mas se alguém editar o `.env` na mão, o Worker fica para trás.
 
+## Ciclo de vida da peca
+
+A pasta da peca anda por tres estados, e a skill move sozinha. Nunca mover a mao.
+
+| Estado | Onde fica | Quem move pra la |
+|---|---|---|
+| Em producao | `conteudo/linkedin/<slug>` | quem escreve o post |
+| Na fila | `conteudo/agendado/linkedin/<slug>` | `agendar.js` |
+| No ar | `conteudo/publicado/linkedin/<slug>` | `publish.js` na hora, ou `fila.js` quando o Worker publica |
+
+Cada pasta movida ganha um `_estado.md` com rede, horario, link do post e caminho de
+origem. Cancelar um agendamento (`fila.js --cancelar`) devolve a peca para a origem
+registrada ali.
+
+O Worker roda na Cloudflare e nao alcanca o disco desta maquina, entao a passagem de
+"na fila" para "no ar" acontece quando o `fila.js` roda aqui e ve o resultado.
+
+Para publicar sem mover nada, passar `--sem-mover`. Mesma estrutura vale para o
+Instagram, na skill `/publicar-social-ratos`.
+
+---
+
 ## Arquivos
 
 - `scripts/auth.js`: autoriza a conta e grava token, URN e validade no `.env`
@@ -253,5 +275,6 @@ publicar com uma imagem só e registrar o caso, em vez de insistir.
 - `worker/worker.js`: o que roda na Cloudflare, acordando de 5 em 5 minutos
 - `scripts/lib-linkedin.js`: funções compartilhadas do LinkedIn, sem dependência externa
 - `scripts/lib-cloudflare.js`: cliente mínimo da API da Cloudflare, sem wrangler
+- `scripts/lib-arquivo.js`: move a pasta da peça entre produção, fila e publicado
 - `references/setup.md`: criação do app no portal de developers, passo a passo
 - `references/voz-linkedin.md`: como um post de perfil pessoal precisa soar

@@ -1,240 +1,196 @@
-const fs = require("fs");
-const path = require("path");
-const { execSync } = require("child_process");
+// Publica agora no Instagram pela Graph API: carrossel, imagem única ou Reels.
+//
+//   node .claude/skills/publicar-social-ratos/scripts/publish-graph-api.js \
+//     --pasta conteudo/carrosseis/<slug>
+//
+//   --pasta        pega as imagens em ordem e a legenda.md da mesma pasta
+//   --images       lista separada por vírgula, alternativa ao --pasta
+//   --video        um arquivo de vídeo, publica como Reels
+//   --caption      legenda literal, se não vier de arquivo
+//   --legenda      arquivo de legenda, se não for o legenda.md da pasta
+//   --dry-run      sobe a mídia e para antes de falar com o Instagram
+//   --sem-otimizar não gera versão leve, mesmo com imagem pesada
+//   --sem-mover    não move a pasta para conteudo/publicado/
+//
+// Para publicar em hora marcada, com o computador desligado, use agendar.js.
+'use strict';
 
-function parseArgs() {
-  const args = process.argv.slice(2);
-  const opts = { images: [], video: "", caption: "", dryRun: false };
-  for (let i = 0; i < args.length; i++) {
-    if (args[i] === "--images") opts.images = args[++i].split(",").map(s => s.trim());
-    else if (args[i] === "--video") opts.video = args[++i];
-    else if (args[i] === "--caption") opts.caption = args[++i];
-    else if (args[i] === "--dry-run") opts.dryRun = true;
+const fs = require('fs');
+const path = require('path');
+const lib = require('./lib-instagram.js');
+const arq = require('./lib-arquivo.js');
+const oti = require('./otimizar.js');
+
+const REDE = 'instagram';
+
+function args() {
+  const saida = {};
+  const argv = process.argv.slice(2);
+  for (let i = 0; i < argv.length; i++) {
+    if (!argv[i].startsWith('--')) continue;
+    const chave = argv[i].slice(2);
+    const proximo = argv[i + 1];
+    saida[chave] = proximo && !proximo.startsWith('--') ? argv[++i] : true;
   }
-  return opts;
+  return saida;
 }
 
-const TOKEN = process.env.INSTAGRAM_ACCESS_TOKEN;
-const USER_ID = process.env.INSTAGRAM_USER_ID;
-const GRAPH = "https://graph.instagram.com/v21.0";
-
-// --- Upload imagem (catbox.moe com fallback pra uguu.se) ---
-function uploadFile(filePath) {
-  const abs = path.resolve(filePath);
-  if (!fs.existsSync(abs)) throw new Error(`Arquivo nao encontrado: ${abs}`);
-
-  // Tenta catbox primeiro
-  try {
-    const result = execSync(
-      `curl -s -F "reqtype=fileupload" -F "fileToUpload=@${abs}" "https://catbox.moe/user/api.php"`,
-      { timeout: 60000 }
-    ).toString().trim();
-    if (result.startsWith("https://")) return result;
-  } catch (e) { /* catbox falhou, tenta uguu */ }
-
-  // Fallback: uguu.se
-  const result = execSync(
-    `curl -s -F "files[]=@${abs}" "https://uguu.se/upload"`,
-    { timeout: 60000 }
-  ).toString().trim();
-  try {
-    const json = JSON.parse(result);
-    if (json.files && json.files[0] && json.files[0].url) return json.files[0].url;
-  } catch (e) { /* parse falhou */ }
-  throw new Error(`Upload falhou (catbox + uguu): ${result}`);
+// O legenda.md que sai da skill /carrossel tem cabeçalho e notas internas. O que vai
+// para o Instagram é só o bloco "## Legenda (Instagram)".
+function extrairLegenda(arquivo) {
+  const bruto = fs.readFileSync(arquivo, 'utf8');
+  const marca = bruto.indexOf('## Legenda (Instagram)');
+  if (marca === -1) return bruto.trim();
+  let corpo = bruto.slice(marca + '## Legenda (Instagram)'.length);
+  const fim = corpo.search(/\n---\s*\n|\n## /);
+  if (fim !== -1) corpo = corpo.slice(0, fim);
+  return corpo.trim();
 }
 
-// --- Criar container de imagem (item de carrossel ou post unico) ---
-async function createImageContainer(imageUrl, isCarouselItem = false) {
-  const body = new URLSearchParams({
-    image_url: imageUrl,
-    access_token: TOKEN,
-  });
-  if (isCarouselItem) body.append("is_carousel_item", "true");
-  const res = await fetch(`${GRAPH}/${USER_ID}/media`, { method: "POST", body });
-  const json = await res.json();
-  if (json.error) throw new Error(`Container: ${json.error.message}`);
-  return json.id;
-}
-
-// --- Criar container de imagem unica com caption ---
-async function createSingleImageContainer(imageUrl, caption) {
-  const body = new URLSearchParams({
-    image_url: imageUrl,
-    caption,
-    access_token: TOKEN,
-  });
-  const res = await fetch(`${GRAPH}/${USER_ID}/media`, { method: "POST", body });
-  const json = await res.json();
-  if (json.error) throw new Error(`Container: ${json.error.message}`);
-  return json.id;
-}
-
-// --- Criar container de video (Reels) ---
-async function createVideoContainer(videoUrl, caption) {
-  const body = new URLSearchParams({
-    media_type: "REELS",
-    video_url: videoUrl,
-    caption,
-    access_token: TOKEN,
-  });
-  const res = await fetch(`${GRAPH}/${USER_ID}/media`, { method: "POST", body });
-  const json = await res.json();
-  if (json.error) throw new Error(`Video container: ${json.error.message}`);
-  return json.id;
-}
-
-// --- Criar container de carrossel ---
-async function createCarousel(containerIds, caption) {
-  const body = new URLSearchParams({
-    media_type: "CAROUSEL",
-    children: containerIds.join(","),
-    caption,
-    access_token: TOKEN,
-  });
-  const res = await fetch(`${GRAPH}/${USER_ID}/media`, { method: "POST", body });
-  const json = await res.json();
-  if (json.error) throw new Error(`Carousel: ${json.error.message}`);
-  return json.id;
-}
-
-// --- Poll status do container ate FINISHED ---
-async function pollStatus(containerId, timeoutMs = 60000) {
-  const deadline = Date.now() + timeoutMs;
-  while (Date.now() < deadline) {
-    const res = await fetch(`${GRAPH}/${containerId}?fields=status_code&access_token=${TOKEN}`);
-    const json = await res.json();
-    if (json.status_code === "FINISHED") return;
-    if (json.status_code === "ERROR") throw new Error(`Container ${containerId} com erro`);
-    await new Promise(r => setTimeout(r, 3000));
+function acharLegenda(pasta) {
+  for (const c of [path.join(pasta, 'legenda.md'), path.join(pasta, '..', 'legenda.md')]) {
+    if (fs.existsSync(c)) return c;
   }
-  throw new Error(`Timeout esperando container ${containerId}`);
+  return null;
 }
 
-// --- Publicar ---
-async function publish(containerId) {
-  const body = new URLSearchParams({ creation_id: containerId, access_token: TOKEN });
-  const res = await fetch(`${GRAPH}/${USER_ID}/media_publish`, { method: "POST", body });
-  const json = await res.json();
-  if (json.error) throw new Error(`Publish: ${json.error.message}`);
-  return json.id;
-}
+(async function () {
+  lib.carregarEnv();
+  const opcoes = args();
 
-// --- Permalink ---
-async function getPermalink(mediaId) {
-  const res = await fetch(`${GRAPH}/${mediaId}?fields=permalink&access_token=${TOKEN}`);
-  const json = await res.json();
-  return json.permalink || "";
-}
+  const token = lib.exigir('INSTAGRAM_ACCESS_TOKEN', 'Rode o setup da skill primeiro.');
+  const userId = lib.exigir('INSTAGRAM_USER_ID', 'Rode o setup da skill primeiro.');
 
-// =======================================================================
-async function main() {
-  const opts = parseArgs();
-  if (!TOKEN || !USER_ID) {
-    console.error("Faltam variaveis no .env (INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_USER_ID)");
-    process.exit(1);
+  // --- o que publicar ---
+  let arquivos = [];
+  let video = null;
+  let pastaPeca = null;
+  let arquivoLegenda = typeof opcoes.legenda === 'string' ? path.resolve(opcoes.legenda) : null;
+
+  if (typeof opcoes.pasta === 'string') {
+    const pasta = path.resolve(opcoes.pasta);
+    if (!fs.existsSync(pasta)) throw new Error('Pasta não encontrada: ' + pasta);
+    arquivos = oti.imagensDe(pasta);
+    if (!arquivos.length) throw new Error('Nenhuma imagem em ' + pasta);
+    pastaPeca = arq.pastaDaPeca(pasta);
+    if (!arquivoLegenda) arquivoLegenda = acharLegenda(pasta);
+  } else if (typeof opcoes.images === 'string') {
+    arquivos = opcoes.images.split(',').map((s) => path.resolve(s.trim()));
+    pastaPeca = arq.pastaDaPeca(arquivos[0]);
+    if (!arquivoLegenda) arquivoLegenda = acharLegenda(path.dirname(arquivos[0]));
+  } else if (typeof opcoes.video === 'string') {
+    video = path.resolve(opcoes.video);
+    if (!fs.existsSync(video)) throw new Error('Vídeo não encontrado: ' + video);
+    pastaPeca = arq.pastaDaPeca(video);
+    if (!arquivoLegenda) arquivoLegenda = acharLegenda(path.dirname(video));
+  } else {
+    throw new Error('Diga o que publicar: --pasta, --images ou --video.');
   }
 
-  const isVideo = !!opts.video;
-  const isCarousel = opts.images.length >= 2;
-  const isSingleImage = opts.images.length === 1;
+  let legenda;
+  if (typeof opcoes.caption === 'string') legenda = opcoes.caption;
+  else if (arquivoLegenda && fs.existsSync(arquivoLegenda)) legenda = extrairLegenda(arquivoLegenda);
+  else throw new Error('Faltou a legenda. Use --caption, --legenda <arquivo>, ou deixe um legenda.md na pasta.');
+  lib.validarLegenda(legenda);
 
-  if (!isVideo && !isCarousel && !isSingleImage) {
-    console.error("Use --images (1 ou mais imagens) ou --video (um video)");
-    process.exit(1);
+  // --- imagem pesada quebra o upload, então gera a versão leve antes ---
+  if (!video && !opcoes['sem-otimizar'] && oti.precisaOtimizar(arquivos)) {
+    const pastaOrigem = path.dirname(arquivos[0]);
+    console.log('Imagem acima de 2MB: gerando versão de 1080px antes de subir.');
+    console.log('(o Instagram reamostra pra 1080 de qualquer jeito, então nada se perde)');
+    arquivos = await oti.otimizarPasta(pastaOrigem, (linha) => console.log('  ' + linha));
+    console.log('');
   }
 
-  if (isCarousel && opts.images.length > 10) {
-    console.error("Instagram aceita no maximo 10 imagens por carrossel");
-    process.exit(1);
+  let tipo;
+  if (video) {
+    tipo = 'reels';
+  } else {
+    lib.validarImagens(arquivos);
+    tipo = arquivos.length >= lib.MIN_CARROSSEL ? 'carrossel' : 'imagem';
   }
 
-  if (opts.caption.length > 2200) {
-    console.error("Legenda max 2200 caracteres");
-    process.exit(1);
+  console.log('Tipo: ' + tipo + ' | ' + (video ? 1 : arquivos.length) + ' mídia(s) | ' + legenda.length + ' caracteres');
+
+  // --- sobe a mídia para o host público ---
+  const urls = [];
+  for (const a of video ? [video] : arquivos) {
+    urls.push(await lib.subirParaCatbox(a));
+    console.log('subiu: ' + path.basename(a));
   }
 
-  // --- VIDEO (Reels) ---
-  if (isVideo) {
-    console.log(`Fazendo upload do video pro catbox...`);
-    const videoUrl = uploadFile(opts.video);
-    console.log(`  OK: ${videoUrl}`);
+  if (opcoes['dry-run']) {
+    console.log('\nDRY RUN: mídia pronta, nada publicado.');
+    return;
+  }
 
-    if (opts.dryRun) {
-      console.log(`\nDRY RUN — video pronto mas nao publicado`);
-      return;
+  // --- Graph API ---
+  const G = lib.GRAPH;
+  const criar = async (campos) => {
+    const body = new URLSearchParams(Object.assign({ access_token: token }, campos));
+    const j = await lib.chamarGraph(G + '/' + userId + '/media', { method: 'POST', body });
+    return j.id;
+  };
+  const esperar = async (id, teto) => {
+    const limite = Date.now() + teto;
+    while (Date.now() < limite) {
+      const j = await lib.chamarGraph(G + '/' + id + '?fields=status_code&access_token=' + token);
+      if (j.status_code === 'FINISHED') return;
+      if (j.status_code === 'ERROR' || j.status_code === 'EXPIRED') {
+        throw new Error('Container ' + id + ' voltou ' + j.status_code);
+      }
+      await new Promise((r) => setTimeout(r, 3000));
     }
+    throw new Error('Timeout esperando o container ' + id);
+  };
 
-    console.log(`\nCriando container de video...`);
-    const containerId = await createVideoContainer(videoUrl, opts.caption);
-    console.log(`  Container: ${containerId}`);
-
-    console.log(`Aguardando processamento (pode levar ate 2 min)...`);
-    await pollStatus(containerId, 180000);
-
-    console.log(`Publicando...`);
-    const mediaId = await publish(containerId);
-    const link = await getPermalink(mediaId);
-    console.log(`\nPublicado como Reels!`);
-    if (link) console.log(`Link: ${link}`);
-    return;
-  }
-
-  // --- IMAGEM UNICA ---
-  if (isSingleImage) {
-    console.log(`Fazendo upload da imagem pro catbox...`);
-    const imageUrl = uploadFile(opts.images[0]);
-    console.log(`  OK: ${path.basename(opts.images[0])}`);
-
-    if (opts.dryRun) {
-      console.log(`\nDRY RUN — imagem pronta mas nao publicada`);
-      return;
+  let containerFinal;
+  if (tipo === 'reels') {
+    console.log('\nCriando container de vídeo (pode levar alguns minutos)...');
+    containerFinal = await criar({ media_type: 'REELS', video_url: urls[0], caption: legenda });
+    await esperar(containerFinal, 300000);
+  } else if (tipo === 'imagem') {
+    console.log('\nCriando container...');
+    containerFinal = await criar({ image_url: urls[0], caption: legenda });
+    await esperar(containerFinal, 90000);
+  } else {
+    console.log('\nCriando containers...');
+    const filhos = [];
+    for (const url of urls) {
+      const id = await criar({ image_url: url, is_carousel_item: 'true' });
+      await esperar(id, 90000);
+      filhos.push(id);
+      console.log('  ok: ' + id);
     }
-
-    console.log(`\nCriando container...`);
-    const containerId = await createSingleImageContainer(imageUrl, opts.caption);
-    await pollStatus(containerId);
-
-    console.log(`Publicando...`);
-    const mediaId = await publish(containerId);
-    const link = await getPermalink(mediaId);
-    console.log(`\nPublicado!`);
-    if (link) console.log(`Link: ${link}`);
-    return;
+    console.log('Montando carrossel...');
+    containerFinal = await criar({ media_type: 'CAROUSEL', children: filhos.join(','), caption: legenda });
+    await esperar(containerFinal, 90000);
   }
 
-  // --- CARROSSEL (2-10 imagens) ---
-  console.log(`Fazendo upload de ${opts.images.length} imagens pro catbox...`);
-  const imageUrls = [];
-  for (const img of opts.images) {
-    const url = uploadFile(img);
-    console.log(`  OK: ${path.basename(img)}`);
-    imageUrls.push(url);
+  console.log('Publicando...');
+  const body = new URLSearchParams({ creation_id: containerFinal, access_token: token });
+  const pub = await lib.chamarGraph(G + '/' + userId + '/media_publish', { method: 'POST', body });
+
+  let link = null;
+  try {
+    const j = await lib.chamarGraph(G + '/' + pub.id + '?fields=permalink&access_token=' + token);
+    link = j.permalink || null;
+  } catch (_) { /* permalink é conforto, não pode derrubar o resto */ }
+
+  console.log('\nPublicado!');
+  if (link) console.log(link);
+
+  // --- arquiva a peça ---
+  if (pastaPeca && !opcoes['sem-mover'] && fs.existsSync(pastaPeca)) {
+    const destino = arq.paraPublicado(pastaPeca, REDE, {
+      tipo: tipo,
+      mediaId: pub.id,
+      url: link,
+      publicadoEm: new Date().toISOString(),
+    });
+    console.log('Peça movida para ' + arq.relativo(destino));
   }
-
-  if (opts.dryRun) {
-    console.log(`\nDRY RUN — ${opts.images.length} imagens prontas mas nao publicadas`);
-    return;
-  }
-
-  console.log(`\nCriando containers no Instagram...`);
-  const containerIds = [];
-  for (const url of imageUrls) {
-    const id = await createImageContainer(url, true);
-    await pollStatus(id);
-    console.log(`  OK: ${id}`);
-    containerIds.push(id);
-  }
-
-  console.log(`\nMontando carrossel...`);
-  const carouselId = await createCarousel(containerIds, opts.caption);
-  await pollStatus(carouselId);
-
-  console.log(`\nPublicando...`);
-  const mediaId = await publish(carouselId);
-  const link = await getPermalink(mediaId);
-  console.log(`\nPublicado!`);
-  if (link) console.log(`Link: ${link}`);
-}
-
-main().catch(e => { console.error(e.message); process.exit(1); });
+})().catch(function (erro) {
+  console.error('\nErro: ' + erro.message);
+  process.exit(1);
+});

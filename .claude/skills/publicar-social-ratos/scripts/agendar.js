@@ -19,7 +19,10 @@ const fs = require('fs');
 const path = require('path');
 const lib = require('./lib-instagram.js');
 const cfl = require('./lib-cloudflare.js');
+const arq = require('./lib-arquivo.js');
+const oti = require('./otimizar.js');
 
+const REDE = 'instagram';
 const EXT_IMAGEM = ['.png', '.jpg', '.jpeg'];
 
 function args() {
@@ -134,6 +137,15 @@ function imagensDaPasta(pasta) {
   if (!fs.existsSync(arquivoLegenda)) throw new Error('Arquivo de legenda não encontrado: ' + arquivoLegenda);
   const legenda = lib.validarLegenda(extrairLegenda(arquivoLegenda));
 
+  // Imagem pesada faz o host dar 504. Gera a versão leve antes, já que o Instagram
+  // reamostra tudo para 1080 de largura de qualquer jeito.
+  if (!video && !opcoes['sem-otimizar'] && oti.precisaOtimizar(arquivos)) {
+    const pastaOrigem = path.dirname(arquivos[0]);
+    console.log('Imagem acima de 2MB: gerando versão de 1080px antes de subir.');
+    arquivos = await oti.otimizarPasta(pastaOrigem, (linha) => console.log('  ' + linha));
+    console.log('');
+  }
+
   let tipo;
   if (video) {
     tipo = 'reels';
@@ -178,6 +190,17 @@ function imagensDaPasta(pasta) {
   console.log('id: ' + id);
   console.log('Publica em: ' + formatarLocal(quando));
   console.log('O Worker acorda de 5 em 5 minutos, então a publicação sai nessa janela.');
+
+  // A peça sai da área de produção e vai para a fila, para conteudo/carrosseis/ ficar
+  // só com o que ainda não saiu. O fila.js move de novo quando o post for publicado.
+  const pastaPeca = arq.pastaDaPeca(
+    typeof opcoes.pasta === 'string' ? path.resolve(opcoes.pasta) : (video || arquivos[0])
+  );
+  if (!opcoes['sem-mover'] && fs.existsSync(pastaPeca)) {
+    const destino = arq.paraAgendado(pastaPeca, REDE, { tipo: tipo, quando: item.quando, idFila: id });
+    console.log('Peça movida para ' + arq.relativo(destino));
+  }
+
   console.log('Ver ou cancelar: node .claude/skills/publicar-social-ratos/scripts/fila.js');
 
   const dias = lib.diasAte(expira);
