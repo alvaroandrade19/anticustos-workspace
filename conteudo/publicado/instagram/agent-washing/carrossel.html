@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Carrossel | Anti Custos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@200;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Spec: .claude/skills/carrossel/references/design-system.md */
+:root{
+  --bg:#0A0A0B; --bg-2:#111114; --line:rgba(255,255,255,.14);
+  --tx:#FFFFFF; --tx-2:rgba(255,255,255,.78); --tx-3:rgba(255,255,255,.52);
+  --g1:#CDE8FF; --g2:#62A0FF; --g3:#4A72F0;
+  --grad:linear-gradient(180deg,var(--g1) 0%,var(--g2) 48%,var(--g3) 100%);
+  --r:40px;
+  --F:'Schibsted Grotesk',system-ui,sans-serif;
+  --M:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{background:#000;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0;
+  font-family:var(--F);-webkit-font-smoothing:antialiased}
+::selection{background:var(--g3);color:#fff}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#26262B;border-radius:9999px}
+
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--bg);color:var(--tx)}
+
+.grao{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.foto{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center}
+.scrim-base{position:absolute;inset:0;z-index:1;background:rgba(8,8,10,.55)}
+.scrim-rampa{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
+  rgba(8,8,10,.10) 0%,rgba(8,8,10,.35) 38%,rgba(8,8,10,.86) 66%,rgba(8,8,10,.97) 100%)}
+.scrim-rampa.alta{background:linear-gradient(180deg,
+  rgba(8,8,10,.12) 0%,rgba(8,8,10,.45) 30%,rgba(8,8,10,.92) 55%,rgba(8,8,10,.98) 100%)}
+
+.atmosfera{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(160deg,#101218 0%,#0A0A0B 58%,#08080A 100%)}
+
+.glow{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(56% 40% at 50% 60%,rgba(98,160,255,.13) 0%,transparent 72%)}
+
+.realce{background:var(--g1);color:#0A0A0B;padding:.04em .26em;border-radius:6px;
+  font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+.marca{position:absolute;top:56px;left:56px;right:56px;z-index:10;display:flex;
+  justify-content:space-between;font-size:22px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tx-3)}
+
+.corpo-area{position:absolute;left:56px;right:56px;top:150px;bottom:130px;z-index:10;
+  display:flex;flex-direction:column;justify-content:center}
+.corpo-area.base{top:auto;justify-content:flex-end}
+.corpo-area.top{justify-content:flex-start}
+.corpo-area.abaixo{top:900px;justify-content:flex-start}
+.corpo-area.direita{left:520px}
+
+.hl{font-weight:800;letter-spacing:-.03em;line-height:.95;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hl-capa{font-size:104px}
+.hl-int{font-size:82px;line-height:.98;letter-spacing:-.025em}
+
+.corpo{font-size:38px;font-weight:400;line-height:1.32;letter-spacing:-.01em;color:var(--tx-2);
+  margin-top:34px}
+.corpo b{font-weight:600;color:var(--tx)}
+.corpo + .corpo{margin-top:22px}
+.corpo-sm{font-size:34px}
+.corpo-lg{font-size:44px}
+
+.num{font-size:120px;font-weight:200;line-height:1;letter-spacing:-.02em;color:var(--tx)}
+.regua{height:1px;background:var(--line);margin:28px 0 44px}
+
+.caixa{position:absolute;top:120px;left:40px;right:40px;height:740px;z-index:5;
+  border-radius:var(--r);overflow:hidden;background-size:cover;background-position:center}
+.caixa.contain{background-color:rgba(255,255,255,.05);background-size:contain;
+  background-repeat:no-repeat;background-position:center}
+
+.rodape{position:absolute;bottom:0;left:0;right:0;padding:0 56px 48px;z-index:10;
+  display:flex;align-items:center;gap:26px}
+.tag{font-size:16px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--g2);white-space:nowrap;flex-shrink:0}
+.trilho{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.10);overflow:hidden}
+.preench{height:100%;border-radius:2px;background:var(--g2)}
+.passo{font-family:var(--M);font-size:16px;font-weight:500;letter-spacing:.08em;color:var(--tx-3)}
+
+.resultado{font-family:var(--M);font-size:140px;font-weight:500;line-height:1;letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums;margin-top:40px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.res-label{font-size:28px;color:var(--tx-3);margin-top:14px}
+.nota{font-size:24px;line-height:1.35;color:var(--tx-3);margin-top:30px}
+
+.linha{display:flex;gap:22px;margin-top:26px}
+.linha .mk{color:var(--g2);font-size:34px;line-height:1.3;flex-shrink:0}
+.linha .tx{font-size:35px;line-height:1.32;color:var(--tx-2)}
+.linha .tx b{color:var(--tx);font-weight:600}
+
+.split{position:absolute;left:0;top:0;bottom:0;width:44%;z-index:1;background:var(--g2);
+  display:flex;align-items:flex-end;padding:56px}
+.split .rotulo{font-size:96px;font-weight:800;color:#0A0A0B;line-height:.95;letter-spacing:-.03em}
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 01 · L1 capa com imagem de fundo -->
+<section class="slide">
+  <div class="foto" style="background-image:url('imagens/capa.jpg')"></div>
+  <div class="scrim-base"></div><div class="scrim-rampa"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area base">
+    <h1 class="hl hl-capa" style="font-size:92px">40% dos projetos de IA agêntica vão ser cancelados até 2027</h1>
+    <p class="corpo corpo-sm"><b>O motivo não é a tecnologia.</b></p>
+    <p class="nota">Gartner, 2025</p>
+  </div>
+  <div class="rodape"><span class="tag">Hook</span><div class="trilho"><div class="preench" style="width:11%"></div></div><span class="passo">01/09</span></div>
+</section>
+
+<!-- 02 · L2 texto puro, contexto -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <h2 class="hl hl-int">A Gartner batizou o fenômeno em 2025: agent washing</h2>
+    <p class="corpo">Pegar chatbot, RPA ou automação de fluxo fixo e vender como agente de IA, sem construir a parte que faz a diferença.</p>
+  </div>
+  <div class="rodape"><span class="tag">O termo</span><div class="trilho"><div class="preench" style="width:22%"></div></div><span class="passo">02/09</span></div>
+</section>
+
+<!-- 03 · número de resultado -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <p class="corpo corpo-lg" style="margin-top:0"><b>O tamanho do problema.</b> Entre milhares de fornecedores anunciando agentes de IA, a Gartner estima que só uma fração seja real.</p>
+    <div class="resultado" style="margin-top:56px">~130</div>
+    <div class="res-label" style="font-size:32px;margin-top:18px">fornecedores reais de agente de IA, segundo a Gartner (2025)</div>
+    <p class="corpo corpo-lg" style="margin-top:48px">O resto é ferramenta de sempre com nome novo.</p>
+  </div>
+  <div class="rodape"><span class="tag">O tamanho</span><div class="trilho"><div class="preench" style="width:33%"></div></div><span class="passo">03/09</span></div>
+</section>
+
+<!-- 04 · L2 a virada -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <p class="corpo corpo-lg" style="margin-top:0"><b>Quem paga a conta é quem compra.</b></p>
+    <p class="corpo corpo-lg" style="margin-top:40px">Você contrata um agente, ele responde certinho dentro do roteiro e trava assim que a pergunta sai do script. Já tentei automação antes e não funcionou, familiar?</p>
+    <p class="corpo corpo-lg" style="margin-top:56px"><b>Você não errou. Comprou a coisa errada.</b></p>
+    <p class="corpo corpo-lg" style="margin-top:40px">Existem dois produtos diferentes vendidos com o mesmo nome, e a diferença não é sutil.</p>
+  </div>
+  <div class="rodape"><span class="tag">A virada</span><div class="trilho"><div class="preench" style="width:44%"></div></div><span class="passo">04/09</span></div>
+</section>
+
+<!-- 05 · L2 agente ferramenta -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <h2 class="hl hl-int" style="font-size:72px;margin-top:0">Agente Ferramenta</h2>
+    <p class="corpo corpo-lg"><b>Executa uma tarefa e segue um roteiro fixo.</b></p>
+    <p class="corpo corpo-lg">Sem personalidade e sem julgamento: se a pergunta sai do script, trava ou repete. É isso que a maioria vende como agente de IA.</p>
+  </div>
+  <div class="rodape"><span class="tag">Ferramenta</span><div class="trilho"><div class="preench" style="width:55%"></div></div><span class="passo">05/09</span></div>
+</section>
+
+<!-- 06 · L3 imagem em caixa, agente neural -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="caixa contain" style="background-image:url('imagens/slide.jpg')"></div>
+  <div class="corpo-area abaixo">
+    <p class="corpo-sm corpo" style="margin-top:0"><b>Agente Neural.</b> Tem conhecimento próprio, não só um manual de respostas, mais um motor de decisão e personalidade consistente.</p>
+    <p class="corpo corpo-sm">O motor é a parte que quase ninguém constrói: o que faz ele decidir diferente conforme a situação, em vez de só seguir um fluxograma.</p>
+  </div>
+  <div class="rodape"><span class="tag">Neural</span><div class="trilho"><div class="preench" style="width:66%"></div></div><span class="passo">06/09</span></div>
+</section>
+
+<!-- 07 · L7 split, catraca vs porteiro -->
+<section class="slide">
+  <div class="split"><span class="rotulo">≠</span></div>
+  <div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area direita">
+    <p class="corpo corpo-lg" style="margin-top:0"><b>Agente Ferramenta é uma catraca: passa quem tem o cartão certo.</b></p>
+    <p class="corpo corpo-lg"><b>Agente Neural é um porteiro: avalia a situação e decide.</b></p>
+    <p class="corpo">Catraca não erra o script. Também não resolve o que o script não previu.</p>
+  </div>
+  <div class="rodape"><span class="tag">A diferença</span><div class="trilho"><div class="preench" style="width:77%"></div></div><span class="passo">07/09</span></div>
+</section>
+
+<!-- 08 · L5 numerado, o teste -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area top">
+    <div><div class="num">3</div><div class="regua"></div></div>
+    <p class="corpo corpo-lg" style="margin-top:0"><b>3 perguntas antes de comprar o próximo agente de IA:</b></p>
+    <div class="linha"><span class="mk">›</span><span class="tx">Ele tem uma base de conhecimento própria, ou só um roteiro de respostas?</span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx">Existe uma lógica de decisão declarada, ou é tudo "se isso, então aquilo"?</span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx">Ele muda de resposta quando o cliente sai do previsto, ou trava?</span></div>
+    <p class="corpo" style="margin-top:26px"><b>Três não sei</b> e você comprou um chatbot com nome bonito.</p>
+  </div>
+  <div class="rodape"><span class="tag">O teste</span><div class="trilho"><div class="preench" style="width:88%"></div></div><span class="passo">08/09</span></div>
+</section>
+
+<!-- 09 · L8 CTA -->
+<section class="slide">
+  <div class="glow"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area base" style="bottom:130px">
+    <p class="corpo" style="margin-top:0;margin-bottom:12px">Agent washing não é golpe. É hype sem controle de qualidade.</p>
+    <h2 class="hl hl-int" style="margin-top:10px">Quem paga o preço é sempre quem compra sem saber a diferença</h2>
+    <p class="corpo"><b>Salva esse carrossel:</b> vai te servir na próxima reunião de venda de agente de IA.</p>
+  </div>
+  <div class="rodape"><span class="tag">Anti Custos</span><div class="trilho"><div class="preench" style="width:100%"></div></div><span class="passo">09/09</span></div>
+</section>
+
+</body>
+</html>

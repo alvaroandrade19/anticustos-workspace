@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Carrossel | Anti Custos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@200;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Spec: .claude/skills/carrossel/references/design-system.md */
+:root{
+  --bg:#0A0A0B; --bg-2:#111114; --line:rgba(255,255,255,.14);
+  --tx:#FFFFFF; --tx-2:rgba(255,255,255,.78); --tx-3:rgba(255,255,255,.52);
+  /* Gradiente Azul. Contraste sobre --bg: 15,6:1 / 7,5:1 / 4,7:1 */
+  --g1:#CDE8FF; --g2:#62A0FF; --g3:#4A72F0;
+  --grad:linear-gradient(180deg,var(--g1) 0%,var(--g2) 48%,var(--g3) 100%);
+  --r:40px;
+  --F:'Schibsted Grotesk',system-ui,sans-serif;
+  --M:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{background:#000;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0;
+  font-family:var(--F);-webkit-font-smoothing:antialiased}
+::selection{background:var(--g3);color:#fff}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#26262B;border-radius:9999px}
+
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--bg);color:var(--tx)}
+
+/* Grão: separa preto chapado de preto com matéria */
+.grao{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Foto e scrim de duas camadas. Nunca confiar na foto ser escura. */
+.foto{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center top}
+.scrim-base{position:absolute;inset:0;z-index:1;background:rgba(8,8,10,.55)}
+.scrim-rampa{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
+  rgba(8,8,10,.10) 0%,rgba(8,8,10,.35) 38%,rgba(8,8,10,.86) 66%,rgba(8,8,10,.97) 100%)}
+.scrim-rampa.alta{background:linear-gradient(180deg,
+  rgba(8,8,10,.12) 0%,rgba(8,8,10,.45) 30%,rgba(8,8,10,.92) 55%,rgba(8,8,10,.98) 100%)}
+
+/* Atmosfera: gradiente de fundo quase imperceptível, só em slide sem imagem. */
+.atmosfera{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(160deg,#101218 0%,#0A0A0B 58%,#08080A 100%)}
+
+/* Glow: resolve o slide sem foto sem parecer que faltou foto */
+.glow{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(56% 40% at 50% 60%,rgba(98,160,255,.13) 0%,transparent 72%)}
+
+/* Realce: um por peça inteira */
+.realce{background:var(--g1);color:#0A0A0B;padding:.04em .26em;border-radius:6px;
+  font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+/* Split (L7): painel escuro em metade do slide, separado por linha. Rótulo leva o gradiente da marca. */
+.split{position:absolute;left:0;top:0;bottom:0;width:44%;z-index:1;background:var(--bg-2);
+  border-right:1px solid var(--line);display:flex;align-items:flex-end;padding:56px 56px 130px}
+.split .rotulo{font-size:96px;font-weight:800;line-height:.95;letter-spacing:-.03em;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.corpo-area.direita{left:520px}
+
+/* Placeholder de imagem. Trocar por background-image:url('imagens/xx.jpg') */
+.ph{background:radial-gradient(120% 90% at 50% 18%,#3A3F4A 0%,#22252C 45%,#111318 100%)}
+
+.marca{position:absolute;top:56px;left:56px;right:56px;z-index:10;display:flex;
+  justify-content:space-between;font-size:22px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tx-3)}
+
+.corpo-area{position:absolute;left:56px;right:56px;top:150px;bottom:130px;z-index:10;
+  display:flex;flex-direction:column;justify-content:center}
+.corpo-area.base{top:auto;justify-content:flex-end}
+.corpo-area.top{justify-content:flex-start}
+
+/* Headline: gradiente corre no bloco inteiro */
+.hl{font-weight:800;letter-spacing:-.03em;line-height:.95;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hl-capa{font-size:104px}
+.hl-int{font-size:82px;line-height:.98;letter-spacing:-.025em}
+
+/* Diagramação de ênfase */
+.corpo{font-size:38px;font-weight:400;line-height:1.32;letter-spacing:-.01em;color:var(--tx-2);
+  margin-top:34px}
+.corpo b{font-weight:600;color:var(--tx)}
+.corpo + .corpo{margin-top:22px}
+.corpo-sm{font-size:34px}
+.corpo-lg{font-size:44px}
+
+/* Numeral do layout numerado */
+.num{font-size:120px;font-weight:200;line-height:1;letter-spacing:-.02em;color:var(--tx)}
+.regua{height:1px;background:var(--line);margin:28px 0 44px}
+
+/* Rodapé */
+.rodape{position:absolute;bottom:0;left:0;right:0;padding:0 56px 48px;z-index:10;
+  display:flex;align-items:center;gap:26px}
+.tag{font-size:16px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--g2);white-space:nowrap;flex-shrink:0}
+.trilho{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.10);overflow:hidden}
+.preench{height:100%;border-radius:2px;background:var(--g2)}
+.passo{font-family:var(--M);font-size:16px;font-weight:500;letter-spacing:.08em;color:var(--tx-3)}
+
+/* Linhas com marcador */
+.linha{display:flex;gap:22px;margin-top:26px}
+.linha .mk{color:var(--g2);font-size:34px;line-height:1.3;flex-shrink:0}
+.linha .tx{font-size:35px;line-height:1.32;color:var(--tx-2)}
+.linha .tx b{color:var(--tx);font-weight:600}
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 01 · L1 capa com imagem de fundo -->
+<section class="slide">
+  <div class="foto" style="background-image:url('imagens/capa.jpg')"></div>
+  <div class="scrim-base"></div><div class="scrim-rampa"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area base">
+    <h1 class="hl hl-capa" style="font-size:96px">Um erro pequeno de IA sem revisão: até somar um rombo silencioso</h1>
+    <p class="corpo corpo-sm">Uma fábrica descobriu isso do jeito mais caro possível, com o galpão cheio de um produto que ninguém pediu.</p>
+  </div>
+  <div class="rodape"><span class="tag">Abertura</span><div class="trilho"><div class="preench" style="width:11%"></div></div><span class="passo">01/09</span></div>
+</section>
+
+<!-- 02 · L2 texto puro, hook -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <p class="corpo corpo-lg"><b>Você provavelmente já deu para alguma ferramenta de IA um poder pequeno dentro da sua empresa.</b></p>
+    <p class="corpo">Aprovar um texto, mandar uma mensagem, ajustar um pedido. Ninguém tratou isso como decisão de verdade, porque parecia pequeno demais para merecer revisão. É exatamente aí que o erro mora.</p>
+  </div>
+  <div class="rodape"><span class="tag">O risco</span><div class="trilho"><div class="preench" style="width:22%"></div></div><span class="passo">02/09</span></div>
+</section>
+
+<!-- 03 · L7 split, mecanismo -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="split"><div class="rotulo" style="font-size:66px">A IA não avisa quando erra</div></div>
+  <div class="corpo-area direita">
+    <p class="corpo">Um sistema de IA acerta muito dentro do padrão que já viu e mantém a mesma confiança quando sai dele. Sem alguém revisando, o erro não soa como alarme. Ele se repete no próximo ciclo, igual ao anterior, até pesar na conta.</p>
+  </div>
+  <div class="rodape"><span class="tag">O engano</span><div class="trilho"><div class="preench" style="width:33%"></div></div><span class="passo">03/09</span></div>
+</section>
+
+<!-- 04 · L2 prova A, parte 1 -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <p class="corpo"><b>O sistema não reconheceu o rótulo novo.</b> Uma fábrica de bebidas lançou uma lata de edição especial para uma data comemorativa, e o sistema de produção leu a embalagem como falha de impressão e mandou fabricar ainda mais para compensar o que via como erro.</p>
+    <p class="corpo">Ninguém interrompeu a linha na hora, porque nada parecia quebrado.</p>
+  </div>
+  <div class="rodape"><span class="tag">O caso</span><div class="trilho"><div class="preench" style="width:44%"></div></div><span class="passo">04/09</span></div>
+</section>
+
+<!-- 05 · L4 imagem de fundo com scrim inferior, prova A parte 2 -->
+<section class="slide">
+  <div class="foto" style="background-image:url('imagens/slide.jpg')"></div>
+  <div class="scrim-base"></div><div class="scrim-rampa alta"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area base">
+    <p class="corpo"><b>O sistema obedeceu direito, e é isso que assusta.</b> Ninguém validou a decisão antes de ela gerar centenas de milhares de latas em excesso, e o problema só apareceu quando o galpão não tinha mais espaço.</p>
+    <p class="corpo corpo-sm">Caso relatado pela CNBC, com informação do CISO John Bruggeman, da CBTS, em 01/03/2026.</p>
+  </div>
+  <div class="rodape"><span class="tag">O caso</span><div class="trilho"><div class="preench" style="width:55%"></div></div><span class="passo">05/09</span></div>
+</section>
+
+<!-- 06 · L7 split, prova B -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="split"><div class="rotulo" style="font-size:60px">Confiante mesmo quando erra</div></div>
+  <div class="corpo-area direita">
+    <p class="corpo">A pesquisadora Melanie Mitchell descreve o motivo. Um sistema de IA acerta muito dentro do padrão que já reconhece e mantém a mesma confiança quando esse padrão muda.</p>
+    <p class="corpo">É essa confiança constante que esconde o erro no momento em que ele acontece.</p>
+  </div>
+  <div class="rodape"><span class="tag">A ciência</span><div class="trilho"><div class="preench" style="width:66%"></div></div><span class="passo">06/09</span></div>
+</section>
+
+<!-- 07 · L5 numerado, aplicação -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area top">
+    <div><div class="num">3</div><div class="regua"></div></div>
+    <p class="corpo corpo-lg">Três perguntas separam operação com IA sob controle de operação correndo risco escondido.</p>
+    <div class="linha"><span class="mk">›</span><span class="tx">O que essa IA aprova, move ou fala sozinha hoje.</span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx">Quem revisa isso, quando, e com que poder de parar.</span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx">Quem perceberia se ela errasse quieta por um mês.</span></div>
+    <p class="corpo" style="margin-top:26px"><b>Uma resposta vazia já é o sintoma.</b></p>
+  </div>
+  <div class="rodape"><span class="tag">3 perguntas</span><div class="trilho"><div class="preench" style="width:77%"></div></div><span class="passo">07/09</span></div>
+</section>
+
+<!-- 08 · L2 tese, direção -->
+<section class="slide">
+  <div class="glow"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <p class="corpo">A regra que resolve isso é simples. <b>A IA propõe, com a evidência do lado, e o dono decide.</b></p>
+    <p class="corpo">O que é barato o bastante para errar sem drama anda sozinho. O que é caro o bastante para doer sempre passa pelo responsável antes de acontecer.</p>
+  </div>
+  <div class="rodape"><span class="tag">A regra</span><div class="trilho"><div class="preench" style="width:88%"></div></div><span class="passo">08/09</span></div>
+</section>
+
+<!-- 09 · L8 CTA -->
+<section class="slide">
+  <div class="glow"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area base" style="bottom:130px">
+    <p class="corpo corpo-lg"><b>Você tem alguma decisão rodando sozinha na sua operação hoje?</b></p>
+    <p class="corpo">No WhatsApp, numa planilha, numa aprovação. Conta nos comentários. Eu respondo.</p>
+    <p class="corpo" style="margin-top:30px;font-weight:600;color:var(--tx);letter-spacing:-.02em">Anti Custos</p>
+  </div>
+  <div class="rodape"><span class="tag">Anti Custos</span><div class="trilho"><div class="preench" style="width:100%"></div></div><span class="passo">09/09</span></div>
+</section>
+
+</body>
+</html>

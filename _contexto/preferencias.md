@@ -21,6 +21,11 @@ Sobretudo: responder também à pergunta implícita, "o que isso realmente signi
 - Neutralidade de fachada, hedge desnecessário, listar opções sem recomendar.
 - Entusiasmo performático e elogio ao interlocutor.
 
+## Regras de ofício
+- Teste da cópia barata. Toda peça carrega pelo menos um número, nome próprio, framework ou fato que só existe no nosso contexto. Se qualquer pessoa com Google escreveria a mesma frase, é clichê genérico e sai.
+- Conceito técnico com tradução no mesmo fôlego. Pode citar termo técnico e fonte, desde que a frase seguinte diga em português simples o que muda na prática. Nunca explicar um mecanismo com o vocabulário do próprio mecanismo.
+- Voz vem do ritmo, não de autobiografia. História pessoal só entra quando a peça pede, nunca como muleta pra preencher a falta de prova.
+
 ## Estilo geral
 Prosa em primeiro lugar, lista só quando a informação é de fato uma lista. Frase curta quando a ideia é simples, frase longa quando a ideia exige. Português do Brasil, informal mas competente, sem gíria forçada.
 

@@ -198,11 +198,19 @@ Uso: quando a peça cita alguém de verdade, com nome e fonte. Nunca para invent
 
 ### L7, Split
 
-Metade do slide é bloco sólido em `--g2` com o numeral ou o rótulo em texto quase preto, a outra
+Metade do slide é painel em `--bg-2` com borda de 1px em `--line` separando do resto, e o numeral ou
+rótulo dentro dele leva o gradiente da marca como texto, do mesmo jeito que a headline. A outra
 metade é o texto sobre `--bg`. Divisão vertical.
 
-Uso: quebra de ritmo no meio da peça, ou contraste entre duas ideias. Texto sobre o bloco sólido é
-sempre `#0A0A0B`, que dá 7,5:1. Nunca branco sobre `--g2`, que reprova.
+Uso: quebra de ritmo no meio da peça, ou contraste entre duas ideias. O painel é ancorado embaixo
+(`align-items:flex-end`), então o padding inferior dele tem que respeitar a mesma área segura do
+rodapé, 130px, senão o rótulo colide com a tag e a barra de progresso quando o texto quebra em
+várias linhas.
+
+*Correção de 2026-09-10: a versão original preenchia o painel com `--g2` sólido e texto quase preto
+por cima. Ficou com cara de bloco de cor de template, e a marca não usa acento como preenchimento
+grande em nenhum outro lugar, só em texto, ícone e borda. Trocado por painel escuro com o rótulo em
+gradiente, que é o mesmo tratamento da headline e mantém a peça inteira em preto com um acento só.*
 
 ### L8, CTA
 

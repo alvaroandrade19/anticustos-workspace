@@ -138,6 +138,9 @@ Mais a legenda do Instagram. Fechar com: "Ajusta o que quiser. Quando estiver ok
 
 ## Etapa 6: Imagens
 
+Criar `conteudo/carrosseis/[tema]/imagens/` antes de perguntar, mesmo sem saber ainda se vai ter
+imagem. O usuário não consegue jogar arquivo numa pasta que não existe.
+
 Analisar quais slides ganham com imagem e sugerir (regra em `references/design-system.md`: só slide
 com menos de 60% de preenchimento textual). Perguntar numa mensagem:
 

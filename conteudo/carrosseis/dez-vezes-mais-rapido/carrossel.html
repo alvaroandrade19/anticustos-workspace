@@ -35,6 +35,7 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
 /* Foto e scrim de duas camadas. Nunca confiar na foto ser escura. */
 .foto{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center top}
 .scrim-base{position:absolute;inset:0;z-index:1;background:rgba(8,8,10,.55)}
+.scrim-base.clara{background:rgba(8,8,10,.68)}
 .scrim-rampa{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
   rgba(8,8,10,.10) 0%,rgba(8,8,10,.35) 38%,rgba(8,8,10,.86) 66%,rgba(8,8,10,.97) 100%)}
 .scrim-rampa.alta{background:linear-gradient(180deg,
@@ -54,27 +55,11 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
 .realce{background:var(--g1);color:#0A0A0B;padding:.04em .26em;border-radius:6px;
   font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 
-/* Numeral de textura: matéria, diferente do contador do rodapé */
-.textura{position:absolute;right:-20px;bottom:60px;z-index:1;pointer-events:none;
-  font-size:440px;font-weight:800;line-height:1;letter-spacing:-.06em;color:rgba(255,255,255,.035)}
-
 /* Citação (L6) */
 .aspas{position:absolute;left:40px;top:150px;z-index:1;pointer-events:none;
   font-size:280px;line-height:1;color:rgba(255,255,255,.08);font-weight:800}
 .citacao{font-size:46px;font-weight:400;line-height:1.28;color:var(--tx);letter-spacing:-.015em}
 .autoria{font-size:26px;color:var(--tx-3);margin-top:30px}
-
-/* Split (L7): painel escuro em metade do slide, separado por linha. Rótulo leva o gradiente da
-   marca como texto, igual headline. Nunca preencher o painel com --g2 sólido: vira bloco de template. */
-.split{position:absolute;left:0;top:0;bottom:0;width:44%;z-index:1;background:var(--bg-2);
-  border-right:1px solid var(--line);display:flex;align-items:flex-end;padding:56px 56px 130px}
-.split .rotulo{font-size:96px;font-weight:800;line-height:.95;letter-spacing:-.03em;
-  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.corpo-area.direita{left:520px}
-
-/* Print de tela: contain, nunca cover, para não cortar a informação do print */
-.caixa.print{background-color:rgba(255,255,255,.05);background-size:contain;
-  background-repeat:no-repeat;background-position:center}
 
 /* Placeholder de imagem. Trocar por background-image:url('imagens/xx.jpg') */
 .ph{background:radial-gradient(120% 90% at 50% 18%,#3A3F4A 0%,#22252C 45%,#111318 100%)}
@@ -89,8 +74,6 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
 .corpo-area.base{top:auto;justify-content:flex-end}
 /* .top: layout numerado, ancora no alto */
 .corpo-area.top{justify-content:flex-start}
-/* .abaixo: texto entra depois da caixa de imagem (L3) */
-.corpo-area.abaixo{top:900px;justify-content:flex-start}
 
 /* Headline: gradiente corre no bloco inteiro, cada linha pega uma faixa da rampa */
 .hl{font-weight:800;letter-spacing:-.03em;line-height:.95;
@@ -98,7 +81,7 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
 .hl-capa{font-size:104px}
 .hl-int{font-size:82px;line-height:.98;letter-spacing:-.025em}
 
-/* Diagramação de ênfase: afirmação em 700 branco, desenvolvimento em 400 */
+/* Diagramação de ênfase: afirmação em destaque, desenvolvimento em tx-2 */
 .corpo{font-size:38px;font-weight:400;line-height:1.32;letter-spacing:-.01em;color:var(--tx-2);
   margin-top:34px}
 .corpo b{font-weight:600;color:var(--tx)}
@@ -109,10 +92,7 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
 /* Numeral do layout numerado */
 .num{font-size:120px;font-weight:200;line-height:1;letter-spacing:-.02em;color:var(--tx)}
 .regua{height:1px;background:var(--line);margin:28px 0 44px}
-
-/* Caixa de imagem (L3) */
-.caixa{position:absolute;top:120px;left:40px;right:40px;height:740px;z-index:5;
-  border-radius:var(--r);overflow:hidden;background-size:cover;background-position:center}
+.nota{font-size:24px;line-height:1.35;color:var(--tx-3);margin-top:30px}
 
 /* Rodapé: rótulo de seção, progresso e contador */
 .rodape{position:absolute;bottom:0;left:0;right:0;padding:0 56px 48px;z-index:10;
@@ -122,21 +102,6 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
 .trilho{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.10);overflow:hidden}
 .preench{height:100%;border-radius:2px;background:var(--g2)}
 .passo{font-family:var(--M);font-size:16px;font-weight:500;letter-spacing:.08em;color:var(--tx-3)}
-
-/* Tabela de conta aberta */
-.tab{width:100%;border-collapse:collapse;margin-top:20px}
-.tab th{background:rgba(255,255,255,.06);padding:18px 24px;font-size:18px;font-weight:600;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3);text-align:left}
-.tab th:last-child{text-align:right}
-.tab td{padding:24px;font-size:31px;color:var(--tx-2);border-bottom:1px solid var(--line)}
-.tab td:last-child{font-family:var(--M);font-weight:500;color:var(--tx);text-align:right;
-  font-variant-numeric:tabular-nums;white-space:nowrap}
-.tab tr:last-child td{border-bottom:none;color:var(--tx);font-weight:600}
-.resultado{font-family:var(--M);font-size:132px;font-weight:500;line-height:1;letter-spacing:-.04em;
-  font-variant-numeric:tabular-nums;margin-top:40px;
-  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.res-label{font-size:30px;color:var(--tx-3);margin-top:10px}
-.nota{font-size:24px;line-height:1.35;color:var(--tx-3);margin-top:30px}
 
 /* Linhas com marcador */
 .linha{display:flex;gap:22px;margin-top:26px}
@@ -156,21 +121,16 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
 </head>
 <body>
 
-<!-- =========================================================================
-  Trocar as classes .ph por background-image:url('imagens/NOME.jpg') nos
-  elementos .foto e .caixa. Nada mais precisa mudar para a imagem entrar.
-========================================================================== -->
-
 <!-- 01 · L1 capa com imagem de fundo -->
 <section class="slide">
-  <div class="foto ph"></div>
+  <div class="foto" style="background-image:url('imagens/capa.jpg')"></div>
   <div class="scrim-base"></div><div class="scrim-rampa"></div><div class="grao"></div>
   <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
   <div class="corpo-area base">
-    <h1 class="hl hl-capa">Investigando o custo que some dentro da folha de pagamento</h1>
-    <p class="corpo corpo-sm"><b>Toda PME de serviço paga por ele todo mês.</b> Nenhuma consegue apontar em que linha do orçamento ele está.</p>
+    <h1 class="hl hl-capa" style="font-size:86px;text-wrap:balance">A promessa de dez vezes mais rápido: por que a entrega não acelerou</h1>
+    <p class="corpo corpo-sm"><b>O time produz mais código com IA.</b> O resultado que chega no cliente não anda no mesmo passo.</p>
   </div>
-  <div class="rodape"><span class="tag">Diagnóstico</span><div class="trilho"><div class="preench" style="width:11%"></div></div><span class="passo">01/09</span></div>
+  <div class="rodape"><span class="tag">A tese</span><div class="trilho"><div class="preench" style="width:11%"></div></div><span class="passo">01/09</span></div>
 </section>
 
 <!-- 02 · L2 texto puro, hook -->
@@ -178,20 +138,20 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
   <div class="atmosfera"></div><div class="grao"></div>
   <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
   <div class="corpo-area">
-    <h2 class="hl hl-int">Alguém responde a mesma pergunta quarenta vezes por dia</h2>
-    <p class="corpo"><b>Preço, prazo, horário, status do pedido.</b> As perguntas são sempre as mesmas e as respostas também.</p>
-    <p class="corpo">Esse trabalho aparece na sua folha como salário, porque não existe nenhuma linha contábil chamada <span class="realce">repetição</span>.</p>
+    <h2 class="hl hl-int">Você comprou uma promessa de dez vezes mais rápido</h2>
+    <p class="corpo"><b>O time realmente produz mais código com IA.</b> Só que passados os primeiros meses, ninguém consegue apontar onde foi parar esse ganho, porque ele nunca chegou inteiro na entrega final.</p>
   </div>
-  <div class="rodape"><span class="tag">O problema</span><div class="trilho"><div class="preench" style="width:22%"></div></div><span class="passo">02/09</span></div>
+  <div class="rodape"><span class="tag">O contexto</span><div class="trilho"><div class="preench" style="width:22%"></div></div><span class="passo">02/09</span></div>
 </section>
 
-<!-- 03 · L3 imagem em caixa -->
+<!-- 03 · L4 imagem de fundo com scrim inferior -->
 <section class="slide">
-  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="foto" style="background-image:url('imagens/slide.jpg');background-position:center"></div>
+  <div class="scrim-base clara"></div><div class="scrim-rampa alta"></div><div class="grao"></div>
   <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
-  <div class="caixa ph"></div>
-  <div class="corpo-area abaixo">
-    <p class="corpo"><b>A contabilidade registra pessoas, não tarefas.</b> O plano de contas tem cargo, encargo e provisão, só que nenhum campo separa o que a pessoa faz por julgamento do que ela faz por repetição.</p>
+  <div class="corpo-area base">
+    <h2 class="hl hl-int">A IA multiplica o que se produz, não a capacidade de conferir</h2>
+    <p class="corpo"><b>O gargalo não desaparece quando a produção acelera, ele muda de endereço.</b> Sai de quem escreve e vai para quem confere, e essa conta raramente entra na hora de decidir comprar a ferramenta.</p>
   </div>
   <div class="rodape"><span class="tag">Por que acontece</span><div class="trilho"><div class="preench" style="width:33%"></div></div><span class="passo">03/09</span></div>
 </section>
@@ -201,57 +161,51 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
   <div class="atmosfera"></div><div class="grao"></div>
   <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
   <div class="corpo-area top">
-    <div><div class="num">01</div><div class="regua"></div></div>
-    <p class="corpo corpo-lg">Reunião de corte de custo trabalha com as linhas que existem no orçamento. A repetição não é uma delas, então ela atravessa o ano inteiro sem ser discutida.</p>
-    <p class="corpo corpo-lg"><b>Quando alguém enfim olha para a linha do salário, a conversa vira demissão e morre ali mesmo.</b></p>
+    <div><div class="num">54%</div><div class="regua"></div></div>
+    <p class="corpo corpo-lg"><b>O defeito por entrega multiplicou por seis em times que adotaram IA para codar, saindo de 9% para 54% por desenvolvedor.</b></p>
+    <p class="corpo corpo-lg">A mesma medição, com 22 mil desenvolvedores e 4 mil times, mostra 861% mais código jogado fora e refeito semanas depois, e revisão consumindo 441% mais tempo.</p>
+    <p class="corpo corpo-lg">31% das entregas vão ao ar sem ninguém revisar antes.</p>
+    <p class="nota">O'Reilly Radar sobre dados da Faros AI, 2026</p>
   </div>
-  <div class="rodape"><span class="tag">O mecanismo</span><div class="trilho"><div class="preench" style="width:44%"></div></div><span class="passo">04/09</span></div>
+  <div class="rodape"><span class="tag">A prova</span><div class="trilho"><div class="preench" style="width:44%"></div></div><span class="passo">04/09</span></div>
 </section>
 
-<!-- 05 · conta aberta -->
+<!-- 05 · L2 linhas com marcador -->
 <section class="slide">
   <div class="atmosfera"></div><div class="grao"></div>
   <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
   <div class="corpo-area">
-    <h2 class="hl hl-int" style="font-size:64px">A conta, com a base à mostra</h2>
-    <table class="tab">
-      <tr><th>Entrada</th><th>Valor</th></tr>
-      <tr><td>Salário de quem atende</td><td>R$ 2.500</td></tr>
-      <tr><td>Custo real com encargos, cerca de 1,6x</td><td>R$ 4.000</td></tr>
-      <tr><td>Fatia do tempo gasta no que se repete</td><td>60%</td></tr>
-      <tr><td>Custo mensal só da repetição</td><td>R$ 2.400</td></tr>
-    </table>
-    <div class="resultado">R$ 28.800</div>
-    <div class="res-label">por ano, na mesma empresa, sem ninguém perceber</div>
-    <p class="nota">Estimativa. As três primeiras linhas são a base inteira do cálculo, e qualquer dono troca pelos números dele e refaz a conta em quinze minutos.</p>
+    <h2 class="hl hl-int" style="font-size:64px">Duas outras pesquisas encontram o mesmo gargalo</h2>
+    <div class="linha"><span class="mk">›</span><span class="tx"><b>81%</b> passam mais tempo conferindo o que a IA fez. Harness, 700 profissionais em 5 países, 2026.</span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx"><b>78%</b> codam mais rápido, mas <b>79%</b> dizem que a entrega ao cliente não acelerou. GitLab AI Accountability Report, 2026.</span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx"><b>85%</b> dizem que o gargalo migrou da produção para a revisão. GitLab AI Accountability Report, 2026.</span></div>
   </div>
-  <div class="rodape"><span class="tag">A conta</span><div class="trilho"><div class="preench" style="width:55%"></div></div><span class="passo">05/09</span></div>
+  <div class="rodape"><span class="tag">O padrão se confirma</span><div class="trilho"><div class="preench" style="width:55%"></div></div><span class="passo">05/09</span></div>
 </section>
 
-<!-- 06 · L4 imagem de fundo com scrim inferior -->
-<section class="slide">
-  <div class="foto ph"></div>
-  <div class="scrim-base"></div><div class="scrim-rampa alta"></div><div class="grao"></div>
-  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
-  <div class="corpo-area base">
-    <h2 class="hl hl-int">A repetição cobra duas vezes</h2>
-    <p class="corpo"><b>A primeira é o salário pago para responder o que já foi respondido mil vezes.</b> A segunda chega quando essa pessoa entra de férias e ninguém sabe o que ela respondia.</p>
-  </div>
-  <div class="rodape"><span class="tag">O que isso revela</span><div class="trilho"><div class="preench" style="width:66%"></div></div><span class="passo">06/09</span></div>
-</section>
-
-<!-- 07 · L5 numerado -->
+<!-- 06 · L6 citação -->
 <section class="slide">
   <div class="atmosfera"></div><div class="grao"></div>
   <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
-  <div class="corpo-area top">
-    <div><div class="num">02</div><div class="regua"></div></div>
-    <p class="corpo corpo-lg"><b>O roteiro é fixo e a resposta é sempre a mesma.</b></p>
-    <div class="linha"><span class="mk">›</span><span class="tx"><b>Clínica:</b> confirmação de consulta, valor do procedimento, convênio aceito</span></div>
-    <div class="linha"><span class="mk">›</span><span class="tx"><b>Contabilidade:</b> status da guia, documento que falta, prazo de entrega</span></div>
-    <div class="linha"><span class="mk">›</span><span class="tx"><b>Advocacia:</b> andamento do processo, data da audiência, honorário</span></div>
+  <div class="aspas">"</div>
+  <div class="corpo-area">
+    <p class="citacao">IA acelera, mas não facilita.</p>
+    <p class="autoria">Augusto Galego, CTO, 12 anos de software, usa IA em produção todo dia</p>
   </div>
-  <div class="rodape"><span class="tag">Onde isso mora</span><div class="trilho"><div class="preench" style="width:77%"></div></div><span class="passo">07/09</span></div>
+  <div class="rodape"><span class="tag">Quem vive isso</span><div class="trilho"><div class="preench" style="width:66%"></div></div><span class="passo">06/09</span></div>
+</section>
+
+<!-- 07 · L2 linhas com marcador -->
+<section class="slide">
+  <div class="atmosfera"></div><div class="grao"></div>
+  <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
+  <div class="corpo-area">
+    <h2 class="hl hl-int" style="font-size:64px">O antídoto tem nome curto: os três Fs</h2>
+    <div class="linha"><span class="mk">›</span><span class="tx"><b>Fatiar.</b> Entrega que não dá pra conferir de uma vez está grande demais. Quebra em duas.</span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx"><b>Fechar.</b> O combinado entra antes do produzido, o que é, pra quem é, como sai.</span></div>
+    <div class="linha"><span class="mk">›</span><span class="tx"><b>Fiscalizar.</b> Nada irreversível sai sem dono. Uma IA rascunha, outra confere, um humano aprova.</span></div>
+  </div>
+  <div class="rodape"><span class="tag">O antídoto</span><div class="trilho"><div class="preench" style="width:77%"></div></div><span class="passo">07/09</span></div>
 </section>
 
 <!-- 08 · L2 tese -->
@@ -259,11 +213,10 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
   <div class="glow"></div><div class="grao"></div>
   <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
   <div class="corpo-area">
-    <h2 class="hl hl-int">O processo sai da pessoa e vira sistema</h2>
-    <p class="corpo"><b>A parte que se repete passa a ser medida.</b> A pessoa fica com o que exige julgamento: negociar, contornar, decidir.</p>
-    <p class="corpo">Férias, saída e pico de demanda param de derrubar o atendimento.</p>
+    <h2 class="hl hl-int">Quem vende IA que faz tudo sozinha vende metade da história</h2>
+    <p class="corpo"><b>A metade cara.</b> Sem redesenhar quem confere o que a IA produz, o ganho de velocidade nunca chega no cliente, e o erro sutil aparece só depois de publicado, quando custa dez vezes mais pra corrigir.</p>
   </div>
-  <div class="rodape"><span class="tag">A direção</span><div class="trilho"><div class="preench" style="width:88%"></div></div><span class="passo">08/09</span></div>
+  <div class="rodape"><span class="tag">O que muda</span><div class="trilho"><div class="preench" style="width:88%"></div></div><span class="passo">08/09</span></div>
 </section>
 
 <!-- 09 · L8 CTA -->
@@ -271,9 +224,9 @@ body{background:#000;display:flex;flex-direction:column;align-items:center;gap:2
   <div class="glow"></div><div class="grao"></div>
   <div class="marca"><span>®Anti Custos</span><span>@anticustos.ia</span></div>
   <div class="corpo-area base" style="bottom:130px">
-    <p class="corpo" style="margin-bottom:12px">A conta do slide 5 leva <b>quinze minutos</b> para refazer com os números reais da sua empresa. Quase nenhum dono já fez.</p>
-    <h2 class="hl hl-int" style="margin-top:30px">Faz a conta da sua</h2>
-    <p class="corpo"><b>Salva esse post</b> e responde uma coisa nos comentários: qual pergunta a sua equipe mais repete?</p>
+    <p class="corpo" style="margin-bottom:12px">O piloto automático não aposentou o piloto do avião. <b>Deu mais painel pra ele olhar.</b></p>
+    <h2 class="hl hl-int" style="margin-top:30px">Fatiar, fechar, fiscalizar</h2>
+    <p class="corpo"><b>Salva esse carrossel</b> pra próxima decisão de IA na sua empresa, e compartilha com quem ainda acha que o botão mágico existe.</p>
   </div>
   <div class="rodape"><span class="tag">Anti Custos</span><div class="trilho"><div class="preench" style="width:100%"></div></div><span class="passo">09/09</span></div>
 </section>
