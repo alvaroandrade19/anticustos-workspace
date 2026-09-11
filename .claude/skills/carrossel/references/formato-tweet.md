@@ -39,18 +39,19 @@ não o jeito de falar.
 
 ## Estrutura do slide
 
-**Cabeçalho**, fixo em todos, a 110px do topo e 80px da esquerda:
+**Cabeçalho**, fixo em todos, a 110px do topo e 80px da esquerda. **Sai sozinho em todo `.slide`,
+pelo `estilo-tweet.css`**: não escrever marcação de cabeçalho na peça. Nome, handle e inicial do
+avatar vêm das variáveis `--nome`, `--handle` e `--inicial`, editáveis num lugar só.
 
-- Avatar circular de 88px. Sem foto ainda, usar círculo com o gradiente azul e a inicial em branco,
-  peso 800, 38px. Quando existir `marca/foto-perfil.jpg`, usar a foto.
-- Nome à direita do avatar: **Alvaro de Andrade**, 30px, peso 700, `--tx`
-- Handle abaixo do nome: **@anticustos.ia**, 26px, peso 400, `--tx-3`
-- Gap de 18px entre avatar e coluna de texto
+- Avatar circular de 88px, com o gradiente azul e a inicial no tom do fundo, peso 800, 38px.
+  Quando existir `marca/foto-perfil.jpg`, trocar o `background` do `.slide::before` pela foto.
+- Nome à direita do avatar: 30px, peso 600, `--tx`
+- Handle abaixo do nome: 26px, peso 400, `--tx-3`
 
 **Corpo**, 40px abaixo do cabeçalho, com 80px de margem lateral:
 
 - 40px, peso 400, entrelinha 1,5, cor `--tx`
-- Termo-chave em peso 700, na mesma cor. **Negrito é o único recurso do texto**, sem gradiente,
+- Termo-chave em peso 600, na mesma cor. **Negrito é o único recurso do texto**, sem gradiente,
   sem realce com fundo, sem cor de acento
 - Espaço vazio embaixo é intencional. É assim que um post se parece
 
@@ -65,10 +66,10 @@ não o jeito de falar.
 Mesmo sendo tweet, os slides não podem ser idênticos:
 
 - **Texto puro:** o mais comum
-- **Dado em destaque:** um número em 72px, peso 700, na cor `--g2`, dentro do corpo
+- **Dado em destaque:** um número em 72px, peso 600, na cor `--g2`, dentro do corpo
 - **Lista curta:** dois ou três itens com marcador tipográfico simples, nunca emoji
 - **Capa:** menos texto, corpo em 48px
-- **Fechamento:** a ação em peso 700, mais o handle repetido em `--g2`
+- **Fechamento:** a ação em peso 600, mais o handle repetido em `--g2`
 
 ## O que continua valendo integralmente
 

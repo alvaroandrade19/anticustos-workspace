@@ -71,6 +71,14 @@ saturação dentro da mesma faixa de matiz, e é isso que evita o azul chapado d
 Uma família de gradiente quente (creme ao coral) foi testada a partir das peças antigas e
 descartada: a marca é azul.
 
+**Teste em andamento (2026-09-11):** paleta **Terra** (`#EAD0A6` → `#CD8552` → `#AC6238`, barro e
+terracota, inspirada em céu de pôr do sol e campo), disponível em
+`.claude/skills/carrossel/estilo.css` (bloco `[data-paleta="terra"]`) pra alternar com o Azul entre
+posts do Instagram.
+Headline em Calistoga (serifada rústica), corpo em Libre Franklin. Ainda não é decisão de marca, é
+teste editorial pontual: acento oficial continua azul em todo o resto (proposta, apresentação,
+site). Ver `.claude/skills/carrossel/references/design-system.md`.
+
 **Regra de aplicação.** O gradiente corre no bloco inteiro da headline, e não em cada linha, para
 que cada linha pegue uma faixa diferente da rampa. Corpo de texto nunca leva gradiente: ênfase no
 corpo é peso, não cor.

@@ -1,0 +1,52 @@
+/* Formato tweet. Spec: references/formato-tweet.md
+   Fundo liso: sem grão, sem atmosfera, sem glow. A limpeza é o design.
+   Cabeçalho (avatar, nome, handle) é automático em todo .slide, vem das variáveis abaixo. */
+
+:root{
+  --bg:#0A0A0B; --line:rgba(255,255,255,.14);
+  --tx:#FFFFFF; --tx-3:rgba(255,255,255,.52);
+  --g1:#CDE8FF; --g2:#62A0FF; --g3:#4A72F0;
+  --grad:linear-gradient(180deg,var(--g1) 0%,var(--g2) 48%,var(--g3) 100%);
+  --F:'Schibsted Grotesk',system-ui,sans-serif;
+  --inicial:'A';
+  --nome:'Alvaro de Andrade';
+  --handle:'@anticustos.ia';
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{background:#000;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0;
+  font-family:var(--F);-webkit-font-smoothing:antialiased}
+
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--bg);color:var(--tx)}
+
+/* Cabeçalho automático, sem nenhuma marcação no HTML: avatar em .slide::before,
+   nome em .slide::after, handle em .tweet::before. Texto vem das variáveis acima. */
+.slide::before{content:var(--inicial);position:absolute;top:110px;left:80px;
+  width:88px;height:88px;border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  font-size:38px;font-weight:800;color:var(--bg)}
+.slide::after{content:var(--nome);position:absolute;top:119px;left:186px;
+  font-size:30px;font-weight:600;line-height:1.2}
+
+.tweet{position:absolute;top:278px;left:80px;right:80px;
+  font-size:40px;font-weight:400;line-height:1.5;letter-spacing:-.01em;color:var(--tx)}
+.tweet::before{content:var(--handle);position:absolute;top:-121px;left:106px;
+  font-size:26px;font-weight:400;line-height:1.2;color:var(--tx-3)}
+.tweet b{font-weight:600}
+.tweet p + p{margin-top:30px}
+.tweet.capa{font-size:48px;line-height:1.42}
+
+.dado{font-size:72px;font-weight:600;color:var(--g2);line-height:1.1;display:block;margin:14px 0}
+
+.item{display:flex;gap:18px;margin-top:22px}
+.item .mk{color:var(--g2);flex-shrink:0}
+
+.anexo{width:100%;height:520px;margin-top:40px;border-radius:16px;border:1px solid var(--line);
+  overflow:hidden;background-color:rgba(255,255,255,.05);background-position:center}
+.anexo.foto{background-size:cover}
+.anexo.print{background-size:contain;background-repeat:no-repeat}
+.ph{background-image:radial-gradient(120% 90% at 50% 30%,#3A3F4A 0%,#22252C 45%,#111318 100%)}
+
+.fecha .acao{font-weight:600}
+.fecha .perfil{color:var(--g2);font-weight:600}

@@ -1,0 +1,141 @@
+/* Sistema Papel. Alternativo ao sistema escuro (Azul, Terra, tweet), não substituto.
+   Spec e porquês: references/formato-papel.md.
+   Arquivo autossuficiente: não importa nem depende de estilo.css.
+
+   A tese do sistema: a peça não parece um post, parece um documento interno da empresa.
+   Hierarquia vem de fio, posição e grade, não de tamanho e cor. Por isso não tem gradiente,
+   não tem glow, não tem headline de 104px. */
+
+:root{
+  /* Tokens claros do marca/design-guide.md, sem inventar cor nova.
+     Contraste sobre --pp: tinta 16,9:1 · tinta-2 7,6:1 · acento 5,92:1 */
+  --pp:#EEF1F6;   /* papel */
+  --ps:#FFFFFF;   /* folha branca inserida: tabela, figura */
+  --tt:#0B0E14;   /* tinta */
+  --t2:#454C5C;   /* tinta secundária */
+  --ll:#D8DEE9;   /* fio */
+  --in:#1D4ED8;   /* caneta: o único acento, e só num gesto por peça */
+
+  --m:96px;       /* margem da folha */
+  --col:160px;    /* coluna de margem: rótulo, ordinal, fonte do número */
+  --gut:32px;
+
+  --F:'IBM Plex Sans',system-ui,sans-serif;      /* estrutura: cabeçalho, rótulo, rodapé */
+  --FH:'Newsreader',Georgia,serif;               /* o argumento: título e corpo */
+  --M:'IBM Plex Mono',ui-monospace,monospace;    /* número e ordinal */
+
+  --marca:'Anti Custos';
+  --perfil:'anticustos.ia';
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:light}
+body{background:#6B7386;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0;
+  font-family:var(--FH);-webkit-font-smoothing:antialiased}
+::selection{background:var(--in);color:#fff}
+
+.folha{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--pp);color:var(--tt)}
+.folha.card{height:1080px}
+
+/* Tooth do papel. Fundo claro chapado lê como light mode de interface; com a fibra lê como folha.
+   Multiply para a fibra escurecer, nunca clarear. */
+.folha::after{content:'';position:absolute;inset:0;z-index:5;pointer-events:none;
+  opacity:.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23f)'/%3E%3C/svg%3E")}
+
+/* Cabeçalho de folha. Fio duplo é convenção de documento e é o que mais separa este
+   sistema do escuro. O rótulo da seção fica na direita, como running head, nunca acima do título. */
+.topo{position:absolute;top:64px;left:var(--m);right:var(--m);z-index:2;
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:16px;border-bottom:3px double var(--ll);
+  font-family:var(--F);font-size:17px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--t2)}
+.topo .marca::before{content:var(--marca)}
+.topo .secao{font-weight:500}
+
+.pe{position:absolute;bottom:64px;left:var(--m);right:var(--m);z-index:2;
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-top:16px;border-top:1px solid var(--ll);
+  font-family:var(--F);font-size:16px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--t2)}
+.pe .perfil::before{content:var(--perfil)}
+.pe .folio{font-family:var(--M);letter-spacing:.06em}
+
+/* A grade. Coluna estreita de margem à esquerda, coluna de leitura à direita.
+   Os fios atravessam as duas, e é isso que faz a grade aparecer em vez de ficar implícita. */
+/* Documento começa no alto e desce: esse é o padrão, e é o oposto do bloco flutuante
+   centralizado do sistema escuro. Centralizar é exceção de capa e de folha curta. */
+.corpo{position:absolute;left:var(--m);right:var(--m);top:176px;bottom:152px;z-index:2;
+  display:grid;grid-template-columns:var(--col) 1fr;column-gap:var(--gut);row-gap:48px;
+  align-content:start}
+.corpo.centro{align-content:center}
+.corpo.baixo{align-content:end}
+
+/* Marginália: onde mora o rótulo, o ordinal e a fonte do número. Alinhada à direita,
+   encostada na calha, que é como documento impresso resolve nota de margem. */
+.nota{grid-column:1;justify-self:end;text-align:right;padding-top:.5em;
+  font-family:var(--F);font-size:16px;font-weight:500;line-height:1.5;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--t2)}
+.nota .ref{display:block;font-family:var(--M);font-size:18px;letter-spacing:.04em;color:var(--tt);
+  margin-bottom:8px}
+
+.titulo,.texto,.destaque,.livro-bloco,.figura,.clausulas,.assinatura{grid-column:2}
+
+.titulo{font-size:62px;font-weight:500;line-height:1.14;letter-spacing:-.012em;text-wrap:balance;
+  font-variation-settings:"opsz" 48}
+.titulo.capa{font-size:78px;line-height:1.06;letter-spacing:-.018em;font-variation-settings:"opsz" 60}
+
+/* Grifo: o traço de caneta de quem finalmente achou a linha. Substitui o gradiente como
+   assinatura do sistema. Um por peça inteira, só no título. */
+.grifo{background-image:linear-gradient(var(--in),var(--in));background-repeat:no-repeat;
+  background-size:100% 4px;background-position:0 100%;padding-bottom:.14em;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+.texto p{font-size:33px;line-height:1.52;color:var(--t2)}
+.texto p + p{margin-top:24px}
+.texto strong{font-weight:600;color:var(--tt)}
+.texto.lead p{font-size:36px;line-height:1.46}
+
+/* Destaque: a frase que o documento quer que você leve. Entre dois fios de tinta cheia,
+   não em caixa, não em card. */
+.destaque{font-size:47px;font-weight:500;line-height:1.32;letter-spacing:-.01em;
+  padding:48px 0;border-top:1px solid var(--tt);border-bottom:1px solid var(--tt)}
+
+/* Livro: a conta aberta tratada como razão contábil de verdade, não como tabela de slide. */
+.livro{width:100%;border-collapse:collapse;background:var(--ps);border:1px solid var(--ll)}
+.livro th{font-family:var(--F);font-size:15px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--t2);text-align:left;padding:16px 24px;border-bottom:1px solid var(--ll)}
+.livro th:last-child,.livro td:last-child{text-align:right}
+.livro td{font-size:29px;line-height:1.3;color:var(--t2);padding:24px;border-bottom:1px solid var(--ll)}
+.livro td:last-child{font-family:var(--M);font-size:27px;font-variant-numeric:tabular-nums;
+  color:var(--tt);white-space:nowrap}
+.livro tr:last-child td{border-bottom:none;color:var(--tt);font-weight:600;background:#F7F9FB}
+
+.soma{font-family:var(--M);font-size:88px;font-weight:500;line-height:1;letter-spacing:-.035em;
+  font-variant-numeric:tabular-nums;margin-top:32px}
+/* Legenda do número em caixa de frase: caixa alta serve para rótulo de duas ou três palavras,
+   e aqui é uma frase inteira. Uppercase longo lê pior e o detector da impeccable pega. */
+.soma-l{font-family:var(--F);font-size:21px;font-weight:400;color:var(--t2);margin-top:12px}
+
+/* Cláusulas: sequência numerada, onde o número carrega a posição de verdade. */
+.clausula{display:grid;grid-template-columns:auto 1fr;column-gap:24px;align-items:baseline}
+.clausula + .clausula{margin-top:32px;padding-top:32px;border-top:1px solid var(--ll)}
+.clausula .ord{font-family:var(--M);font-size:21px;font-weight:500;letter-spacing:.04em;color:var(--in)}
+.clausula p{font-size:31px;line-height:1.44;color:var(--t2)}
+.clausula strong{font-weight:600;color:var(--tt)}
+
+/* Figura: imagem é anexo com moldura e legenda na margem, nunca fundo com escurecimento. */
+.figura{background:var(--ps);border:1px solid var(--ll);padding:16px}
+.figura .img{height:560px;background-size:cover;background-position:center}
+.figura .img.print{background-size:contain;background-repeat:no-repeat;background-color:var(--ps)}
+.ph{background-color:#E3E8F0}
+
+/* Fecho: bloco de assinatura. Termina a peça como documento termina, não como post. */
+.assinatura{border-top:1px solid var(--tt);padding-top:24px}
+.assinatura .quem{font-family:var(--F);font-size:22px;font-weight:600;letter-spacing:.02em;color:var(--tt)}
+.assinatura .cargo{font-family:var(--F);font-size:18px;font-weight:400;color:var(--t2);margin-top:4px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
