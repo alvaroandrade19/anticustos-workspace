@@ -82,3 +82,59 @@ Agora o CSS mora em `estilo.css`, com o Azul em `:root` e o Terra num bloco
 paleta é trocar um atributo no `<html>`. A barra de marca (e, no formato tweet, o cabeçalho inteiro)
 saiu da marcação e virou pseudo-elemento alimentado por variável, então o handle tem um lugar só pra
 ser editado em vez de nove.
+
+---
+
+## Sistema Terra Clara: por que existe (2026-09-11)
+
+Nasceu de uma proposta anterior, o sistema Papel, que foi descartada. Papel acertou o registro
+(documento, não anúncio) e errou dois pontos: virou as costas para a imagem e distribuiu o texto
+numa grade de duas colunas com marginália, que exigia leitura em zigue-zague e enchia a margem de
+rótulo sem função. Terra Clara mantém a tese e conserta os dois.
+
+**Por que um segundo sistema.** Três motivos, na ordem em que pesam:
+
+1. A marca não tem prova social e está proibida de fabricar. O único ativo é aritmética aberta, e
+   documento é o formato que faz aritmética parecer aritmética. Poster escuro faz aritmética
+   parecer propaganda de aritmética.
+2. O feed de IA inteiro é escuro com gradiente. O próprio `design-guide.md` já usa esse argumento
+   para justificar superfície clara na hora de converter.
+3. O sistema escuro comporta uma ideia por tela. Este comporta um argumento inteiro com conta,
+   cláusula e anexo, porque diagramação de documento aguenta densidade sem virar poluição.
+
+**A marginália do Papel foi removida.** O rótulo de margem repetia o que o título já dizia. O que
+tinha função sobrou em dois lugares melhores: a fonte do número foi para baixo do número, que é o
+que o `design-guide.md` já mandava, e a legenda de figura virou nota de pé de bloco.
+
+**Cor.** Três voltas. Areia `#F1E9DE` (luminância 0,823), off-white `#F4F2EE` (0,889) e o papel
+final `#F3EEE6` (0,859), que é o meio medido dos dois. O meio termo saiu do cálculo de luminância,
+não do hex: luminância não é linear no valor hexadecimal.
+
+A tinta é três, uma por nível tipográfico, e essa é a diferença mais sutil e mais útil do sistema:
+título de capa `#2A1A0C` (14,53:1), título de miolo `#35281C` (12,36:1), corpo `#514D47` (7,27:1).
+A hierarquia é lida por três canais ao mesmo tempo, tamanho, posição e temperatura, e a folha
+respira sem precisar de mais peso.
+
+A caneta `#8F4A24` (5,73:1) é a terracota `#AC6238` da paleta Terra escurecida até passar em corpo
+de texto. A rampa original foi desenhada para brilhar sobre preto e desaparece sobre papel:
+`#CD8552` sobre a folha dá 2,47:1. A família Terra entra aqui rebaixada em valor, não copiada.
+
+Na placa, os tokens trocam de lado: o papel vira tinta sobre o barro `#110B07` (16,92:1). É o mesmo
+par de cores nos dois papéis, e é isso que faz a folha de foto pertencer à mesma peça.
+
+**Tipografia.** Newsreader carrega o argumento, com eixo óptico de verdade (`opsz`), que permite a
+mesma face em 34px de corpo e 92px de capa sem parecer esticada. Libre Franklin, a sans da paleta
+Terra, carrega a estrutura, e amarra este sistema àquele. IBM Plex Mono fica no número. A divisão é
+conceitual: serifada é o que uma pessoa argumenta, o resto é o que a máquina registra.
+
+**Capa: uma via recusada.** Foi testada e recusada uma capa de banda, com a imagem sangrando só no
+topo e a headline sobre papel na metade de baixo. Fica registrado para não voltar à mesa. A capa
+tem dois tratamentos e só dois: placa cheia quando há imagem, folha limpa quando não há.
+
+**Divergências do `design-guide.md`**, todas conscientes e reversíveis:
+
+1. Fundo claro no Instagram, contra o dark que é a base da marca. É a decisão mais séria, e foi do
+   Alvaro. A capa com imagem é escura, o que dá ao feed um ponto de ancoragem no registro antigo.
+2. Sem gradiente em texto. A assinatura vira o grifo de caneta.
+3. Serifada no corpo, em vez de Schibsted Grotesk, porque argumento longo em grotesca vira
+   relatório de software.

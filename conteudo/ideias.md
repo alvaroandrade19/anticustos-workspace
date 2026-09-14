@@ -22,11 +22,24 @@ Referência de pauta, não regra fixa:
 
 ## Publicados
 
+Data é a de publicação de verdade, lida do `_estado.md` de cada peça.
+
 | Data | Formato | Tema | Canal |
 |---|---|---|---|
-| 2026-09-07 | Carrossel, 9 slides | O preço invisível de ter tudo à mão (imposto de prateleira) | Instagram |
+| 2026-09-08 | Carrossel, 9 slides | O custo que some dentro da folha: contabilidade registra pessoa, não tarefa | Instagram |
 | 2026-09-09 | Carrossel, 9 slides | Agent washing: chatbot vendido como agente de IA (Gartner, 2025) | Instagram |
-| 2026-09-09 | Carrossel, 9 slides | Autonomia exige supervisão: escada dos 6 tipos de agente e o caso Air Canada | Instagram |
-| 2026-09-09 | Carrossel, 9 slides | IA do CPF: shadow AI, vazamento de dado sensível em conta pessoal | Instagram |
-| 2026-09-10 | Carrossel, 9 slides | IA burra com poder: risco não é superinteligência, é autonomia sem dono | Instagram (produzido, aguardando publicação) |
-| 2026-09-10 | Carrossel, 9 slides | Dez vezes mais rápido: IA multiplica volume, gargalo migra pra revisão, os 3 Fs | Instagram (produzido, aguardando publicação) |
+| 2026-09-10 | Carrossel, 9 slides | IA do CPF: shadow AI, vazamento de dado sensível em conta pessoal | Instagram |
+| 2026-09-11 | Carrossel, 9 slides | O preço invisível de ter tudo à mão (imposto de prateleira) | Instagram |
+| 2026-09-12 | Carrossel, 9 slides | Autonomia exige supervisão: escada dos 6 tipos de agente e o caso Air Canada | Instagram |
+
+## Na fila
+
+| Quando | Formato | Tema | Canal |
+|---|---|---|---|
+| 2026-09-13 18:00 | Carrossel, 9 slides | Dez vezes mais rápido: IA multiplica volume, gargalo migra pra revisão, os 3 Fs | Instagram |
+| 2026-09-13 20:00 | Post | IA burra com poder | LinkedIn |
+| 2026-09-14 17:45 | Carrossel, 9 slides | IA burra com poder: o risco é autonomia sem dono, não superinteligência | Instagram |
+| 2026-09-14 19:00 | Post | IA acelera mas não facilita: 861% mais código jogado fora, 441% mais revisão | LinkedIn |
+| 2026-09-15 08:30 | Post | Imposto de prateleira | LinkedIn |
+| 2026-09-15 18:00 | Carrossel, 9 slides | Mártir de quatro meses: o pesquisador que saiu da Anthropic sem abrir mão de equity nenhum | Instagram |
+| 2026-09-16 18:00 | Carrossel, 8 folhas, Terra Clara | Problema do milênio: a régua do Akita para manchete de IA (qual versão, quem atesta, quanto custou) | Instagram |

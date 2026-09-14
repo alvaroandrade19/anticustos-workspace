@@ -68,19 +68,24 @@ Três entradas possíveis, e a pergunta é uma linha só quando não estiver ób
 - **Adaptação de carrossel:** ler o `carrossel.html` da pasta em `conteudo/carrosseis/` e reescrever
   em prosa de LinkedIn. Não é transcrição de slide. O carrossel foi escrito para ser lido em imagem,
   o post é lido em texto corrido, e a estrutura muda.
-- **Texto pronto:** ainda assim passa pelo filtro do item 3. Se estiver bom, dizer que está bom e não
-  mexer por mexer.
+- **Texto pronto:** nunca publicar direto. O Alvaro pede avaliação crítica em toda peça que chega
+  pronta, e ela vem antes do agendamento: o que está fraco na escrita, no tema e no ângulo, com a
+  correção proposta e o porquê. Ordenar por impacto, recomendar em vez de listar tudo no mesmo peso.
+  Se estiver bom, dizer que está bom e não mexer por mexer.
 
 ### 1b. Decidir a imagem, e é decisão do Alvaro
 
 No LinkedIn quem retém é o texto. A imagem é âncora visual, não conteúdo, então reaproveitar o
 carrossel do Instagram não é o padrão. Perguntar numa linha, sem decidir sozinho:
 
-> "Esse post vai sem imagem, com uma imagem nova feita pro LinkedIn, ou com o carrossel inteiro?"
+> "Esse post vai sem imagem, com imagem gerada por IA, com peça feita na /impeccable, ou com o carrossel inteiro?"
 
-Os três caminhos e quando cada um é o certo estão em `references/voz-linkedin.md`. Imagem nova sai
-pela `/impeccable`, nunca pela `/carrossel`, porque o formato do feed do LinkedIn não é o do
-Instagram.
+Quando cada caminho é o certo está em `references/voz-linkedin.md`. Roteamento curto:
+
+- **Gerada por IA:** âncora visual sem tipografia. Ler `references/imagem-ia.md` e seguir o passo 2c.
+- **/impeccable:** qualquer peça com texto, número, gráfico ou logo. Nunca pela `/carrossel`, o
+  formato do feed do LinkedIn não é o do Instagram.
+- **Carrossel inteiro:** só quando a peça tem progressão real e a sequência acrescenta.
 
 ### 2. Escrever
 
@@ -91,6 +96,37 @@ O arquivo é publicado literalmente, byte a byte. O que estiver lá dentro sai n
 
 O `<slug>` vem do tema, em kebab-case. Se for adaptação de carrossel, usar o mesmo nome da pasta do
 carrossel para amarrar as duas peças.
+
+### 2b. Rodapé obrigatório
+
+Todo post do LinkedIn termina com a nota de transparência, sem exceção e sem perguntar. Ela entra no
+`post.md` já escrita, exatamente assim:
+
+```
+Nota: da pesquisa à publicação, este post passou por automações que eu mesmo construí a partir das minhas anotações. O objetivo é sempre o mesmo: dividir o que ando estudando e puxar discussão boa no comentário.
+```
+
+Ordem do fim do arquivo: corpo do post, linha em branco, nota, linha em branco, hashtags. A nota vem
+antes das hashtags para não ficar órfã depois do bloco de tags.
+
+Texto normal, sem asterisco de itálico. O LinkedIn não renderiza markdown e o `post.md` é publicado
+literalmente, então `*itálico*` sairia com os asteriscos à mostra. Itálico em Unicode (𝘵𝘦𝘹𝘵𝘰) também
+não entra: quebra leitor de tela e não tem acento em português, palavra com ã ou ç volta para a
+fonte normal no meio da frase.
+
+A nota não conta como fecho do post. O post continua precisando da posição declarada antes dela.
+
+### 2c. Três sugestões de imagem, com prompt pronto
+
+Só quando o caminho escolhido em 1b foi imagem gerada por IA, e só depois do texto pronto: o
+conceito visual nasce da tese final, não do tema solto.
+
+Ler `references/imagem-ia.md` e entregar três conceitos, um de cada família (objeto metáfora, cena
+humana documental, abstração estrutural), cada um com nome, uma linha de por que amarra na tese, o
+prompt em inglês dentro de code fence pronto para colar no gerador, e uma linha de risco. Fechar
+recomendando uma. Nada além disso, o arquivo de referência traz o formato exato e as regras.
+
+O Alvaro gera a imagem por fora e traz o arquivo. Salvar em `conteudo/linkedin/<slug>/imagem/01.png`.
 
 ### 3. Filtrar antes de mostrar
 
@@ -103,6 +139,7 @@ Checar, e corrigir antes de mostrar ao Alvaro:
 - Nenhum número sem fonte pública ou conta aberta na frente. Mesma regra do carrossel.
 - Nenhum clichê da lista de `_contexto/preferencias.md`.
 - Nada que insinue cliente, case ou resultado que não existe.
+- A nota de transparência está no fim, antes das hashtags, em texto normal.
 
 ### 4. Prévia e aprovação
 

@@ -71,6 +71,14 @@ saturação dentro da mesma faixa de matiz, e é isso que evita o azul chapado d
 Uma família de gradiente quente (creme ao coral) foi testada a partir das peças antigas e
 descartada: a marca é azul.
 
+**Sistema Terra Clara (2026-09-11).** Segundo sistema visual do carrossel, claro e quente, para a
+peça que precisa parecer documento e não poster: papel `#F3EEE6`, tinta em três níveis
+(`#2A1A0C` título de capa, `#35281C` título de miolo, `#514D47` corpo) e caneta `#8F4A24` como único
+acento. Serifada Newsreader no argumento, Libre Franklin na estrutura, IBM Plex Mono no número.
+Contrastes verificados e porquês em `.claude/skills/carrossel/references/decisoes.md`, regras de
+montagem em `references/formato-terra-clara.md`. Vale só no carrossel: proposta, apresentação e site
+seguem os tokens claros da tabela acima, com acento azul.
+
 **Teste em andamento (2026-09-11):** paleta **Terra** (`#EAD0A6` → `#CD8552` → `#AC6238`, barro e
 terracota, inspirada em céu de pôr do sol e campo), disponível em
 `.claude/skills/carrossel/estilo.css` (bloco `[data-paleta="terra"]`) pra alternar com o Azul entre

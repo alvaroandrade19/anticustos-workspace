@@ -91,21 +91,29 @@ No LinkedIn quem retém é o texto. A imagem serve de âncora visual para fazer 
 para carregar o conteúdo, e é por isso que reaproveitar os 9 slides do Instagram nem sempre é a
 melhor escolha: o leitor que vai ler 1700 caracteres não vai deslizar nove imagens antes.
 
-Três caminhos, e nenhum é o padrão automático:
+Quatro caminhos, e nenhum é o padrão automático:
 
 1. **Sem imagem.** Post de texto puro. É o formato mais limpo quando a tese se sustenta sozinha, e
    costuma ser o certo para peça curta e afiada.
 2. **Uma imagem nova, feita para o LinkedIn.** Uma peça só, pensada como âncora do argumento, em
    formato que respeite o feed do LinkedIn. É a escolha mais forte quando o post merece apoio visual
    mas não precisa de sequência.
-3. **O carrossel do Instagram inteiro.** Vale quando a peça tem progressão real, tipo conta aberta
+3. **Uma imagem gerada por IA.** Âncora visual sem tipografia: metáfora, cena ou abstração. É a via
+   rápida quando o post não precisa de peça montada. Regras, famílias e prompt em
+   `references/imagem-ia.md`. Nada de letra, número ou logo na imagem gerada.
+4. **O carrossel do Instagram inteiro.** Vale quando a peça tem progressão real, tipo conta aberta
    passo a passo, e a sequência acrescenta em vez de repetir.
+
+**Nunca assinar a peça com a marca.** Nada de "Anti Custos", handle, logo ou barra de marca dentro
+da imagem. O post sai do perfil pessoal do Alvaro, não da página da empresa, então assinatura
+institucional contradiz o canal e lê como propaganda infiltrada, que é o que a rede pune. A barra de
+marca do carrossel de Instagram não atravessa para cá. O rodapé da peça fecha na fonte do dado.
 
 **Perguntar sempre, uma linha, sem decidir sozinho:**
 
-> "Esse post vai sem imagem, com uma imagem nova feita pro LinkedIn, ou com o carrossel inteiro?"
+> "Esse post vai sem imagem, com imagem gerada por IA, com peça feita na /impeccable, ou com o carrossel inteiro?"
 
-Se a resposta for imagem nova, a peça passa pela `/impeccable`, não pela `/carrossel`, porque
+Se a resposta for peça montada, ela passa pela `/impeccable`, não pela `/carrossel`, porque
 formato de LinkedIn não é 1080x1350 de Instagram. Consultar `marca/design-guide.md` como sempre.
 
 Se o carrossel tinha uma conta aberta (número com a base à mostra), ela vai para o post. É o tipo de
@@ -118,6 +126,7 @@ coisa que funciona melhor no LinkedIn que no Instagram.
 - Tem mecanismo, não só afirmação
 - Nenhum número sem fonte pública ou conta aberta
 - Nenhum cliente, case ou resultado que não existe
+- A nota de transparência fecha o arquivo, antes das hashtags, em texto normal sem asterisco
 - Nenhum travessão
 - Nenhum clichê da lista de `_contexto/preferencias.md`
 - O fecho assume uma posição

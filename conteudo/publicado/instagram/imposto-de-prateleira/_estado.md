@@ -2,10 +2,12 @@
 
 - **Rede:** instagram
 - **Peça:** imposto-de-prateleira
-- **Estado:** agendado
+- **Estado:** publicado
 - **Veio de:** `conteudo/carrosseis/imposto-de-prateleira`
 - **Agendado para:** 11/09/2026, 17:00
 - **Entrou na fila em:** 09/09/2026, 17:21
+- **Publicado em:** 11/09/2026, 17:02
+- **Link:** https://www.instagram.com/p/DdKOQHZDRYc/
 - **Id na fila:** `2026-09-11T20-00-00-000Z_imposto-de-prateleira`
 
 <!-- não editar à mão: escrito pelas skills de publicação -->
@@ -17,8 +19,11 @@
   "idFila": "2026-09-11T20-00-00-000Z_imposto-de-prateleira",
   "rede": "instagram",
   "slug": "imposto-de-prateleira",
-  "estado": "agendado",
+  "estado": "publicado",
   "origem": "conteudo/carrosseis/imposto-de-prateleira",
-  "agendadoEm": "2026-09-09T20:21:45.808Z"
+  "agendadoEm": "2026-09-09T20:21:45.808Z",
+  "mediaId": "18097918727167336",
+  "url": "https://www.instagram.com/p/DdKOQHZDRYc/",
+  "publicadoEm": "2026-09-11T20:02:13.069Z"
 }
 ```

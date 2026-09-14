@@ -49,15 +49,18 @@ Se o usuário não disse de onde parte, perguntar uma linha:
 
 Depois, perguntar o formato, sempre, numa linha:
 
-> "Formato Anti Custos ou estilo tweet?"
+> "Formato Anti Custos, Terra Clara ou estilo tweet?"
 
-- **Anti Custos** é o padrão: nove slides, headline em gradiente, rodapé com progresso. Serve para
-  diagnóstico, tese desenvolvida e qualquer peça com conta.
-- **Tweet** é para publicação pontual: três a cinco slides, avatar e handle no topo, texto limpo.
-  Carregar `references/formato-tweet.md` na Etapa 7. Peça de mais de cinco slides não usa este
-  formato, porque ele não tem barra de progresso.
+| Formato | O que é | Quando |
+|---|---|---|
+| **Anti Custos** (padrão) | Nove slides escuros, headline em gradiente, rodapé com progresso | Diagnóstico, tese desenvolvida, qualquer peça com conta |
+| **Terra Clara** | Folha clara, serifada editorial, sete a oito folhas. Registro de documento, não de poster | Argumento denso, conta aberta, peça que precisa parecer memorando e não anúncio |
+| **Tweet** | Três a cinco slides, avatar e handle no topo | Publicação pontual. Acima de cinco slides não serve, porque não tem barra de progresso |
 
-A escolha é do Alvaro. Não decidir sozinho, e não sugerir tweet só porque o tema é curto.
+O formato define o que carregar na Etapa 7: `formato-terra-clara.md` ou `formato-tweet.md`. Anti
+Custos não carrega nenhum dos dois, porque o `design-system.md` da Etapa 4 já cobre.
+
+A escolha é do Alvaro. Não decidir sozinho, e não sugerir formato só porque o tema é curto ou longo.
 
 Se o formato for Anti Custos, perguntar também a paleta, numa linha:
 
@@ -65,7 +68,8 @@ Se o formato for Anti Custos, perguntar também a paleta, numa linha:
 
 Azul é a paleta oficial da marca. Terra é a alternativa em teste, barro e terracota com headline
 serifada. Mesma estrutura e mesmo método nas duas, só cor e família mudam. Sem instrução em
-contrário, o padrão é Azul. **Não alternar sozinho: só usar Terra quando o Alvaro pedir por nome.**
+contrário, o padrão é Azul. **Não alternar sozinho: só usar Terra ou Terra Clara quando o Alvaro
+pedir por nome.**
 
 Com o insumo e o formato definidos, ir para a Etapa 1. Não fazer briefing longo: o público, o tom, a
 marca e o visual já estão nos arquivos do projeto. Perguntar só o que falta de verdade.
@@ -159,6 +163,7 @@ Toda imagem enviada tem que ser usada. Imagem 1 vai sempre na capa.
 **Foto de fundo ou caixa, nesta ordem:** se o usuário disse o que quer, obedecer sem reclassificar;
 se não disse, foto e retrato vão de fundo e print de tela vai em caixa; na dúvida, perguntar antes
 de gerar. Print sempre em `contain`, foto sempre em `cover`, e nunca esticar imagem pequena.
+No Terra Clara os dois modos se chamam placa e anexo, e a regra é a mesma.
 
 Sem imagem é um caminho legítimo e frequente: a capa tipográfica em fundo escuro funciona e é mais
 coerente com a marca do que foto de banco de imagem. Nunca usar stock de robô, cérebro digital ou
@@ -170,19 +175,24 @@ Copiar template e estilo para a pasta da peça. O CSS fica fora do HTML: a peça
 
 ```bash
 D=conteudo/carrosseis/[tema]; S=.claude/skills/carrossel
-cp $S/template.html $D/carrossel.html && cp $S/estilo.css $D/       # formato Anti Custos
-cp $S/template-tweet.html $D/carrossel.html && cp $S/estilo-tweet.css $D/   # formato tweet
+cp $S/template.html $D/carrossel.html && cp $S/estilo.css $D/                      # Anti Custos
+cp $S/template-terra-clara.html $D/carrossel.html && cp $S/estilo-terra-clara.css $D/   # Terra Clara
+cp $S/template-tweet.html $D/carrossel.html && cp $S/estilo-tweet.css $D/          # tweet
 ```
 
 Paleta Terra: trocar `data-paleta="azul"` por `data-paleta="terra"` na tag `<html>`. É a única
 mudança, e nada mais no arquivo muda por causa da paleta.
 
-Preencher o corpo seguindo `references/design-system.md`, que já está em contexto desde a Etapa 4:
-escolher o layout de cada slide entre os oito e não escrever CSS novo dentro da peça. Onde o usuário
-mandou imagem, trocar a classe `.ph` por `style="background-image:url('imagens/NOME.jpg')"` no
-`.foto` ou no `.caixa`. Nada mais muda para a imagem entrar.
+**Terra Clara:** carregar `references/formato-terra-clara.md` agora e montar por ele. O template
+traz uma folha por layout, para apagar o que não se usa e repetir o que se usa.
 
-A barra de marca sai sozinha em todo slide, pelo `estilo.css`. Não escrever `<div class="marca">`.
+**Anti Custos e tweet:** preencher o corpo seguindo `references/design-system.md`, que já está em
+contexto desde a Etapa 4: escolher o layout de cada slide entre os oito e não escrever CSS novo
+dentro da peça. Onde o usuário mandou imagem, trocar a classe `.ph` por
+`style="background-image:url('imagens/NOME.jpg')"` no `.foto` ou no `.caixa`. Nada mais muda para a
+imagem entrar.
+
+A barra de marca sai sozinha em todo slide, pelo CSS. Não escrever `<div class="marca">`.
 
 Verificar antes de renderizar, slide a slide, pelo checklist do `design-system.md`.
 
@@ -214,10 +224,10 @@ design guide). Qualquer outro achado é para corrigir de verdade.
 ```
 conteudo/carrosseis/[tema]/
   carrossel.html
-  estilo.css
+  estilo*.css        (o do formato escolhido)
   legenda.md
-  imagens/          (se houver)
-  01.png ... 09.png
+  imagens/           (se houver)
+  01.png ...
 ```
 
 Perguntar ao final se o tema deve entrar no histórico de `conteudo/ideias.md`.
@@ -231,8 +241,13 @@ Perguntar ao final se o tema deve entrar no histórico de `conteudo/ideias.md`.
 | `references/headlines.md` | Etapa 2. Engine de headlines, padrões, banco, checklist de rejeição |
 | `references/filtro-editorial.md` | Etapa 4. Anti-AI-slop, 7 parâmetros, duas fontes de número |
 | `references/design-system.md` | Etapa 4, vale até o fim. Arcos, paletas, escala, layouts, checklist |
+| `references/formato-terra-clara.md` | Etapa 7, só no formato Terra Clara |
 | `references/formato-tweet.md` | Etapa 7, só no formato tweet |
 | `references/exemplos.md` | Sob demanda, quando faltar referência de peça pronta |
 | `references/decisoes.md` | Nunca durante a produção. Só para mudar ou entender uma decisão antiga |
 | `template.html` + `estilo.css` | Etapa 7, formato Anti Custos. Paleta pelo `data-paleta` |
+| `template-terra-clara.html` + `estilo-terra-clara.css` | Etapa 7, formato Terra Clara |
 | `template-tweet.html` + `estilo-tweet.css` | Etapa 7, formato tweet |
+
+Amostra renderizada do Terra Clara, para consulta visual rápida:
+`conteudo/carrosseis/_amostra-terra-clara/`.

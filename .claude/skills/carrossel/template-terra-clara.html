@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- Sistema Terra Clara. Uma folha por layout (T1 a T8). Apagar as que a peça não usa,
+     repetir as que ela usa mais de uma vez, e acertar fólio e largura do .preench.
+     Regras de montagem: references/formato-terra-clara.md -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>[tema] | Anti Custos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Libre+Franklin:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo-terra-clara.css">
+</head>
+<body>
+
+<!-- T1a · capa com imagem. Apagar a T1b se usar esta. -->
+<section class="slide placa">
+  <div class="foto" style="background-image:url('imagens/01.jpg');background-position:center 20%"></div>
+  <div class="scrim-base"></div>
+  <div class="scrim-rampa"></div>
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo base">
+    <h1 class="titulo capa">[headline de 4 a 8 palavras, com <span class="grifo">grifo</span> numa]</h1>
+    <div class="texto lead"><p><strong>[afirmação]</strong> [desenvolvimento]</p></div>
+  </div>
+  <div class="pe"><span class="tag">[seção]</span><span class="trilho"><span class="preench" style="width:14%"></span></span><span class="folio">folha 01 / 07</span></div>
+</section>
+
+<!-- T1b · capa sem imagem -->
+<section class="slide">
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo centro">
+    <h1 class="titulo capa">[headline, com <span class="grifo">grifo</span> numa palavra]</h1>
+    <div class="texto lead"><p><strong>[afirmação]</strong> [desenvolvimento]</p></div>
+  </div>
+  <div class="pe"><span class="tag">[seção]</span><span class="trilho"><span class="preench" style="width:14%"></span></span><span class="folio">folha 01 / 07</span></div>
+</section>
+
+<!-- T2 · texto. Dois ou três parágrafos. -->
+<section class="slide">
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo centro">
+    <h2 class="titulo">[título da folha]</h2>
+    <div class="texto">
+      <p><strong>[afirmação]</strong> [desenvolvimento]</p>
+      <p>[parágrafo]</p>
+    </div>
+  </div>
+  <div class="pe"><span class="tag">[seção]</span><span class="trilho"><span class="preench" style="width:28%"></span></span><span class="folio">folha 02 / 07</span></div>
+</section>
+
+<!-- T3 · placa de miolo. Mesmo componente da capa com imagem. Nunca duas seguidas. -->
+<section class="slide placa">
+  <div class="foto" style="background-image:url('imagens/02.jpg')"></div>
+  <div class="scrim-base"></div>
+  <div class="scrim-rampa"></div>
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo base">
+    <h2 class="titulo">[título curto]</h2>
+    <div class="texto"><p>[uma frase, no máximo duas]</p></div>
+  </div>
+  <div class="pe"><span class="tag">[seção]</span><span class="trilho"><span class="preench" style="width:42%"></span></span><span class="folio">folha 03 / 07</span></div>
+</section>
+
+<!-- T4 · destaque. Uma por peça. -->
+<section class="slide">
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo centro">
+    <p class="destaque">[a frase que o leitor leva embora]</p>
+    <div class="texto">
+      <p><strong>[afirmação]</strong> [desenvolvimento]</p>
+    </div>
+  </div>
+  <div class="pe"><span class="tag">[seção]</span><span class="trilho"><span class="preench" style="width:57%"></span></span><span class="folio">folha 04 / 07</span></div>
+</section>
+
+<!-- T5 · conta aberta. A .legenda com a base é obrigatória. -->
+<section class="slide">
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo">
+    <h2 class="titulo">[título da conta]</h2>
+    <div class="livro-bloco">
+      <table class="livro">
+        <tr><th>Entrada</th><th>Valor</th></tr>
+        <tr><td>[linha]</td><td>[valor]</td></tr>
+        <tr><td>[linha]</td><td>[valor]</td></tr>
+        <tr><td>[resultado da linha]</td><td>[valor]</td></tr>
+      </table>
+      <div class="soma">[total]</div>
+      <div class="soma-l">[o que o total significa, uma linha]</div>
+      <p class="legenda"><span class="ref">Base</span>[de onde saiu, ou a fonte pública com ano]</p>
+    </div>
+  </div>
+  <div class="pe"><span class="tag">[seção]</span><span class="trilho"><span class="preench" style="width:71%"></span></span><span class="folio">folha 05 / 07</span></div>
+</section>
+
+<!-- T6 · cláusulas -->
+<section class="slide">
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo centro">
+    <h2 class="titulo">[título da sequência]</h2>
+    <div class="clausulas">
+      <div class="clausula"><span class="ord">01</span><p><strong>[nome].</strong> [desenvolvimento]</p></div>
+      <div class="clausula"><span class="ord">02</span><p><strong>[nome].</strong> [desenvolvimento]</p></div>
+      <div class="clausula"><span class="ord">03</span><p><strong>[nome].</strong> [desenvolvimento]</p></div>
+    </div>
+    <div class="texto"><p>[o que a sequência prova]</p></div>
+  </div>
+  <div class="pe"><span class="tag">[seção]</span><span class="trilho"><span class="preench" style="width:85%"></span></span><span class="folio">folha 06 / 07</span></div>
+</section>
+
+<!-- T7 · anexo. Print e captura: .img.print (contain). Foto vai em placa, não aqui. -->
+<section class="slide">
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo centro">
+    <h2 class="titulo">[título do anexo]</h2>
+    <div class="anexo">
+      <figure class="figura"><div class="img print" style="background-image:url('imagens/03.png')"></div></figure>
+      <p class="legenda"><span class="ref">Fig. 1</span>[o que o print mostra]</p>
+    </div>
+  </div>
+  <div class="pe"><span class="tag">Anexo</span><span class="trilho"><span class="preench" style="width:92%"></span></span><span class="folio">folha 07 / 07</span></div>
+</section>
+
+<!-- T8 · encerramento assinado -->
+<section class="slide">
+  <div class="topo"><span class="marca"></span><span class="perfil"></span></div>
+  <div class="corpo centro">
+    <h2 class="titulo">[o próximo passo, sem CTA comercial]</h2>
+    <div class="texto"><p>[ponte e pergunta de engajamento]</p></div>
+    <div class="assinatura">
+      <div class="quem">Alvaro de Andrade</div>
+      <div class="cargo">Anti Custos, implementação de IA para pequenas e médias empresas</div>
+    </div>
+  </div>
+  <div class="pe"><span class="tag">Encerramento</span><span class="trilho"><span class="preench" style="width:100%"></span></span><span class="folio">folha 07 / 07</span></div>
+</section>
+
+</body>
+</html>

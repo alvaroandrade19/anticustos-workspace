@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>IA Acelera mas Não Facilita | LinkedIn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060A;
+    --surface-2:#141821;
+    --line:rgba(126,146,196,.16);
+    --text:#F2F4F8;
+    --text-2:#A8AEBF;
+    --text-3:#767D91;
+    --accent:#2563EB;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  .peca{
+    width:1200px;
+    height:1500px;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Schibsted Grotesk',sans-serif;
+    position:relative;
+    overflow:hidden;
+  }
+  .grao{position:absolute;inset:0;opacity:.04;pointer-events:none;mix-blend-mode:overlay;}
+  .conteudo{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    padding:96px;
+    justify-content:space-between;
+  }
+
+  .selo{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:15px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-3);
+  }
+  .regua{height:1px;background:var(--line);width:100%;}
+
+  .cabeca{display:flex;flex-direction:column;gap:24px;}
+  .titulo{
+    font-size:96px;
+    font-weight:600;
+    line-height:1.02;
+    letter-spacing:-0.04em;
+    padding-top:56px;
+    max-width:12ch;
+    text-wrap:balance;
+  }
+  .apoio{
+    font-size:23px;
+    line-height:1.6;
+    color:var(--text-2);
+    max-width:44ch;
+    padding-top:32px;
+  }
+
+  .series{display:flex;flex-direction:column;gap:56px;}
+  .item{display:flex;flex-direction:column;gap:16px;}
+  .linha{display:flex;align-items:baseline;justify-content:space-between;gap:32px;}
+  .rotulo{font-size:21px;color:var(--text);}
+  .valor{
+    font-family:'IBM Plex Mono',monospace;
+    font-variant-numeric:tabular-nums;
+    font-size:40px;
+    font-weight:500;
+    color:var(--text);
+  }
+  .trilho{height:20px;background:var(--surface-2);border-radius:2px;overflow:hidden;}
+  .barra{height:100%;background:var(--accent);border-radius:2px;}
+
+  .rodape{display:flex;flex-direction:column;gap:28px;}
+  .destaque{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    font-size:22px;
+    color:var(--text-2);
+  }
+  .destaque strong{
+    font-family:'IBM Plex Mono',monospace;
+    font-variant-numeric:tabular-nums;
+    font-weight:500;
+    color:var(--text);
+  }
+  .fonte{
+    font-size:15px;
+    line-height:1.6;
+    color:var(--text-3);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<section class="peca">
+  <svg class="grao" width="100%" height="100%"><filter id="ruido"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#ruido)"/></svg>
+  <div class="conteudo">
+    <div class="cabeca">
+      <div class="selo">O'Reilly · Faros AI · 2026</div>
+      <div class="regua"></div>
+      <h1 class="titulo">O gargalo mudou de lugar.</h1>
+      <p class="apoio">O que acontece com o trabalho de software quando a IA entra no fluxo e ninguém assume a revisão.</p>
+    </div>
+
+    <div class="series">
+      <div class="item">
+        <div class="linha"><span class="rotulo">código jogado fora e refeito semanas depois</span><span class="valor">861%</span></div>
+        <div class="trilho"><div class="barra" style="width:100%"></div></div>
+      </div>
+      <div class="item">
+        <div class="linha"><span class="rotulo">tempo gasto conferindo cada entrega</span><span class="valor">441%</span></div>
+        <div class="trilho"><div class="barra" style="width:51%"></div></div>
+      </div>
+      <div class="item">
+        <div class="linha"><span class="rotulo">incidentes para cada pacote entregue</span><span class="valor">242%</span></div>
+        <div class="trilho"><div class="barra" style="width:28%"></div></div>
+      </div>
+    </div>
+
+    <div class="rodape">
+      <div class="regua"></div>
+      <div class="destaque"><span>Defeito por desenvolvedor:</span><strong>de 9% para 54%</strong></div>
+      <div class="regua"></div>
+      <p class="fonte">Aumento medido pela Faros AI em 22 mil desenvolvedores e 4 mil times, compilado pelo O'Reilly.</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

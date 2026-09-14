@@ -5,7 +5,7 @@
 > Mantenha curto: o que passou de ~30 dias sai daqui (vai pro histórico ou some).
 
 ## Onde paramos
-Skill `/carrossel` refatorada para consumo de token: CSS saiu do HTML e virou `estilo.css`, o template duplicado da paleta Terra foi eliminado e o histórico de decisões saiu do caminho da produção. Render conferido byte a byte contra a versão anterior nas três variantes. Em paralelo, o sistema visual **Papel** está em andamento como proposta, aguardando as melhorias que o Alvaro vai sugerir.
+Skill `/carrossel` refatorada para consumo de token: CSS saiu do HTML e virou `estilo.css`, o template duplicado da paleta Terra foi eliminado e o histórico de decisões saiu do caminho da produção. Render conferido byte a byte contra a versão anterior nas três variantes. O sistema visual **Terra Clara** foi fechado e já é o terceiro formato da skill, em uso no carrossel `problema-do-milenio`, agendado para 16/09.
 
 <!-- anterior -->
 Carrossel do imposto de prateleira pronto e renderizado em `conteudo/carrosseis/imposto-de-prateleira/`, com legenda e rastreabilidade dos números. Próximo passo: publicar e medir. Primeira prova de primeira mão da marca registrada no PRODUCT.md: auditoria de 34 para 3 ferramentas, ~1.290 tokens a menos por mensagem.
@@ -46,6 +46,7 @@ Skill `/carrossel` criada, com o método editorial da BrandsDecoded adaptado à 
 - 2026-09-11: paleta **Terra** criada como alternativa em teste ao Azul, para alternar entre posts. Barro e terracota, headline em Calistoga e corpo em Libre Franklin. Não substitui o azul como acento oficial da marca, e só é usada quando o Alvaro pedir por nome.
 - 2026-09-11: skill `/carrossel` otimizada em consumo de token, sem perda de funcionalidade. O CSS saiu de dentro do HTML e virou `estilo.css` (Azul em `:root`, Terra no bloco `[data-paleta="terra"]`), o que eliminou o `template-terra.html`, que era cópia quase integral do `template.html`. A barra de marca virou pseudo-elemento alimentado por `--nome` e `--handle`, então o handle tem um lugar só para ser editado em vez de nove. O histórico das decisões foi para `references/decisoes.md`, que não se lê durante a produção. O HTML que o agente escreve por peça caiu de 16,5KB para 7,9KB. Render conferido byte a byte contra a versão anterior nas três variantes, e o detector não acusou achado novo.
 - 2026-09-11: quatro contradições internas da skill corrigidas no mesmo passo: o design system dizia seis layouts e listava oito, o SKILL dizia três falsos positivos do detector e listava quatro, o checklist pedia área segura de 150px embaixo contra os 130px da spec e do CSS, e o `formato-tweet.md` especificava peso 700 onde o CSS sempre usou 600.
+- 2026-09-11: sistema visual **Terra Clara** fechado, terceiro formato da skill `/carrossel`, ao lado do Anti Custos e do tweet. Nasceu da proposta Papel (documento claro em vez de poster escuro) e parou no meio do caminho entre ela e a paleta Terra: folha clara `#F3EEE6`, serifada editorial, hierarquia por fio e posição, com o modo placa invertendo tinta e papel sobre barro. Os arquivos `*-papel.*` e a proposta renderizada foram deletados. Usa `.slide` como os outros formatos, então o `render-carrossel.js` fatia sem mudança, e o `SKILL.md` já oferece Terra Clara na pergunta de formato. Como a paleta Terra, só entra quando o Alvaro pedir por nome.
 
 ## Pendências
 
@@ -58,8 +59,6 @@ Skill `/carrossel` criada, com o método editorial da BrandsDecoded adaptado à 
 - Rodar `/syncar` para conectar ao GitHub.
 - Configurar integrações. Lista em `tarefas.md`.
 - Definir logo da Anti Custos e preencher o handle das redes em `marca/design-guide.md`.
-
-- **Sistema visual Papel, em andamento.** Proposta de segundo esqueleto visual (documento claro em vez de poster escuro), em `references/formato-papel.md`, `estilo-papel.css`, `template-papel.html` e `template-papel-card.html`, com a proposta renderizada em `conteudo/carrosseis/_proposta-papel/`. É autossuficiente e não toca no sistema escuro. O Alvaro vai sugerir melhorias e alterações antes de decidir. Duas coisas ficam pendentes até a aprovação: o `render-carrossel.js` fatia por `.slide` e o Papel usa `.folha`, então hoje ele gera zero PNG; e o `SKILL.md` ainda não oferece Papel na pergunta de formato.
 
 ## Quente agora
 
