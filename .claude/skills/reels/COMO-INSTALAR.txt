@@ -1,0 +1,54 @@
+============================================================
+  SKILL "Reels"  —  comando: /reels
+  Vídeo minimalista vertical (Reels/TikTok/Shorts) a partir de
+  UMA frase — ou usando a SUA voz.
+  Como instalar (leva 1 minuto)
+============================================================
+
+O QUE VOCÊ PRECISA TER (uma vez só na vida):
+  - Claude Code instalado (a assinatura PRO de US$ 20/mês já serve).
+  - Node.js instalado  (se não tiver, a skill "Preparador de Máquina" instala).
+  - O navegador Edge ou Chrome  (todo Windows já vem com o Edge).
+
+
+PASSO A PASSO:
+
+  1) Crie uma pasta pro seu projeto, onde você quiser.
+     Ex.: na Área de Trabalho, uma pasta chamada "gerador de video".
+  2) Extraia este arquivo (botão direito > Extrair aqui).
+     Vai aparecer uma pasta chamada  .claude
+  3) Mova a pasta  .claude  pra DENTRO da pasta do seu projeto.
+     Tem que ficar assim:
+         gerador de video\.claude\skills\reels\SKILL.md
+  4) Abra o Claude Code DENTRO da pasta do seu projeto.
+  5) Pronto. É só pedir, por exemplo:
+         "cria um reel sobre criar ferramentas com IA"
+     ou, pra usar a SUA voz:
+         "tenho um áudio em C:\caminho\audio.mp3, cria um reel com a
+          legenda exata dele"
+
+
+COMO USAR COM O SEU ÁUDIO (legenda = sua fala, palavra por palavra):
+  - Grave um áudio falando (pode ser no celular).
+  - Coloque o arquivo na pasta  audio/  (a skill cria essa pasta pra você).
+  - Peça o reel. Ela transcreve aqui no seu PC (não manda pra lugar nenhum,
+    sem mensalidade), divide em legendas com tempo bom de leitura, te mostra
+    pra você CONFERIR e corrigir alguma palavra, e só então gera o vídeo —
+    com a legenda igualzinha ao que você falou, nada cortado.
+
+
+IMPORTANTE — A PRIMEIRA VEZ É MAIS LENTA:
+  Na primeira vez que você gera um vídeo, a skill baixa sozinha as ferramentas
+  que ela usa (alguns minutos). Depois disso, fica rápido e funciona offline.
+  Não precisa configurar nada, não precisa de chave de API, não tem mensalidade.
+
+
+AS PASTAS (a skill cria sozinha na primeira vez):
+  audio/  -> você coloca aqui os áudios que quer transcrever
+  reels/  -> os vídeos prontos saem aqui
+  (as duas ficam dentro da pasta do seu projeto)
+
+============================================================
+  Mais detalhes: abra o arquivo  LEIA-PRIMEIRO.md  dentro de
+  .claude\skills\reels\
+============================================================

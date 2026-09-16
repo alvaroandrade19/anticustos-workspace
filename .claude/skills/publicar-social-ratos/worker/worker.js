@@ -83,8 +83,43 @@ async function jaFoiPublicado(env, item) {
   return null;
 }
 
+// Container de imagem com troca de host, e a troca vale para o resto do carrossel.
+//
+// Aqui é o único ponto onde dá para descobrir que a Meta não consegue buscar a imagem:
+// o erro só aparece quando ela tenta baixar, nunca no upload. Foi assim nas duas quebras
+// reais, o catbox em 15/09/2026 ("An unknown error has occurred") e o imgbb em 16/09
+// ("Only photo or video can be accepted as media type"), as duas com o arquivo no ar e
+// o link abrindo normal.
+//
+// A troca é do host inteiro, não de uma imagem: se a primeira falhou, as outras oito
+// vão falhar igual, e o plano grátis só dá 50 subrequisições por execução. Insistir no
+// host morto imagem por imagem gasta o orçamento justamente quando ele é mais preciso.
+function trocadorDeHost(env) {
+  let naReserva = false;
+  return async function criarImagem(campos, url, reserva) {
+    if (naReserva && reserva) {
+      const id = await criarContainer(env, Object.assign({ image_url: reserva }, campos));
+      await esperarPronto(env, id, TIMEOUT_IMAGEM_MS);
+      return id;
+    }
+    try {
+      const id = await criarContainer(env, Object.assign({ image_url: url }, campos));
+      await esperarPronto(env, id, TIMEOUT_IMAGEM_MS);
+      return id;
+    } catch (erro) {
+      if (!reserva) throw erro;
+      naReserva = true;
+      const id = await criarContainer(env, Object.assign({ image_url: reserva }, campos));
+      await esperarPronto(env, id, TIMEOUT_IMAGEM_MS);
+      return id;
+    }
+  };
+}
+
 async function montarEPublicar(env, item) {
   const legenda = item.legenda || '';
+  const reservas = item.midiaReserva || [];
+  const criarImagem = trocadorDeHost(env);
 
   if (item.tipo === 'reels') {
     const id = await criarContainer(env, { media_type: 'REELS', video_url: item.midia[0], caption: legenda });
@@ -93,17 +128,14 @@ async function montarEPublicar(env, item) {
   }
 
   if (item.tipo === 'imagem') {
-    const id = await criarContainer(env, { image_url: item.midia[0], caption: legenda });
-    await esperarPronto(env, id, TIMEOUT_IMAGEM_MS);
+    const id = await criarImagem({ caption: legenda }, item.midia[0], reservas[0]);
     return publicarContainer(env, id);
   }
 
   // Carrossel: cada imagem vira um filho, e só depois o container do álbum.
   const filhos = [];
-  for (const url of item.midia) {
-    const id = await criarContainer(env, { image_url: url, is_carousel_item: 'true' });
-    await esperarPronto(env, id, TIMEOUT_IMAGEM_MS);
-    filhos.push(id);
+  for (let i = 0; i < item.midia.length; i++) {
+    filhos.push(await criarImagem({ is_carousel_item: 'true' }, item.midia[i], reservas[i]));
   }
   const album = await criarContainer(env, {
     media_type: 'CAROUSEL',

@@ -1,0 +1,132 @@
+{
+  "slides": [
+    {
+      "text": "ESSA SEMANA CONTEI\nAS FERRAMENTAS DE\nINTELIGÊNCIA ARTIFICIAL INSTALADAS",
+      "hold": 128,
+      "seconds": 4.28
+    },
+    {
+      "text": "NO MEU AGENTE.\n34. 11.",
+      "hold": 101,
+      "seconds": 3.36
+    },
+    {
+      "text": "NEM ERAM MINHAS.\nAQUI ESTÁ O\nQUE NINGUÉM EXPLICA.",
+      "hold": 102,
+      "seconds": 3.4
+    },
+    {
+      "text": "A FERRAMENTA FICA\nGUARDADA NO DISCO,\nMAS O RESUMO",
+      "hold": 89,
+      "seconds": 2.98
+    },
+    {
+      "text": "DELA FICA COLADO\nEM TODA CONVERSA\nQUE EU TENHO.",
+      "hold": 108,
+      "seconds": 3.6
+    },
+    {
+      "text": "UM PAPER PUBLICADO EM\nAGOSTO MEDIU ESSE CUSTO.",
+      "hold": 97,
+      "seconds": 3.24
+    },
+    {
+      "text": "DE 50 A\n280\nTOKENS POR FERRAMENTA",
+      "hold": 98,
+      "seconds": 3.28
+    },
+    {
+      "text": "EM TODA A MENSAGEM,\nUSADA OU NÃO.",
+      "hold": 108,
+      "seconds": 3.6
+    },
+    {
+      "text": "OS AUTORES DERAM\nNOME A ISSO,",
+      "hold": 74,
+      "seconds": 2.48
+    },
+    {
+      "text": "IMPOSTO DE PRATELEIRA.\nVOCÊ PAGA\nALUGUEL POR TUDO",
+      "hold": 98,
+      "seconds": 3.28
+    },
+    {
+      "text": "QUE ESTÁ NA\nESTANTE, INCLUSIVE O\nQUE NUNCA ABRIU.",
+      "hold": 88,
+      "seconds": 2.92
+    },
+    {
+      "text": "O DINHEIRO É\nO MENOR PROBLEMA,\nO QUE SE",
+      "hold": 58,
+      "seconds": 1.92
+    },
+    {
+      "text": "PERDE É A\nATENÇÃO. QUANTO MAIS\nA INSTRUÇÃO DISPUTANDO",
+      "hold": 101,
+      "seconds": 3.36
+    },
+    {
+      "text": "ESPAÇO AO MESMO\nTEMPO, PIOR O\nMODELO SEGUE CADA",
+      "hold": 92,
+      "seconds": 3.06
+    },
+    {
+      "text": "UMA. FIZ A\nAUDITORIA ESSA SEMANA.",
+      "hold": 107,
+      "seconds": 3.56
+    },
+    {
+      "text": "DE 34 FERRAMENTAS\nPRA 3, 91%",
+      "hold": 103,
+      "seconds": 3.44
+    },
+    {
+      "text": "A MENOS EM\nTOKENS POR MENSAGEM.",
+      "hold": 74,
+      "seconds": 2.46
+    },
+    {
+      "text": "NÃO APAGUEI NADA.\nSÓ GUARDEI O\nQUE EU NÃO",
+      "hold": 73,
+      "seconds": 2.42
+    },
+    {
+      "text": "USO. OS PRÓPRIOS\nAUTORES AVISAM.",
+      "hold": 79,
+      "seconds": 2.64
+    },
+    {
+      "text": "NÃO É LEI, É\nPROPOSTA. MESMO ASSIM,",
+      "hold": 97,
+      "seconds": 3.22
+    },
+    {
+      "text": "O PRINCÍPIO VALE FORA\nDE SOFTWARE TAMBÉM.",
+      "hold": 83,
+      "seconds": 2.78
+    },
+    {
+      "text": "A ASSINATURA APROVADA UMA\nVEZ E NUNCA REVISTA.",
+      "hold": 103,
+      "seconds": 3.44
+    },
+    {
+      "text": "A LICENÇA DE\nQUEM JÁ SAIU.\nO RELATÓRIO QUE",
+      "hold": 89,
+      "seconds": 2.96
+    },
+    {
+      "text": "NINGUÉM MAIS LÊ,\nFAZ ESSA PERGUNTA\nEM TRÊS COISAS",
+      "hold": 91,
+      "seconds": 3.02
+    },
+    {
+      "text": "QUE SUA EMPRESA PAGA\nTODO MÊS. QUANTAS SOBREVIVEM?",
+      "hold": 139,
+      "seconds": 4.64
+    }
+  ],
+  "audioSeconds": 79.34,
+  "audioDurationInFrames": 2381,
+  "fullText": "Essa semana contei as ferramentas de inteligência artificial instaladas no meu agente. 34. 11. Nem eram minhas. Aqui está o que ninguém explica. A ferramenta fica guardada no disco, mas o resumo dela fica colado em toda conversa que eu tenho. Um paper publicado em agosto mediu esse custo. De 50 a 280 tokens por ferramenta em toda a mensagem, usada ou não. Os autores deram nome a isso, imposto de prateleira. Você paga aluguel por tudo que está na estante, inclusive o que nunca abriu. O dinheiro é o menor problema, o que se perde é a atenção. Quanto mais a instrução disputando espaço ao mesmo tempo, pior o modelo segue cada uma. Fiz a auditoria essa semana. De 34 ferramentas pra 3, 91% a menos em tokens por mensagem. Não apaguei nada. Só guardei o que eu não uso. Os próprios autores avisam. Não é lei, é proposta. Mesmo assim, o princípio vale fora de software também. A assinatura aprovada uma vez e nunca revista. A licença de quem já saiu. O relatório que ninguém mais lê, faz essa pergunta em três coisas que sua empresa paga todo mês. Quantas sobrevivem?"
+}

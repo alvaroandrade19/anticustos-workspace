@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Urgência sem custo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060A;
+    --surface-2:#141821;
+    --line:rgba(126,146,196,.16);
+    --text:#F2F4F8;
+    --text-2:#A8AEBF;
+    --text-3:#767D91;
+    --accent:#2563EB;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#000;display:flex;justify-content:center;font-family:"Schibsted Grotesk",system-ui,sans-serif}
+
+  .peca{
+    position:relative;
+    width:1200px;height:1500px;
+    background:var(--bg);
+    padding:96px;
+    display:flex;flex-direction:column;justify-content:center;
+    overflow:hidden;
+  }
+  /* Grão: separa preto chapado de preto com matéria. */
+  .peca::after{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  h1{
+    font-size:92px;font-weight:600;line-height:1.06;letter-spacing:-.035em;
+    color:var(--text);text-wrap:balance;max-width:14ch;
+  }
+
+  .contexto{
+    margin-top:32px;
+    font-size:30px;line-height:1.5;color:var(--text-2);max-width:58ch;
+  }
+
+  .conta{margin-top:96px}
+
+  .trilho{
+    display:flex;width:100%;height:128px;
+    background:var(--surface-2);border-radius:8px;overflow:hidden;
+  }
+  .cumprido{
+    flex:4;background:var(--accent);
+    display:flex;align-items:center;padding-left:32px;
+    font-size:27px;font-weight:500;color:#fff;letter-spacing:-.01em;
+  }
+  .faltando{
+    flex:2;
+    display:flex;align-items:center;padding-left:32px;
+    font-size:27px;font-weight:500;color:var(--text-2);letter-spacing:-.01em;
+  }
+
+  /* Marca ancorada no fim do trecho que ela mede, nao no comeco. */
+  /* Cada marca termina exatamente no ponto que ela mede. */
+  .eixo{position:relative;height:128px}
+  .marca-eixo{position:absolute;top:0;padding-top:24px;text-align:right}
+  .marca-eixo::before{content:"";position:absolute;top:0;right:0;width:2px;height:16px;background:var(--line)}
+  .saida{right:33.3333%}
+  .corte{right:0}
+  .mes{
+    font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+    font-size:38px;font-weight:500;color:var(--text);letter-spacing:-.01em;
+  }
+  .nota{margin-top:8px;font-size:24px;line-height:1.35;color:var(--text-2);white-space:nowrap}
+
+  .fecho{
+    margin-top:48px;padding-top:48px;border-top:1px solid var(--line);
+    font-size:48px;font-weight:600;line-height:1.2;letter-spacing:-.025em;color:var(--text);
+  }
+  .fonte{
+    margin-top:48px;
+    font-size:21px;line-height:1.4;font-weight:500;letter-spacing:.01em;color:var(--text-3);max-width:62ch;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+      scroll-behavior:auto !important;
+    }
+  }
+</style>
+</head>
+<body>
+  <section class="peca">
+    <h1>Urgência sem custo é peça de marketing.</h1>
+
+    <p class="contexto">Um pesquisador da Anthropic pediu demissão pelo X avisando que a IA vai matar todo mundo até o fim da década. A imprensa chamou de sacrifício. O programador Fábio Akita foi conferir o preço desse sacrifício.</p>
+
+    <div class="conta">
+      <div class="trilho">
+        <div class="cumprido">4 meses de casa</div>
+        <div class="faltando">faltavam 2</div>
+      </div>
+
+      <div class="eixo">
+        <div class="marca-eixo saida">
+          <div class="mes">04</div>
+          <p class="nota">ele pede demissão</p>
+        </div>
+        <div class="marca-eixo corte">
+          <div class="mes">06</div>
+          <p class="nota">as ações seriam dele</p>
+        </div>
+      </div>
+
+      <p class="fonte">Regra de 6 meses para as ações da Anthropic e data de saída conforme apuração de Fábio Akita, publicada no blog dele.</p>
+
+      <p class="fecho">Preço do sacrifício: zero.</p>
+    </div>
+  </section>
+</body>
+</html>

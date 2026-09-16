@@ -113,9 +113,20 @@ function acharLegenda(pasta) {
   console.log('Tipo: ' + tipo + ' | ' + (video ? 1 : arquivos.length) + ' mídia(s) | ' + legenda.length + ' caracteres');
 
   // --- sobe a mídia para o host público ---
+  // imgbb só aceita imagem. Vídeo (Reels) segue no catbox por ora, ver nota em agendar.js.
+  // Imagem sobe em dois hosts: se a Meta recusar a URL principal na hora de criar o
+  // container, a reserva entra sem refazer o upload.
   const urls = [];
+  const reservas = [];
   for (const a of video ? [video] : arquivos) {
-    urls.push(await lib.subirParaCatbox(a));
+    if (video) {
+      urls.push(await lib.subirParaCatbox(a));
+      reservas.push(null);
+    } else {
+      const { url, reserva } = await lib.subirImagemComReserva(a);
+      urls.push(url);
+      reservas.push(reserva);
+    }
     console.log('subiu: ' + path.basename(a));
   }
 
@@ -144,6 +155,22 @@ function acharLegenda(pasta) {
     throw new Error('Timeout esperando o container ' + id);
   };
 
+  // Troca de host quando a Meta recusa a URL principal: o erro só aparece aqui, na
+  // hora em que ela tenta baixar a imagem. Ver nota em lib-instagram.js.
+  const criarImagem = async (campos, url, reserva) => {
+    try {
+      const id = await criar(Object.assign({ image_url: url }, campos));
+      await esperar(id, 90000);
+      return id;
+    } catch (erro) {
+      if (!reserva) throw erro;
+      console.log('  host principal recusado pela Meta, tentando a reserva: ' + erro.message);
+      const id = await criar(Object.assign({ image_url: reserva }, campos));
+      await esperar(id, 90000);
+      return id;
+    }
+  };
+
   let containerFinal;
   if (tipo === 'reels') {
     console.log('\nCriando container de vídeo (pode levar alguns minutos)...');
@@ -151,14 +178,12 @@ function acharLegenda(pasta) {
     await esperar(containerFinal, 300000);
   } else if (tipo === 'imagem') {
     console.log('\nCriando container...');
-    containerFinal = await criar({ image_url: urls[0], caption: legenda });
-    await esperar(containerFinal, 90000);
+    containerFinal = await criarImagem({ caption: legenda }, urls[0], reservas[0]);
   } else {
     console.log('\nCriando containers...');
     const filhos = [];
-    for (const url of urls) {
-      const id = await criar({ image_url: url, is_carousel_item: 'true' });
-      await esperar(id, 90000);
+    for (let i = 0; i < urls.length; i++) {
+      const id = await criarImagem({ is_carousel_item: 'true' }, urls[i], reservas[i]);
       filhos.push(id);
       console.log('  ok: ' + id);
     }

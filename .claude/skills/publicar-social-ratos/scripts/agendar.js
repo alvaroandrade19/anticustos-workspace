@@ -166,9 +166,24 @@ function imagensDaPasta(pasta) {
   }
 
   // --- sobe a mídia para o host público ---
+  // imgbb só aceita imagem. Vídeo (Reels) segue no catbox por ora: o bloqueio da Meta
+  // identificado em 16/09/2026 foi só testado com imagem (ver notas em lib-instagram.js),
+  // não sabemos ainda se vídeo também é afetado. Sem uso de Reels agendado até aqui.
+  //
+  // Imagem sobe em dois hosts. A reserva vai junto para o KV porque o Worker precisa
+  // dela na hora de publicar: se a Meta recusar a URL principal, ele troca sem perder
+  // o horário. Sem isso, um host bloqueado só aparece quando o post já não saiu.
   const midia = [];
+  const midiaReserva = [];
   for (const arq of video ? [video] : arquivos) {
-    midia.push(await lib.subirParaCatbox(arq));
+    if (video) {
+      midia.push(await lib.subirParaCatbox(arq));
+      midiaReserva.push(null);
+    } else {
+      const { url, reserva } = await lib.subirImagemComReserva(arq);
+      midia.push(url);
+      midiaReserva.push(reserva);
+    }
     console.log('subiu: ' + path.basename(arq));
   }
 
@@ -179,12 +194,21 @@ function imagensDaPasta(pasta) {
     quando: quando.toISOString(),
     legenda: legenda,
     midia: midia,
+    midiaReserva: midiaReserva,
     criadoEm: new Date().toISOString(),
     tentativas: 0,
   };
 
   const id = quando.toISOString().replace(/[:.]/g, '-') + '_' + slug;
   await cfl.kvGravar(ns, 'post:' + id, item);
+
+  // Uma falha antiga do mesmo slug não sai sozinha do KV (fila.js só limpa em sucesso,
+  // de propósito, para não sumir com o erro antes de alguém ler). Reagendar é o sinal
+  // de que o erro já foi visto, então é aqui que ele para de sujar o resumo de sessão.
+  const resultadosVelhos = await cfl.kvListar(ns, 'resultado:');
+  for (const chave of resultadosVelhos) {
+    if (chave.name.endsWith('_' + slug)) await cfl.kvApagar(ns, chave.name);
+  }
 
   console.log('\nAgendado.');
   console.log('id: ' + id);

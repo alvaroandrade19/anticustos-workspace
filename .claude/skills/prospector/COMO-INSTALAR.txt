@@ -1,0 +1,30 @@
+============================================================
+  SKILL "Prospector"  —  comando: /prospector
+  Acha clientes que precisam do seu serviço (com aviso de
+  LGPD, sem disparo em massa).
+  Como instalar (leva 1 minuto)
+============================================================
+
+O QUE VOCÊ PRECISA:
+  - Claude Code instalado (a assinatura PRO de US$ 20/mês já serve).
+  - Conexão com a internet (ela pesquisa na web).
+
+
+PASSO A PASSO:
+
+  1) Crie (ou abra) a pasta do seu projeto, onde você quiser.
+  2) Extraia este arquivo (botão direito > Extrair aqui).
+     Vai aparecer uma pasta chamada  .claude
+  3) Mova a pasta  .claude  pra DENTRO da pasta do seu projeto.
+     Tem que ficar assim:
+         seu projeto\.claude\skills\prospector\SKILL.md
+  4) Abra o Claude Code DENTRO da pasta do seu projeto.
+  5) Pronto. É só pedir em português, ou digitar  /prospector
+
+     Exemplo:
+         "acha clínicas de estética em Curitiba que precisam de site"
+
+============================================================
+  Mais detalhes: abra o arquivo  LEIA-PRIMEIRO.md  dentro de
+  .claude\skills\prospector\
+============================================================

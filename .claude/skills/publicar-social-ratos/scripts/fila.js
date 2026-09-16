@@ -131,6 +131,19 @@ function local(iso) {
   if (dias !== null && dias <= 10) {
     console.log('\nAviso: o token do Instagram vence em ' + dias + ' dia(s). Rode renovar-token.js.');
   }
+
+  // O cartão da conta Cloudflare está vinculado, então o teto do R2 grátis (10GB) é
+  // inegociável. Só fala quando passa de 1GB, que já seria dez vezes o esperado e
+  // sinal de que a regra de 30 dias parou de funcionar.
+  try {
+    const uso = await lib.usoDoR2();
+    if (uso && uso.bytes > 1073741824) {
+      console.log(
+        '\nAVISO: o bucket de imagens está com ' + (uso.bytes / 1073741824).toFixed(2) + 'GB em ' +
+        uso.objetos + ' objetos. O teto grátis do R2 é 10GB. Conferir a regra de ciclo de vida.'
+      );
+    }
+  } catch (_) { /* consulta de conforto: não pode derrubar a leitura da fila */ }
 })().catch(function (erro) {
   console.error('\nErro: ' + erro.message);
   process.exit(1);

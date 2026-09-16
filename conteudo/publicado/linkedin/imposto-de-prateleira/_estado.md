@@ -2,10 +2,12 @@
 
 - **Rede:** linkedin
 - **Peça:** imposto-de-prateleira
-- **Estado:** agendado
+- **Estado:** publicado
 - **Veio de:** `conteudo/linkedin/imposto-de-prateleira`
 - **Agendado para:** 15/09/2026, 08:30
 - **Entrou na fila em:** 11/09/2026, 18:38
+- **Publicado em:** 15/09/2026, 08:31
+- **Link:** https://www.linkedin.com/feed/update/urn:li:share:7505588998292111360/
 - **Id na fila:** `2026-09-15T11-30-00-000Z_imposto-de-prateleira`
 
 <!-- não editar à mão: escrito pelas skills de publicação -->
@@ -17,8 +19,10 @@
   "idFila": "2026-09-15T11-30-00-000Z_imposto-de-prateleira",
   "rede": "linkedin",
   "slug": "imposto-de-prateleira",
-  "estado": "agendado",
+  "estado": "publicado",
   "origem": "conteudo/linkedin/imposto-de-prateleira",
-  "agendadoEm": "2026-09-11T21:38:18.781Z"
+  "agendadoEm": "2026-09-11T21:38:18.781Z",
+  "url": "https://www.linkedin.com/feed/update/urn:li:share:7505588998292111360/",
+  "publicadoEm": "2026-09-15T11:31:04.904Z"
 }
 ```

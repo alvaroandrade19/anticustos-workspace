@@ -7,7 +7,7 @@ Workspace de trabalho da Anti Custos, negócio do Alvaro de Andrade que presta s
 **Estrutura de pastas:**
 - `_contexto/`: memória do sistema (não apagar)
 - `clientes/`: uma pasta por cliente, criada a partir de `_modelo-cliente/`
-- `conteudo/`: produção de conteúdo, dividida em `carrosseis/`, `roteiros/`, `linkedin/` e `ideias.md`. Carrossel sai da skill `/carrossel`, uma pasta por peça. Post de LinkedIn sai da skill `/postar-linkedin`, que escreve e publica pela API oficial, uma pasta por post. A peça anda por três estados e as skills movem a pasta sozinhas: fica em `carrosseis/` ou `linkedin/` enquanto está em produção, vai para `conteudo/agendado/<rede>/` quando entra na fila e para `conteudo/publicado/<rede>/` quando sai no ar, sempre com um `_estado.md` dentro registrando link, horário e origem. Não mover essas pastas à mão. O Worker que publica roda na Cloudflare e não alcança este disco, então quem faz a passagem de agendado para publicado é `node scripts/sincronizar-publicacoes.js`, que a skill `/iniciar` roda no começo de toda sessão. A Fila de `ideias.md` também pode ser alimentada pela skill global `/curadoria-x` (curadoria de threads de IA numa X List, via API paga da X com teto de gasto mensal), que mora fora deste projeto em `~/.claude/skills/curadoria-x/`. A mesma Fila também recebe da skill global `/curadoria-youtube` (`~/.claude/skills/curadoria-youtube/`), que lê os uploads recentes dos canais acompanhados, diz o que vale assistir e baixa transcrição só do vídeo escolhido, tudo de graça e sem chave de API
+- `conteudo/`: produção de conteúdo, dividida em `carrosseis/`, `reels/`, `roteiros/`, `linkedin/` e `ideias.md`. Carrossel sai da skill `/carrossel`, uma pasta por peça. Post de LinkedIn sai da skill `/postar-linkedin`, que escreve e publica pela API oficial, uma pasta por post. Reel de Instagram sai da skill `/reels`, uma pasta por vídeo em `conteudo/reels/<slug>/` com `<slug>.mp4`, `plano.json` e `legenda.md`; o áudio de entrada, quando a legenda vem da voz do Alvaro, fica em `dados/audio/`. A peça anda por três estados e as skills movem a pasta sozinhas: fica em `carrosseis/` ou `linkedin/` enquanto está em produção, vai para `conteudo/agendado/<rede>/` quando entra na fila e para `conteudo/publicado/<rede>/` quando sai no ar, sempre com um `_estado.md` dentro registrando link, horário e origem. Não mover essas pastas à mão. O Worker que publica roda na Cloudflare e não alcança este disco, então quem faz a passagem de agendado para publicado é `node scripts/sincronizar-publicacoes.js`, que a skill `/iniciar` roda no começo de toda sessão. A Fila de `ideias.md` também pode ser alimentada pela skill global `/curadoria-x` (curadoria de threads de IA numa X List, via API paga da X com teto de gasto mensal), que mora fora deste projeto em `~/.claude/skills/curadoria-x/`. A mesma Fila também recebe da skill global `/curadoria-youtube` (`~/.claude/skills/curadoria-youtube/`), que lê os uploads recentes dos canais acompanhados, diz o que vale assistir e baixa transcrição só do vídeo escolhido, tudo de graça e sem chave de API
 - `propostas/`: propostas que ainda não têm cliente definido ou que servem de modelo
 - `apresentacoes/`: decks comerciais e institucionais
 - `marca/`: identidade visual, `design-guide.md` e arquivos de logo
@@ -48,7 +48,7 @@ Evitar tudo que denuncia texto de IA. Lista completa de clichês e detalhe de es
 
 Ferramentas em uso: Google Drive, Instagram, LinkedIn, Canva, WhatsApp Business, Meta Ads.
 
-LinkedIn e Instagram já publicam direto pelas APIs oficiais, de graça: LinkedIn pela skill `/postar-linkedin`, Instagram pela `/publicar-social-ratos` (Graph API, conta `anticustos.ia`). Credenciais no `.env`, tokens de 60 dias nos dois casos. As duas redes agendam post num Worker da Cloudflare com cron, também de graça, publicando com o computador desligado: são dois Workers separados, um por skill, cada um com seu KV. A API do Instagram não tem agendamento nativo (o container de mídia expira em 24h), então o Worker guarda a fila e só cria o container na hora de publicar. Publicar no Instagram sobe as imagens antes pro catbox.moe, porque a API só aceita URL pública, e imagem acima de uns 2MB precisa passar pelo `otimizar.js` antes, senão o catbox dá timeout. O resto ainda não tem conector instalado. A lista do que configurar está em `tarefas.md`.
+LinkedIn e Instagram já publicam direto pelas APIs oficiais, de graça: LinkedIn pela skill `/postar-linkedin`, Instagram pela `/publicar-social-ratos` (Graph API, conta `anticustos.ia`). Credenciais no `.env`, tokens de 60 dias nos dois casos. As duas redes agendam post num Worker da Cloudflare com cron, também de graça, publicando com o computador desligado: são dois Workers separados, um por skill, cada um com seu KV. A API do Instagram não tem agendamento nativo (o container de mídia expira em 24h), então o Worker guarda a fila e só cria o container na hora de publicar. Publicar no Instagram sobe a imagem antes pro R2 da Cloudflare (Worker `anticustos-imagens`), porque a API só aceita URL pública, e imagem acima de uns 2MB precisa passar pelo `otimizar.js` antes. A mesma imagem sobe também pro imgbb.com como reserva, e as duas URLs viajam na fila: se a Meta recusar a principal na hora de publicar, o Worker troca sozinho sem perder o horário. Vídeo de Reels segue indo pro catbox.moe. Essa redundância não é zelo excessivo: em dois dias seguidos, 15 e 16/09/2026, dois hosts gratuitos diferentes derrubaram publicação agendada, o catbox por bloqueio da Meta e o imgbb por queda do CDN, e nos dois casos o upload deu certo e o erro só apareceu quando a Meta tentou baixar. O resto ainda não tem conector instalado. A lista do que configurar está em `tarefas.md`.
 
 **Distribuição por canal:** Instagram publica pela página da Anti Custos. LinkedIn publica pelo perfil pessoal do Alvaro, por alcance orgânico. Isso muda a escrita, não só o destino: post de LinkedIn é em primeira pessoa do singular. Detalhe em `.claude/skills/postar-linkedin/references/voz-linkedin.md`.
 
@@ -57,6 +57,16 @@ LinkedIn e Instagram já publicam direto pelas APIs oficiais, de graça: LinkedI
 ## Como este workspace é organizado
 
 `AGENTS.md` é a fonte de instrução (este arquivo), `CLAUDE.md` tem só `@AGENTS.md` e nunca recebe conteúdo. Skills ficam em `.claude/skills/<nome>/SKILL.md`, e a ponte `.agents/skills` (junction, fora do git) faz o Codex enxergar as mesmas skills automaticamente.
+
+## Cloudflare: teto do plano grátis é regra inegociável
+
+O cartão do Alvaro está vinculado à conta, então estourar o plano grátis vira cobrança de verdade. Nenhuma alteração pode nascer sem caber no teto, e "provavelmente cabe" não vale: a conta é uma só, e as cotas são da conta inteira, não por Worker.
+
+**Os tetos que importam:** KV tem 1.000 escritas e 100 mil leituras por dia, e é o mais apertado (dois Workers de fila já consomem parte). R2 tem 10GB de armazenamento, 1 milhão de escritas e 10 milhões de leituras por mês, com egress sem custo. Workers têm 100 mil requisições por dia.
+
+**As travas que já existem, que não devem ser removidas:** o bucket `anticustos-imagens` apaga sozinho objeto com mais de 30 dias (regra de ciclo de vida gravada por `deploy-worker-imagens.js`), o Worker de imagem recusa upload sem `content-length` ou acima de 10MB, e o `fila.js` avisa se o bucket passar de 1GB. A imagem publicada não precisa sobreviver: a Meta baixa e re-hospeda na hora da publicação, o link do R2 só precisa durar aquele instante.
+
+**Antes de somar qualquer coisa nova na Cloudflare** (bucket, namespace, Worker, cron mais frequente), calcular o consumo por mês e dizer o número. Se a conta chegar perto do teto, a resposta é reduzir o consumo, nunca subir de plano sem falar.
 
 ## Roteamento de modelo
 
@@ -89,7 +99,7 @@ Não é necessário listar o que foi lido nem confirmar a leitura. Apenas usar o
 
 Qualquer peça visual (carrossel, story, proposta, slide, landing page, post): **ler `marca/design-guide.md` antes de construir** e não inventar cor, fonte, tamanho ou espaçamento fora dele. Ele é a única fonte para tipografia, neutros, acento e medidas de formato.
 
-Roteamento: **carrossel de Instagram vai pela skill `/carrossel`**, nunca montado na mão. **Todo o resto vai pela `/impeccable`** (`shape`, depois `critique` e `audit`, depois `polish`).
+Roteamento: **carrossel de Instagram vai pela skill `/carrossel`**, nunca montado na mão. **Reel vai pela skill `/reels`**, que renderiza em Remotion com o tema `anticustos` (os tokens saem deste guia; a headline em Anton é exceção consciente, pela mesma razão do carrossel: tipografia cinética pede peso condensado). **Todo o resto vai pela `/impeccable`** (`shape`, depois `critique` e `audit`, depois `polish`).
 
 **Consulta de dados de design:** a skill `ui-ux-pro-max` é uma base local pesquisável (estilos, paletas, pares tipográficos, 119 diretrizes de UX, padrões de landing, presets de animação, guias por stack). Não é etapa obrigatória do fluxo, é consulta sob demanda, e vale quando a decisão é aberta e o guia é omisso: estrutura de uma landing nova, padrão de UX de formulário, checagem de contraste, escolha de tipo de gráfico. Roda offline, sem API e sem dependência externa:
 
@@ -104,6 +114,24 @@ python .claude/skills/ui-ux-pro-max/scripts/search.py "<consulta>" --domain <ux|
 3. `/impeccable`, para julgamento de execução e acabamento. A própria impeccable define que o brief vence as regras genéricas dela.
 
 O `ui-ux-pro-max` entra como evidência, não como decisão pronta. Se a busca voltar vazia, dizer isso em vez de inventar resultado.
+
+---
+
+## Tráfego pago: nomenclatura de campanha
+
+Padrão fechado em 2026-09-16, vale pra toda campanha de Meta Ads. Existe pra localizar campanha, conjunto e anúncio sem abrir nenhum deles, e pra fechar o rastro do anúncio até a conversa no WhatsApp. O procedimento de mídia (o que rodar, em qual ordem, quando cortar) fica em `Wiki/Gerencial/Tráfego Pago - Protocolo e Escala.md`, não aqui.
+
+**Campanha:** `[OBJETIVO] [PRODUTO] [POSICIONAMENTO] [ORÇAMENTO] [TEMPERATURA] [FASE] [ESTRUTURA] [SEQ]`
+Exemplo: `[TRÁFEGO] [DIAG] [INSTA] [CBO-30] [FRIO] [CT] [1-1-4] [01]`
+
+**Conjunto:** `NN - [POSICIONAMENTO] [SEGMENTO] [FAIXA ETÁRIA]`
+Exemplo: `01 - [INSTA] [Aberto] [25-55]`. O campo de segmento fica `Aberto` enquanto a fase for CT, porque público amplo é a definição da fase, e passa a carregar o interesse na fase de segmentação (`[Dentista]`, `[Contabilidade]`).
+
+**Anúncio:** `CRIATIVO_NN`, com o número igual ao do arquivo em `criativos/` e igual ao `utm_content` do link. Exemplo: `CRIATIVO_07` para `criativos/7_feed.png` com `utm_content=criativo_07`.
+
+**Dois campos mudam de valor conforme a fase e precisam ser mantidos honestos:** `FASE` usa o vocabulário do pipeline (`CT`, `SEGMENTAÇÃO`, `ESCALA`) e `ESTRUTURA` descreve a contagem real de campanha, conjunto e anúncio (`1-1-4` é uma campanha, um conjunto, quatro anúncios). Nome que não bate com a estrutura real perde a função de localizar.
+
+**UTM padrão:** `utm_source=meta`, `utm_medium=paid-social`, `utm_campaign=<produto>-<fase>-<seq>` em minúsculo (`diag-ct-01`), `utm_content=<nome do anúncio em minúsculo>`. Vai dentro do link de destino do anúncio, nunca também no campo de parâmetros de URL do Meta, senão duplica.
 
 ---
 

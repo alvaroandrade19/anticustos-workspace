@@ -39,3 +39,10 @@ contas.yaml
 # Sistema
 .DS_Store
 node_modules/
+
+# Vídeo renderizado pela skill /reels: pesado e regerável a partir do plano.json
+*.mp4
+
+# Áudio de entrada da /reels: arquivo pessoal e pesado, o que importa é a transcrição
+dados/audio/*
+!dados/audio/README.md

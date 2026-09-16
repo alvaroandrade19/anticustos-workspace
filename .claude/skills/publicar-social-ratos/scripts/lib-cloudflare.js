@@ -77,6 +77,46 @@ async function kvApagar(ns, chave) {
   return cf('/storage/kv/namespaces/' + ns + '/values/' + encodeURIComponent(chave), { method: 'DELETE' });
 }
 
+// ----- R2 -----
+
+async function acharBucketR2(nome) {
+  const r = await cf('/r2/buckets');
+  const buckets = (r.result && r.result.buckets) || [];
+  return buckets.some(function (b) { return b.name === nome; });
+}
+
+// Exige R2 já habilitado na conta pelo painel (não dá para aceitar os termos pela API)
+// e o token com a permissão "Workers R2 Storage" adicionada, também só pelo painel.
+async function garantirBucketR2(nome) {
+  if (await acharBucketR2(nome)) return { criado: false };
+  await cf('/r2/buckets', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: nome }),
+  });
+  return { criado: true };
+}
+
+// Apaga sozinho objeto com mais de `dias`. É a trava que garante que o bucket nunca
+// cresce sem limite e o plano grátis nunca estoura (o cartão da conta está vinculado).
+// Imagem publicada não precisa sobreviver: a Meta baixa e re-hospeda na publicação.
+async function definirCicloDeVidaR2(bucket, dias) {
+  return cf('/r2/buckets/' + bucket + '/lifecycle', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      rules: [
+        {
+          id: 'apagar-antigos',
+          enabled: true,
+          conditions: { prefix: '' },
+          deleteObjectsTransition: { condition: { type: 'Age', maxAge: dias * 86400 } },
+        },
+      ],
+    }),
+  });
+}
+
 // ----- Workers -----
 
 // A conta precisa ter um subdomínio workers.dev antes de aceitar cron ou rota.
@@ -144,6 +184,9 @@ module.exports = {
   kvLer,
   kvListar,
   kvApagar,
+  acharBucketR2,
+  garantirBucketR2,
+  definirCicloDeVidaR2,
   subirWorker,
   definirCron,
   workerExiste,

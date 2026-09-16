@@ -88,8 +88,14 @@ Se escolheu Graph API:
    ```
    INSTAGRAM_ACCESS_TOKEN=IGA...
    INSTAGRAM_USER_ID=26186...
+   IMGBB_API_KEY=...
    ```
-   Só essas 2 variáveis. Não precisa de imgbb, catbox key, nem nada a mais.
+   As duas primeiras são o token e a conta. A terceira é o host de imagem reserva, chave
+   grátis em https://api.imgbb.com/. O host principal é o R2 da Cloudflare, que sobe com
+   `node .claude/skills/publicar-social-ratos/scripts/deploy-worker-imagens.js` e grava
+   `INSTAGRAM_IMG_WORKER_URL` e `INSTAGRAM_IMG_UPLOAD_SECRET` sozinho (exige R2 habilitado
+   na conta e o `CLOUDFLARE_API_TOKEN` com a permissão "Workers R2 Storage", os dois só
+   pelo painel). Vídeo (Reels) publica pelo catbox, sem chave.
 
 4. **Nada a instalar:**
    Os scripts rodam direto da pasta da skill, como os do `/postar-linkedin`. Nao copiar para `scripts/` do projeto: a copia solta fica desatualizada e nao enxerga as libs da skill.
@@ -125,25 +131,40 @@ Se escolheu Graph API:
 
 ### Host de imagens
 O Instagram não aceita upload direto de imagens — precisa de URL pública.
-O script usa **catbox.moe** (gratuito, sem conta, sem API key):
-```bash
-curl -s -F "reqtype=fileupload" -F "fileToUpload=@imagem.png" "https://catbox.moe/user/api.php"
-# retorna: https://files.catbox.moe/abc123.png
-```
+
+`lib.subirImagemComReserva` sobe **a mesma imagem em dois hosts** e devolve as duas URLs:
+principal no **Worker `anticustos-imagens`** (Cloudflare R2,
+`INSTAGRAM_IMG_WORKER_URL`/`INSTAGRAM_IMG_UPLOAD_SECRET` no `.env`) e reserva no
+**imgbb.com** (`IMGBB_API_KEY`). As duas viajam na fila, e quem troca de host é o Worker
+de publicação, não o upload. Vídeo (Reels) segue no **catbox.moe**, sem chave.
+
+**Por que duas URLs, e por que a troca acontece na publicação:** a falha que derruba post
+não aparece no upload. Nos dois casos reais, o arquivo subiu bem e o link abria, e só a
+Meta é que não conseguia baixar. Em 15/09/2026 o catbox começou a devolver "An unknown
+error has occurred" (código 1, HTTP 500) em todo container, provável bloqueio de domínio;
+em 16/09/2026, no meio de uma publicação agendada, o CDN do imgbb (`i.ibb.co`) parou de
+aceitar conexão e a Meta respondeu "Only photo or video can be accepted as media type"
+(código 9004). Cair de host só na hora do upload não cobre nenhum dos dois. Note que
+`api.imgbb.com` pode estar de pé com `i.ibb.co` fora: upload que deu certo não prova que
+a URL serve.
+
+O R2 é o principal por ser infraestrutura nossa, na borda da Cloudflare, em vez de host
+gratuito de terceiro. Sobe com `deploy-worker-imagens.js`, que cria o bucket, aplica a
+regra de 30 dias de validade e publica `worker-imagens/worker.js`.
 
 ### Tipos de publicação suportados
 
 **Carrossel (2-10 imagens):**
-1. Upload imagens pro catbox
-2. Criar container por imagem com `is_carousel_item=true`
+1. Upload das imagens nos dois hosts (R2 principal, imgbb reserva)
+2. Criar container por imagem com `is_carousel_item=true`, caindo pra reserva se a Meta recusar
 3. Poll status até FINISHED
 4. Criar carousel container com `media_type=CAROUSEL`, `children=id1,id2,...`, `caption=...`
 5. Poll status até FINISHED
 6. Publicar com `creation_id`
 
 **Imagem única:**
-1. Upload imagem pro catbox
-2. Criar container com `image_url` e `caption` (sem is_carousel_item)
+1. Upload da imagem nos dois hosts (R2 principal, imgbb reserva)
+2. Criar container com `image_url` e `caption` (sem is_carousel_item), caindo pra reserva se a Meta recusar
 3. Poll status até FINISHED
 4. Publicar com `creation_id`
 
@@ -157,7 +178,7 @@ curl -s -F "reqtype=fileupload" -F "fileToUpload=@imagem.png" "https://catbox.mo
 - `media_type` do carrossel é `CAROUSEL`, não `CAROUSEL_ALBUM` (esse era da API antiga)
 - Tokens IGA já vêm de longa duração (60 dias), não precisa converter
 - Poll de status a cada 3s com timeout de 60s (vídeos: 180s)
-- **Peso da imagem:** o catbox dá 504 em arquivo grande. O `/carrossel` renderiza em 2x
+- **Peso da imagem:** hosts de imagem gratuitos engasgam em arquivo grande. O `/carrossel` renderiza em 2x
   (2160x2700, uns 5MB por slide) e o Instagram reamostra tudo pra 1080 de largura de
   qualquer jeito, então esse peso não vira qualidade. Rodar `otimizar.js` antes:
   ```bash
@@ -179,9 +200,9 @@ criar o container só na hora.
 É o que este Worker faz. Mesmo padrão do `/postar-linkedin`, com Worker, KV e cron próprios,
 tudo no plano gratuito da Cloudflare.
 
-**Como funciona:** no agendamento, as imagens sobem pro catbox aqui da máquina e só a URL e a
-legenda vão pro KV. Nenhum byte de imagem passa pela Cloudflare. Na hora marcada o cron acorda,
-cria os containers, espera ficar `FINISHED` e publica.
+**Como funciona:** no agendamento, as imagens sobem nos dois hosts (vídeo pro catbox) aqui da
+máquina e só as URLs e a legenda vão pro KV. Na hora marcada o cron acorda, cria os containers,
+espera ficar `FINISHED` e publica, trocando pra URL reserva se a Meta recusar a principal.
 
 ```bash
 # implantar ou atualizar o Worker (idempotente, rodar de novo depois de renovar o token)
@@ -361,8 +382,14 @@ Para publicar sem mover nada, passar `--sem-mover`.
 - Vídeo: 1 arquivo de vídeo (Graph API publica como Reels)
 - Nunca commitar `.env` no git
 - Agendar é publicar: pedir confirmação igual, e mostrar o horário em fuso local
-- Imagem acima de uns 2MB: rodar `otimizar.js` antes, senão o catbox dá 504
+- Imagem acima de uns 2MB: rodar `otimizar.js` antes, senão o host de imagem engasga
 - Depois de renovar o token, rodar `deploy-worker.js` de novo, senão o Worker fica com o
   token velho e o post agendado falha em silêncio (o `renovar-token.js` já faz isso sozinho)
-- O catbox é host público sem conta: toda imagem publicada fica acessível por link aberto.
-  Irrelevante pra peça de marketing, relevante se um dia for material de cliente
+- Toda mídia publicada fica acessível por link aberto, nos três hosts. Irrelevante pra
+  peça de marketing, relevante se um dia for material de cliente
+- Erro na criação do container quase sempre é o host de imagem, não o token nem a peça.
+  "An unknown error has occurred" (código 1) e "Only photo or video can be accepted as
+  media type" (código 9004) são os dois rostos do mesmo problema: a Meta não conseguiu
+  baixar. Conferir se a URL responde (`fetch` direto nela) antes de suspeitar do código
+- **Teto do R2 é inegociável** (cartão vinculado na conta): a regra de 30 dias no bucket
+  e o limite de 10MB por upload não saem. Ver a seção de Cloudflare no `AGENTS.md`
