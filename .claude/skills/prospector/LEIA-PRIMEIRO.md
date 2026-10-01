@@ -80,10 +80,10 @@ nota como número pra você ordenar) e vem do lead mais quente pro mais frio. Ca
 conseguiu confirmar fica **vazio**, e o que faltou está escrito na coluna de pendências — assim você
 bate o olho e sabe o que é dado e o que é buraco.
 
-**E os leads viram cards.** Rode a skill **CRM de Leads** (`/crm-leads`) que essa lista abre num
-painel no seu computador: você arrasta cada lead de Novos pra Contatado, Proposta e Fechado, anota o
-que rolou na conversa, marca quem é quente e quem pediu pra não ser procurado. Prospectou de novo
-amanhã? Os leads novos caem no **mesmo painel**, sem duplicar e sem mexer no que você já organizou.
+**E os leads entram sozinhos no CRM.** A skill já roda `crm/scripts/importar-prospeccao.js` no
+fechamento de todo lote: abre `/pipeline` (dentro de `crm/`, `npm run dev`) e vê cada lead como
+negócio, com estágio, calor e gancho. Prospectou de novo amanhã? Os leads novos entram no
+**mesmo pipeline**, sem duplicar e sem mexer no estágio de quem você já moveu.
 
 Escolheu um lead quente? O próximo passo dentro do pack é a skill **Geradora de Proposta**
 (`/gerar-proposta`): aponta o dossiê do lead escolhido (já tem Negócio + Sinal + Gancho) e ela monta

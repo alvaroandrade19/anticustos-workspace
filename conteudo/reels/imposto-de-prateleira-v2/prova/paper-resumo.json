@@ -1,0 +1,29 @@
+{
+  "imagem": "conteudo/reels/imposto-de-prateleira-v2/prova/paper-resumo.png",
+  "iw": 1520,
+  "ih": 660,
+  "url": "https://arxiv.org/abs/2608.12610",
+  "marcas": [
+    {
+      "frase": "Attention is all you have",
+      "x": 0.1396,
+      "y": 0.1061,
+      "w": 0.353,
+      "h": 0.0788
+    },
+    {
+      "frase": "Submitted on 12 Aug 2026",
+      "x": 0.0185,
+      "y": 0.0667,
+      "w": 0.1708,
+      "h": 0.0364
+    },
+    {
+      "frase": "remains in the system prompt",
+      "x": 0.3853,
+      "y": 0.3492,
+      "w": 0.2347,
+      "h": 0.0455
+    }
+  ]
+}

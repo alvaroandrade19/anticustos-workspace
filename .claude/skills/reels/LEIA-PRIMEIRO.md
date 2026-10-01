@@ -1,3 +1,10 @@
+> **v2 (29/09/2026), o que mudou:** com áudio, a legenda agora sai em blocos curtos presos a cada
+> palavra da voz, e cada cena corta na palavra em que a ideia começa. As cenas alternam tipos (número,
+> página real com marca-texto, frase em tela cheia, tela, objeto, vídeo real do Pexels/Pixabay), você
+> aprova uma prancha de fotos antes do render, e o vídeo sai com volume padronizado e conferido. Detalhes
+> em `SKILL.md` e `reference/registros.md`. O texto abaixo descreve a v1 e continua valendo pra
+> instalação.
+
 # Reels — vídeo minimalista a partir de 1 frase
 
 Essa skill transforma **uma frase** num vídeo minimalista preto e branco (fundo preto, uma

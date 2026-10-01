@@ -1,0 +1,913 @@
+{
+  "modo": "audio",
+  "theme": "anticustos",
+  "cenas": [
+    {
+      "visual": "device",
+      "code": [
+        "$ listar ferramentas",
+        "",
+        "instaladas ...... 34",
+        "de terceiros .... 11",
+        "",
+        "custo: toda mensagem"
+      ],
+      "from": 0,
+      "dur": 166,
+      "registro": "tela",
+      "saida": "corte"
+    },
+    {
+      "visual": "counter",
+      "ancora": "34.",
+      "evento": 4,
+      "to": 34,
+      "sub": "ferramentas instaladas",
+      "legenda": false,
+      "from": 166,
+      "dur": 36,
+      "registro": "dado",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "tipografica",
+      "ancora": "11.",
+      "text": "11\nNEM ERAM\nMINHAS",
+      "from": 202,
+      "dur": 57,
+      "registro": "tipografica",
+      "entrada": "corte",
+      "saida": "flash"
+    },
+    {
+      "visual": "orb",
+      "ancora": "Aqui está",
+      "transicao": "flash",
+      "from": 259,
+      "dur": 68,
+      "registro": "marca",
+      "entrada": "flash",
+      "saida": "corte"
+    },
+    {
+      "visual": "animacao",
+      "ancora": "A ferramenta",
+      "arquivo": "animacoes/servidor.json",
+      "from": 327,
+      "dur": 69,
+      "registro": "animacao",
+      "entrada": "corte",
+      "saida": "corte",
+      "src": "a/012.json",
+      "lfr": 60,
+      "lip": 0,
+      "lop": 180,
+      "lw": 1600,
+      "lh": 1200,
+      "lbbox": [
+        0.2111,
+        0.163,
+        0.5722,
+        0.6519
+      ]
+    },
+    {
+      "visual": "code",
+      "ancora": "mas o resumo",
+      "code": [
+        "mensagem 1",
+        "+ resumo de 34 ferramentas",
+        "",
+        "mensagem 2",
+        "+ resumo de 34 ferramentas",
+        "",
+        "mensagem 3",
+        "+ resumo de 34 ferramentas"
+      ],
+      "from": 396,
+      "dur": 129,
+      "registro": "tela",
+      "entrada": "corte",
+      "saida": "flash"
+    },
+    {
+      "visual": "prova",
+      "ancora": "Um paper",
+      "transicao": "flash",
+      "imagem": "prova/paper-resumo.png",
+      "fonte": "Yin et al., arXiv 2608.12610 (ago/2026)",
+      "marcas": [
+        {
+          "x": 0.1396,
+          "y": 0.1061,
+          "w": 0.353,
+          "h": 0.0788,
+          "em": 11
+        },
+        {
+          "x": 0.0185,
+          "y": 0.0667,
+          "w": 0.1708,
+          "h": 0.0364,
+          "em": 40
+        },
+        {
+          "x": 0.3853,
+          "y": 0.3492,
+          "w": 0.2347,
+          "h": 0.0455,
+          "em": 53
+        }
+      ],
+      "from": 525,
+      "dur": 97,
+      "registro": "prova",
+      "entrada": "flash",
+      "saida": "corte",
+      "src": "a/013.png",
+      "iw": 1520,
+      "ih": 660
+    },
+    {
+      "visual": "faixa",
+      "ancora": "De 50",
+      "evento": 32,
+      "de": 50,
+      "ate": 280,
+      "unidade": "tokens por ferramenta",
+      "from": 622,
+      "dur": 102,
+      "registro": "dado",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "ripple",
+      "ancora": "em toda a mensagem",
+      "from": 724,
+      "dur": 104,
+      "registro": "atmosfera",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "prova",
+      "ancora": "Os autores",
+      "imagem": "prova/paper-imposto.png",
+      "fonte": "Yin et al., arXiv 2608.12610",
+      "zoom": 1.9,
+      "marcas": [
+        {
+          "x": 0.9411,
+          "y": 0.3654,
+          "w": 0.0378,
+          "h": 0.0846,
+          "em": 14
+        },
+        {
+          "x": 0.0211,
+          "y": 0.4577,
+          "w": 0.1856,
+          "h": 0.0846,
+          "em": 14
+        },
+        {
+          "x": 0.1533,
+          "y": 0.3654,
+          "w": 0.1525,
+          "h": 0.0846,
+          "em": 41
+        }
+      ],
+      "from": 828,
+      "dur": 75,
+      "registro": "prova",
+      "entrada": "corte",
+      "saida": "corte",
+      "src": "a/014.png",
+      "iw": 1520,
+      "ih": 520
+    },
+    {
+      "visual": "tipografica",
+      "ancora": "imposto de prateleira",
+      "text": "IMPOSTO DE\n*PRATELEIRA*",
+      "from": 903,
+      "dur": 53,
+      "registro": "tipografica",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "video",
+      "ancora": "Você paga",
+      "arquivo": "broll/estante.mp4",
+      "inicio": 0.5,
+      "from": 956,
+      "dur": 133,
+      "registro": "video",
+      "entrada": "corte",
+      "saida": "corte",
+      "src": "a/015.mp4"
+    },
+    {
+      "visual": "animacao",
+      "ancora": "O dinheiro",
+      "arquivo": "animacoes/dinheiro.json",
+      "loop": false,
+      "trecho": [
+        0.13,
+        1.9
+      ],
+      "pico": 0.8,
+      "evento": 7,
+      "escala": 0.78,
+      "from": 1089,
+      "dur": 49,
+      "registro": "animacao",
+      "entrada": "corte",
+      "saida": "corte",
+      "src": "a/016.json",
+      "lfr": 29.9700012207031,
+      "lip": 0,
+      "lop": 83.0000033806593,
+      "lw": 190,
+      "lh": 150,
+      "lbbox": [
+        0.3056,
+        0.5352,
+        0.3833,
+        0.331
+      ]
+    },
+    {
+      "visual": "tipografica",
+      "ancora": "o que se perde",
+      "text": "O QUE SE PERDE\nÉ A ATENÇÃO",
+      "from": 1138,
+      "dur": 64,
+      "registro": "tipografica",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "crowd",
+      "ancora": "Quanto mais",
+      "from": 1202,
+      "dur": 92,
+      "registro": "atmosfera",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "chart",
+      "ancora": "pior",
+      "points": [
+        96,
+        88,
+        74,
+        57,
+        40,
+        22
+      ],
+      "from": 1294,
+      "dur": 68,
+      "registro": "dado",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "checklist",
+      "ancora": "Fiz a auditoria",
+      "from": 1362,
+      "dur": 84,
+      "registro": "processo",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "barras",
+      "ancora": "De 34",
+      "evento": 53,
+      "valores": [
+        {
+          "rotulo": "antes",
+          "valor": 34
+        },
+        {
+          "rotulo": "depois",
+          "valor": 3
+        }
+      ],
+      "destaque": 1,
+      "unidade": "ferramentas instaladas",
+      "from": 1446,
+      "dur": 71,
+      "registro": "dado",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "tipografica",
+      "ancora": "91%",
+      "text": "*91%*\nA MENOS\nPOR MENSAGEM",
+      "from": 1517,
+      "dur": 106,
+      "registro": "tipografica",
+      "entrada": "corte",
+      "saida": "corte"
+    },
+    {
+      "visual": "animacao",
+      "ancora": "Não apaguei",
+      "arquivo": "animacoes/caixa.json",
+      "loop": false,
+      "pico": 0.42,
+      "evento": 47,
+      "from": 1623,
+      "dur": 99,
+      "registro": "animacao",
+      "entrada": "corte",
+      "saida": "corte",
+      "src": "a/017.json",
+      "lfr": 60,
+      "lip": 0,
+      "lop": 90,
+      "lw": 620,
+      "lh": 690,
+      "lbbox": [
+        0.2722,
+        0.3591,
+        0.45,
+        0.394
+      ]
+    },
+    {
+      "visual": "object",
+      "ancora": "Os próprios autores",
+      "name": "scale",
+      "from": 1722,
+      "dur": 117,
+      "registro": "objeto",
+      "entrada": "corte",
+      "saida": "flash"
+    },
+    {
+      "visual": "grid",
+      "ancora": "Mesmo assim",
+      "transicao": "flash",
+      "from": 1839,
+      "dur": 115,
+      "registro": "atmosfera",
+      "entrada": "flash",
+      "saida": "corte"
+    },
+    {
+      "visual": "object",
+      "ancora": "A assinatura",
+      "name": "credit-card",
+      "from": 1954,
+      "dur": 104,
+      "registro": "objeto",
+      "entrada": "corte",
+      "saida": "flash"
+    },
+    {
+      "visual": "key",
+      "ancora": "A licença",
+      "transicao": "flash",
+      "from": 2058,
+      "dur": 64,
+      "registro": "objeto",
+      "entrada": "flash",
+      "saida": "flash"
+    },
+    {
+      "visual": "object",
+      "ancora": "O relatório",
+      "name": "book",
+      "transicao": "flash",
+      "from": 2122,
+      "dur": 68,
+      "registro": "objeto",
+      "entrada": "flash",
+      "saida": "corte"
+    },
+    {
+      "visual": "counter",
+      "ancora": "faz essa pergunta",
+      "evento": 31,
+      "to": 3,
+      "sub": "coisas que sua empresa paga",
+      "from": 2190,
+      "dur": 139,
+      "registro": "dado",
+      "entrada": "corte",
+      "saida": "push"
+    },
+    {
+      "visual": "tipografica",
+      "ancora": "Quantas",
+      "text": "QUANTAS\nSOBREVIVEM?",
+      "transicao": "push",
+      "from": 2329,
+      "dur": 64,
+      "registro": "tipografica",
+      "entrada": "corte"
+    }
+  ],
+  "legendas": [
+    {
+      "texto": "ESSA SEMANA",
+      "from": 0,
+      "to": 14,
+      "enfase": false
+    },
+    {
+      "texto": "CONTEI",
+      "from": 14,
+      "to": 31,
+      "enfase": false
+    },
+    {
+      "texto": "AS FERRAMENTAS",
+      "from": 31,
+      "to": 55,
+      "enfase": false
+    },
+    {
+      "texto": "DE INTELIGÊNCIA",
+      "from": 55,
+      "to": 79,
+      "enfase": false
+    },
+    {
+      "texto": "ARTIFICIAL",
+      "from": 79,
+      "to": 99,
+      "enfase": false
+    },
+    {
+      "texto": "INSTALADAS",
+      "from": 99,
+      "to": 128,
+      "enfase": false
+    },
+    {
+      "texto": "NO MEU AGENTE",
+      "from": 128,
+      "to": 163,
+      "enfase": false
+    },
+    {
+      "texto": "AQUI ESTÁ",
+      "from": 263,
+      "to": 281,
+      "enfase": false
+    },
+    {
+      "texto": "O QUE NINGUÉM",
+      "from": 281,
+      "to": 299,
+      "enfase": false
+    },
+    {
+      "texto": "EXPLICA",
+      "from": 299,
+      "to": 329,
+      "enfase": false
+    },
+    {
+      "texto": "A FERRAMENTA FICA",
+      "from": 331,
+      "to": 358,
+      "enfase": false
+    },
+    {
+      "texto": "GUARDADA NO DISCO",
+      "from": 358,
+      "to": 400,
+      "enfase": false
+    },
+    {
+      "texto": "MAS O RESUMO",
+      "from": 400,
+      "to": 421,
+      "enfase": false
+    },
+    {
+      "texto": "DELA FICA COLADO",
+      "from": 421,
+      "to": 460,
+      "enfase": false
+    },
+    {
+      "texto": "EM TODA CONVERSA",
+      "from": 460,
+      "to": 497,
+      "enfase": false
+    },
+    {
+      "texto": "QUE EU TENHO",
+      "from": 497,
+      "to": 523,
+      "enfase": false
+    },
+    {
+      "texto": "UM PAPER",
+      "from": 529,
+      "to": 543,
+      "enfase": false
+    },
+    {
+      "texto": "PUBLICADO",
+      "from": 543,
+      "to": 561,
+      "enfase": false
+    },
+    {
+      "texto": "EM AGOSTO MEDIU",
+      "from": 561,
+      "to": 598,
+      "enfase": false
+    },
+    {
+      "texto": "ESSE CUSTO",
+      "from": 598,
+      "to": 626,
+      "enfase": false
+    },
+    {
+      "texto": "DE 50",
+      "from": 626,
+      "to": 645,
+      "enfase": false
+    },
+    {
+      "texto": "A 280 TOKENS",
+      "from": 645,
+      "to": 700,
+      "enfase": false
+    },
+    {
+      "texto": "POR FERRAMENTA",
+      "from": 700,
+      "to": 724,
+      "enfase": false
+    },
+    {
+      "texto": "EM TODA",
+      "from": 724,
+      "to": 751,
+      "enfase": false
+    },
+    {
+      "texto": "A MENSAGEM",
+      "from": 751,
+      "to": 782,
+      "enfase": false
+    },
+    {
+      "texto": "USADA OU NÃO",
+      "from": 782,
+      "to": 831,
+      "enfase": false
+    },
+    {
+      "texto": "OS AUTORES DERAM",
+      "from": 832,
+      "to": 869,
+      "enfase": false
+    },
+    {
+      "texto": "NOME A ISSO",
+      "from": 869,
+      "to": 903,
+      "enfase": false
+    },
+    {
+      "texto": "VOCÊ PAGA ALUGUEL",
+      "from": 960,
+      "to": 983,
+      "enfase": false
+    },
+    {
+      "texto": "POR TUDO",
+      "from": 983,
+      "to": 1005,
+      "enfase": false
+    },
+    {
+      "texto": "QUE ESTÁ",
+      "from": 1005,
+      "to": 1017,
+      "enfase": false
+    },
+    {
+      "texto": "NA ESTANTE",
+      "from": 1017,
+      "to": 1042,
+      "enfase": false
+    },
+    {
+      "texto": "INCLUSIVE",
+      "from": 1042,
+      "to": 1054,
+      "enfase": false
+    },
+    {
+      "texto": "O QUE NUNCA",
+      "from": 1054,
+      "to": 1069,
+      "enfase": false
+    },
+    {
+      "texto": "ABRIU",
+      "from": 1069,
+      "to": 1091,
+      "enfase": false
+    },
+    {
+      "texto": "O DINHEIRO",
+      "from": 1093,
+      "to": 1102,
+      "enfase": false
+    },
+    {
+      "texto": "É O MENOR",
+      "from": 1102,
+      "to": 1114,
+      "enfase": false
+    },
+    {
+      "texto": "PROBLEMA",
+      "from": 1114,
+      "to": 1138,
+      "enfase": false
+    },
+    {
+      "texto": "QUANTO MAIS A INSTRUÇÃO",
+      "from": 1206,
+      "to": 1234,
+      "enfase": false
+    },
+    {
+      "texto": "DISPUTANDO ESPAÇO",
+      "from": 1234,
+      "to": 1259,
+      "enfase": false
+    },
+    {
+      "texto": "AO MESMO TEMPO",
+      "from": 1259,
+      "to": 1298,
+      "enfase": false
+    },
+    {
+      "texto": "PIOR O MODELO",
+      "from": 1298,
+      "to": 1318,
+      "enfase": false
+    },
+    {
+      "texto": "SEGUE CADA UMA",
+      "from": 1318,
+      "to": 1365,
+      "enfase": false
+    },
+    {
+      "texto": "FIZ A AUDITORIA",
+      "from": 1366,
+      "to": 1405,
+      "enfase": false
+    },
+    {
+      "texto": "ESSA SEMANA",
+      "from": 1405,
+      "to": 1442,
+      "enfase": false
+    },
+    {
+      "texto": "DE 34 FERRAMENTAS",
+      "from": 1450,
+      "to": 1494,
+      "enfase": false
+    },
+    {
+      "texto": "PRA 3",
+      "from": 1494,
+      "to": 1517,
+      "enfase": false
+    },
+    {
+      "texto": "NÃO APAGUEI NADA",
+      "from": 1627,
+      "to": 1664,
+      "enfase": false
+    },
+    {
+      "texto": "SÓ GUARDEI",
+      "from": 1664,
+      "to": 1685,
+      "enfase": false
+    },
+    {
+      "texto": "O QUE EU",
+      "from": 1685,
+      "to": 1697,
+      "enfase": false
+    },
+    {
+      "texto": "NÃO USO",
+      "from": 1697,
+      "to": 1722,
+      "enfase": false
+    },
+    {
+      "texto": "OS PRÓPRIOS",
+      "from": 1726,
+      "to": 1740,
+      "enfase": false
+    },
+    {
+      "texto": "AUTORES AVISAM",
+      "from": 1740,
+      "to": 1778,
+      "enfase": false
+    },
+    {
+      "texto": "NÃO É LEI",
+      "from": 1778,
+      "to": 1803,
+      "enfase": false
+    },
+    {
+      "texto": "É PROPOSTA",
+      "from": 1805,
+      "to": 1838,
+      "enfase": false
+    },
+    {
+      "texto": "MESMO ASSIM",
+      "from": 1843,
+      "to": 1873,
+      "enfase": false
+    },
+    {
+      "texto": "O PRINCÍPIO VALE",
+      "from": 1875,
+      "to": 1899,
+      "enfase": false
+    },
+    {
+      "texto": "FORA DE SOFTWARE",
+      "from": 1899,
+      "to": 1929,
+      "enfase": false
+    },
+    {
+      "texto": "TAMBÉM",
+      "from": 1929,
+      "to": 1955,
+      "enfase": false
+    },
+    {
+      "texto": "A ASSINATURA",
+      "from": 1958,
+      "to": 1974,
+      "enfase": false
+    },
+    {
+      "texto": "APROVADA UMA VEZ",
+      "from": 1974,
+      "to": 2011,
+      "enfase": false
+    },
+    {
+      "texto": "E NUNCA REVISTA",
+      "from": 2011,
+      "to": 2058,
+      "enfase": false
+    },
+    {
+      "texto": "A LICENÇA",
+      "from": 2062,
+      "to": 2077,
+      "enfase": false
+    },
+    {
+      "texto": "DE QUEM JÁ",
+      "from": 2077,
+      "to": 2098,
+      "enfase": false
+    },
+    {
+      "texto": "SAIU",
+      "from": 2098,
+      "to": 2123,
+      "enfase": false
+    },
+    {
+      "texto": "O RELATÓRIO",
+      "from": 2126,
+      "to": 2142,
+      "enfase": false
+    },
+    {
+      "texto": "QUE NINGUÉM",
+      "from": 2142,
+      "to": 2158,
+      "enfase": false
+    },
+    {
+      "texto": "MAIS LÊ",
+      "from": 2158,
+      "to": 2189,
+      "enfase": false
+    },
+    {
+      "texto": "FAZ ESSA PERGUNTA",
+      "from": 2194,
+      "to": 2212,
+      "enfase": false
+    },
+    {
+      "texto": "EM TRÊS COISAS",
+      "from": 2212,
+      "to": 2241,
+      "enfase": false
+    },
+    {
+      "texto": "QUE SUA EMPRESA",
+      "from": 2241,
+      "to": 2266,
+      "enfase": false
+    },
+    {
+      "texto": "PAGA TODO MÊS",
+      "from": 2266,
+      "to": 2318,
+      "enfase": false
+    }
+  ],
+  "totalFrames": 2393,
+  "sfx": [
+    {
+      "src": "a/001.wav",
+      "from": 170,
+      "gainDb": -17
+    },
+    {
+      "src": "a/002.wav",
+      "from": 253,
+      "gainDb": -20
+    },
+    {
+      "src": "a/003.wav",
+      "from": 519,
+      "gainDb": -20
+    },
+    {
+      "src": "a/004.wav",
+      "from": 654,
+      "gainDb": -17
+    },
+    {
+      "src": "a/005.wav",
+      "from": 903,
+      "gainDb": -15
+    },
+    {
+      "src": "a/006.wav",
+      "from": 1138,
+      "gainDb": -15
+    },
+    {
+      "src": "a/007.wav",
+      "from": 1499,
+      "gainDb": -17
+    },
+    {
+      "src": "a/008.wav",
+      "from": 1833,
+      "gainDb": -20
+    },
+    {
+      "src": "a/009.wav",
+      "from": 2052,
+      "gainDb": -20
+    },
+    {
+      "src": "a/010.wav",
+      "from": 2221,
+      "gainDb": -17
+    },
+    {
+      "src": "a/011.wav",
+      "from": 2323,
+      "gainDb": -20
+    }
+  ],
+  "audioSrc": "a/000.mp3"
+}

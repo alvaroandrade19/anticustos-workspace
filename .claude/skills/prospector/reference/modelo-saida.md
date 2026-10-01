@@ -1,9 +1,9 @@
 # modelo-saida.md — planilha, painel, dossiê por lead, roll-up, handoff
 
 Tudo PT-BR, tom anti-guru. Escrita **incremental** (cada lead vira linha da planilha + card no roll-up
-assim que clareia — se travar, o que já achou tá salvo). Três saídas por run:
+assim que clareia — se travar, o que já achou tá salvo). Duas saídas por run:
 `prospeccao/<nicho>-<regiao>.csv` (planilha), `prospeccao/<nicho>-<regiao>.md` (roll-up +
-dossiês) e a entrada do **painel** em `prospeccao/crm/` (§5).
+dossiês). O CSV é também a entrada do CRM interno da Anti Custos (§5), sem arquivo à parte.
 
 ---
 
@@ -48,11 +48,11 @@ O que cada campo de auditoria significa (não corta nenhum — é o que sustenta
 - `pendencias` = em português simples, o que ficou faltando e qual é o passo manual.
 - `lote` = `<nicho>-<regiao>`, a chave pra achar a rodada depois.
 
-**Acompanhamento saiu da planilha.** As colunas `status`, `ultimo_contato`, `proxima_acao` e
-`opt_out` não existem mais aqui: quem cuida disso agora é o painel da `/crm-leads` (§5), que guarda
-coluna do funil, marcas e anotações sem você mexer em planilha. A planilha é o **resultado da
-pesquisa**; o painel é o **acompanhamento**. Opt-out continua valendo e mora no painel (marca
-"não perturbe"), e toda run futura pula quem está marcado assim.
+**Acompanhamento saiu da planilha.** As colunas `status`, `ultimo_contato` e `proxima_acao` não
+existem mais aqui: quem cuida disso agora é o pipeline do CRM interno (§5), que guarda o estágio
+do funil sem você mexer em planilha. A planilha é o **resultado da pesquisa**; o CRM é o
+**acompanhamento**. Opt-out (marcar "não perturbe" um lead específico) ainda não existe no CRM,
+ver nota no fim do §5.
 
 ---
 
@@ -128,9 +128,9 @@ pesquisa**; o painel é o **acompanhamento**. Opt-out continua valendo e mora no
   abre por fetch, confirma no link" / "sem MX, e-mail não confiável"}. Passo manual: {...}.
 
 ## Próximo movimento
-- **Acompanhe num quadro:** roda **`/crm-leads`** que esses leads viram cards num painel no seu
-  computador: você arrasta de Novos pra Contatado, anota o que rolou e marca quem é quente. Os
-  próximos lotes caem no mesmo painel, sem duplicar.
+- **Acompanhe no pipeline:** os leads já entraram sozinhos no CRM interno da Anti Custos (§5) —
+  abre `npm run dev` dentro de `crm/` e olha `/pipeline` pra ver estágio, calor e gancho de cada
+  um, e mover quem você já contatou pro próximo estágio.
 - **Re-roda** pra puxar o **próximo lote** (já pulo quem tá na lista), quando entrar em região/
   nicho novo, ou pra reconferir sinais, porque o mercado mexe.
 - **Escolheu um QUENTE?** O dossiê já tem Negócio + Sinal + Gancho prontos. Roda **`/gerar-proposta`**
@@ -140,67 +140,35 @@ pesquisa**; o painel é o **acompanhamento**. Opt-out continua valendo e mora no
 ---
 
 ## §4 — Handoff (regra)
-- Aponta SÓ pras skills-irmãs do pack (`/crm-leads` pra acompanhar, `/gerar-proposta` pra propor).
+- Aponta pro CRM interno pra acompanhar (§5) e pra `/gerar-proposta` pra propor, se essa skill
+  estiver instalada neste workspace (confira antes de citar, ela não vem por padrão aqui).
   **Nunca cita curso nem método de fora do pack** (o pack é standalone — decisão 2026-06-07).
 - O handoff é concreto: passa o dossiê do lead escolhido (Negócio/Sinal/Gancho) como entrada da 07.
 
 ---
 
-## §5 — Entrega pro painel (kanban da `/crm-leads`)
+## §5 — Entrega pro CRM interno
 
-Todo run que achou pelo menos 1 lead **também** joga os leads no painel, sozinho. É o que faz o lote
-de hoje somar com o de ontem no mesmo quadro, em vez de virar mais um arquivo solto.
+Todo run que achou pelo menos 1 lead também entra sozinho no CRM interno da Anti Custos (`crm/`,
+skill `/crm`), sem arquivo intermediário: o CSV que o §1 já escreve é a própria fonte que o
+importador lê, não existe painel separado nem `leads.json` próprio desta skill.
 
-**Antes de qualquer coisa, descubra em qual dos 3 casos você está.** O teste é a presença do SCRIPT,
-nunca a da pasta (a pasta pode existir vazia por causa de um run anterior):
-
-- **A — painel montado:** existe `prospeccao/crm/importar.mjs` → grava a entrada lá e junta (passos 1 e 2).
-- **B — painel não montado, mas a skill do painel está instalada:** a skill `crm-leads` tem uma pasta
-  chamada `assets` e dentro dela o `importar.mjs`. Procure em `~/.claude/skills/crm-leads/` e em
-  `.claude/skills/crm-leads/`. Achou → **monte o painel você mesmo** e junte: copie os 5 arquivos
-  dessa pasta pra `prospeccao/crm/` e crie `leads.json` como `{"versao":1,"leads":[]}`. Não crie
-  `estado.json` (quem cria é o painel). Depois siga os passos 1 e 2 normalmente.
-- **C — a skill do painel não está instalada:** grava a entrada em `prospeccao/entrada-<slug>.json`
-  (fora da pasta `crm/`, que não deve ser criada), e no fechamento diz em UMA linha que existe a
-  `/crm-leads` no pack pra ver isso num quadro. Não invente painel, não copie arquivo que não existe.
-
-1. Escreva a entrada `entrada-<nicho>-<regiao>.json` (em `prospeccao/crm/` nos casos A e B):
-```json
-{"leads":[
-  {"empresa":"...","segmento":"...","cidade":"...","uf":"GO",
-   "whatsapp":"55629...","telefone":"","email":"","email_confianca":"",
-   "site":"","instagram":"@perfil","instagram_numeros":"4.816 seguidores · 563 posts",
-   "facebook":"","google_negocio":"4,3 de 5 (292 avaliações)","google_negocio_url":"",
-   "redes_atividade":"post indexado de março/2026","reputacao":"",
-   "responsavel":"","cargo_responsavel":"","confianca_decisor":"",
-   "cnpj":"","origem_dado":"...","sinal_oportunidade":"...",
-   "prova_url":"https://.../cardapio","prova_nota":"a página do cardápio devolve erro 404",
-   "gancho_abordagem":"...",
-   "nota_calor":82,"nota_detalhe":"FIT 42/50 + SINAL 40/50 = 82/100","tier":"QUENTE",
-   "anuncio":"","situacao_cadastral":"ATIVA","porte":"ME","abertura":"1999","tecnologia":"",
-   "pendencias":"","lote":"<nicho>-<regiao>","data_coleta":"AAAA-MM-DD",
-   "fontes":[{"url":"...","nota":"..."}]}
-]}
+1. Depois de fechar `prospeccao/<nicho>-<regiao>.csv`, rode a partir da raiz do workspace:
 ```
-O painel mostra `prova_url` como um botão "Confira você mesmo" embaixo do sinal. **É o link do
-DEFEITO, nunca a home bonita** — mostrar a home enquanto o defeito está em outra página faz parecer
-que a skill mentiu.
-Mesmas regras da planilha: `nota_calor` NÚMERO, campo não verificado VAZIO, nada inventado.
-
-2. Nos casos A e B, junte e **reporte os números que o script imprimiu** (nunca os seus):
+node crm/scripts/importar-prospeccao.js
 ```
-cd prospeccao/crm && node importar.mjs entrada-<nicho>-<regiao>.json
-```
-Sem Bash disponível: deixe a entrada gravada, diga que ela está pronta pra entrar e siga.
-Se o comando falhar (sem Node, por exemplo), diga em português leigo que o painel precisa do Node,
-**não repita o erro cru** e não deixe o run parecer quebrado — a lista e a planilha já estão salvas.
+Ele lê **todos** os CSV em `prospeccao/`, não só o de agora, então é seguro rodar mesmo com lotes
+antigos por perto. É idempotente (reimporta sem duplicar, por CNPJ ou nome+lote quando falta CNPJ)
+e **nunca regride o estágio** de um lead que o Alvaro já moveu no pipeline manualmente.
 
-3. **Antes de sair procurando** (isso acontece lá no Step 2, não aqui): se `importar.mjs` existe no
-   projeto, rode `node importar.mjs --skip` e trate a lista como já-visitada — não traga de novo quem
-   está lá, e **nunca** traga quem está marcado `nao-perturbe` (é opt-out, não é preferência). Isso
-   substitui o velho dedup por CSV, que continua valendo pros arquivos antigos.
+2. **Reporte o número que o script imprimiu, nunca invente um:** algo como *"joguei N leads novos
+   no CRM (M já estavam lá, só atualizei o dossiê deles)."*
 
-4. No fechamento, diga o que aconteceu em uma linha, com o número real: *"joguei os N leads novos no
-   seu painel (M já estavam lá). Quer que eu abra?"* — e só abra se ele pedir. Abrir é
-   `cd prospeccao/crm && node servidor.mjs` em segundo plano; passe o endereço que ele imprimiu e
-   avise que a janela do terminal fica aberta enquanto usa.
+3. Se o comando falhar (Node ausente, ou `DATABASE_URL` não configurado em `crm/.env.local`), diga
+   em português simples que o CRM ainda não está de pé nesta máquina, **não repita o erro cru**, e
+   não deixe o run parecer quebrado, a planilha e o roll-up já estão salvos de qualquer jeito.
+
+**O que este fluxo ainda não cobre:** opt-out (marcar "não perturbe" um lead específico) não existe
+no CRM hoje, o dedup é só por identidade (CNPJ/nome), não por preferência de contato. Se isso virar
+necessidade real, o ajuste é em `crm/scripts/importar-prospeccao.js` e na tabela `negocios`
+(`crm/docs/schema.sql`), não nesta skill.

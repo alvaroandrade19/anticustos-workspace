@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Logo Instagram | Anti Custos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<style>
+/* Avatar de Instagram, sistema Terra.
+   Campo: #2A1A0C (marrom terra fundo, token do Terra Clara) descendo pro barro #110B07.
+   Tinta: #F3EEE6 (papel). Par verificado em 14,53:1.
+   Excecao tipografica consciente: Anton, condensada pesada, mesmo motivo do reel. */
+:root{
+  --barro:#110B07;
+  --campo:#2A1A0C;
+  --papel:#F3EEE6;
+  --fs1:300px;    /* ANTI, calculado no load */
+  --fs2:190px;    /* CUSTOS, calculado no load */
+  --corte:70deg;  /* direcao da estencil: cruza a diagonal do N, nunca corre junto com ela */
+  --passo:172px;  /* periodo do corte */
+  --fenda:8px;    /* espessura do vao */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{background:#000;display:flex;justify-content:center;padding:24px 0;font-family:'Anton',sans-serif}
+
+.slide{width:1080px;height:1080px;position:relative;overflow:hidden;background:var(--campo)}
+
+/* Profundidade: luz quente no alto a esquerda, barro no canto oposto. Os dois tons sao registrados. */
+.campo{position:absolute;inset:0;z-index:0;
+  background:radial-gradient(118% 108% at 28% 14%, #34210F 0%, #2A1A0C 48%, var(--barro) 100%)}
+
+/* Grao: separa marrom chapado de marrom com materia (componente do design-guide) */
+.grao{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.palco{position:absolute;inset:0;z-index:2;display:grid;place-items:center}
+.giro{position:relative;transform:rotate(-7deg)}
+.marca{position:relative}
+.marca+.marca{position:absolute;left:0;top:0}
+
+.linha{font-family:'Anton',sans-serif;color:var(--papel);text-transform:uppercase;
+  line-height:1;letter-spacing:.005em;white-space:nowrap;display:block;width:fit-content}
+.l1{font-size:var(--fs1)}
+.l2{font-size:var(--fs2);margin-top:-.20em}
+
+/* Duas camadas com mascaras complementares: a estencil corta e a metade de baixo desliza */
+.a{-webkit-mask-image:repeating-linear-gradient(var(--corte),#000 0 calc(var(--passo) - var(--fenda)),transparent calc(var(--passo) - var(--fenda)) var(--passo));
+   mask-image:repeating-linear-gradient(var(--corte),#000 0 calc(var(--passo) - var(--fenda)),transparent calc(var(--passo) - var(--fenda)) var(--passo))}
+.b{-webkit-mask-image:repeating-linear-gradient(var(--corte),transparent 0 calc(var(--passo) - var(--fenda)),#000 calc(var(--passo) - var(--fenda)) var(--passo));
+   mask-image:repeating-linear-gradient(var(--corte),transparent 0 calc(var(--passo) - var(--fenda)),#000 calc(var(--passo) - var(--fenda)) var(--passo));
+   transform:translate(7px,-4px)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<div class="slide" role="img" aria-label="Anti Custos">
+  <div class="campo"></div>
+  <div class="palco"><div class="giro" id="giro">
+    <div class="marca a">
+      <span class="linha l1">Anti</span>
+      <span class="linha l2">Custos</span>
+    </div>
+    <div class="marca b" aria-hidden="true">
+      <span class="linha l1">Anti</span>
+      <span class="linha l2">Custos</span>
+    </div>
+  </div></div>
+  <div class="grao"></div>
+</div>
+
+<script>
+// Casa a largura das duas linhas: ANTI (4 letras) sobe de corpo ate bater a caixa de CUSTOS.
+// Mede com a rotacao desligada, senao o bbox girado infla a medida.
+const ALVO = 690;
+document.fonts.ready.then(() => {
+  const giro = document.getElementById('giro');
+  const r = document.documentElement.style;
+  giro.style.transform = 'none';
+  const med = (sel, varName, base) => {
+    const w = document.querySelector(sel).getBoundingClientRect().width;
+    r.setProperty(varName, (base * ALVO / w).toFixed(2) + 'px');
+  };
+  med('.a .l1', '--fs1', 300);
+  med('.a .l2', '--fs2', 190);
+  giro.style.transform = '';
+  // Centragem otica: mede a caixa real da tinta ja rotacionada e corrige o desvio.
+  const cx = document.querySelector('.a').getBoundingClientRect();
+  const cv = document.querySelector('.slide').getBoundingClientRect();
+  const dx = (cv.left + cv.width / 2) - (cx.left + cx.width / 2);
+  const dy = (cv.top + cv.height / 2) - (cx.top + cx.height / 2);
+  document.querySelector('.palco').style.transform =
+    'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px)';
+  console.log('lockup ' + Math.round(cx.width) + 'x' + Math.round(cx.height) +
+    ' | correcao ' + dx.toFixed(1) + ',' + dy.toFixed(1) +
+    ' | raio do canto ' + Math.round(Math.hypot(cx.width, cx.height) / 2));
+  document.documentElement.dataset.pronto = '1';
+});
+</script>
+</body>
+</html>

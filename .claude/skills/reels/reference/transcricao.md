@@ -1,56 +1,44 @@
-# transcricao.md — legenda VERBATIM a partir do áudio (Whisper local, sem chave de API)
+# transcricao.md: legenda VERBATIM a partir do áudio (Whisper local, sem chave de API)
 
-The user records audio and wants the captions to BE that audio — word for word, nothing invented,
-nothing cut. This is how. The words stay EXACT; you only decide how to group them into slides and
-which visual fits each slide's meaning.
+O Alvaro grava (ou gera no ElevenLabs) e a legenda tem que SER aquele áudio: palavra por palavra, nada
+inventado, nada cortado. As palavras são fixas; o que se decide é a cena de cada ideia.
 
-## The script
+## Transcrever
+
+```bash
+node "<skill>/scripts/transcribe.mjs" --audio "dados/audio/<arq>" --out "conteudo/reels/<slug>/words.json" [--model Xenova/whisper-small]
 ```
-node <skill-dir>/scripts/transcribe.mjs --audio "<audio file>" --out "<words.json>" [--model <id>]
-```
-- Decodes the audio with ffmpeg (already on the machine), transcribes locally with Whisper via
-  `@huggingface/transformers` — **no API key, offline after the first download**.
-- First run installs the engine (~1–2 min) + downloads the model (~150MB, default `Xenova/whisper-base`).
-  Both are cached in a persistent dir, so later runs are fast. Narrate this wait in PT-BR.
-- Output JSON: `{ "text": "...", "words": [{"word","start","end"}, ...], "duration": <seconds> }`.
-- Tougher/longer audio or accents: pass `--model Xenova/whisper-small` (bigger + slower, more accurate).
 
-## Pace the slides with the SCRIPT (deterministic — don't eyeball it)
-Splitting the transcript into slides BY HAND led to flashing slides (some gone before they can be read)
-— reported twice. So a script does it, guaranteeing a readable floor per slide:
-```
-node <skill-dir>/scripts/group-captions.mjs --words "<words.json>" --out "<captions.json>"
-    [--min 1.9] [--max 3.4] [--maxwords 9]
-```
-- It takes the words IN ORDER (never drops/reorders/adds/rewords), groups them into slides where each
-  one **stays on screen ≥ ~1.9s** (readable) and **≤ ~3.4s** (doesn't drag), preferring natural
-  sentence-ends and speech pauses as boundaries, and **merges any too-short slide into a neighbor** so
-  nothing flashes. It also tidies mechanical splits (`"100"`+`"%"` → `100%`).
-- Output `captions.json`: `{ slides:[{text, hold, seconds}], audioSeconds, audioDurationInFrames, fullText }`.
-  `text` is UPPERCASE with `\n` line breaks (≤ ~4 words/line, ≤ 3 lines); `hold` is frames at 30fps.
-- **Want a different rhythm?** Re-run with a higher `--min` (fewer, calmer slides) or lower (more,
-  snappier). NEVER hand-edit the grouping — re-run the script so timing stays synced.
-- Example (the 17.8s test narration → 5 readable slides): `3.6s, 3.7s, 3.8s, 2.6s, 4.1s`.
+- Decodifica com ffmpeg e transcreve localmente (Whisper via `@huggingface/transformers`), offline
+  depois do primeiro download. Primeira vez: instala (~1 a 2 min) e baixa o modelo (~150MB). Narrar a espera.
+- Saída: `{"text", "words": [{"word","start","end"}], "duration"}`.
+- Áudio difícil ou sotaque: `--model Xenova/whisper-small` (maior, mais lento, mais preciso).
 
-## Build the plan from the slides
-1. One scene per slide. Use its `text` and `hold` EXACTLY as the script produced them — already verbatim
-   and already paced. Set `audio` to the audio path; the engine fits the reel to the audio length.
-2. **Visual per slide** = chosen by MEANING as always (object/hero/icon). The words are fixed; the
-   picture is your call. Don't let the visual change the text.
-3. Never re-group, re-time, or reword. If the rhythm's off, re-run group-captions (step above), don't tweak by hand.
+## Corrigir (o portão é a garantia)
 
-## The approval gate IS the guarantee
-Whisper is ~95% accurate in PT. It WILL occasionally mis-hear a word — names and foreign words most of
-all (it heard "Claude" as "Cloud" in testing). So:
-- Show the grouped transcript in PT-BR, slide by slide, and ask the user to **confirm or fix any
-  mis-heard word** before rendering (AskUserQuestion: "tá certo assim / quero corrigir uma palavra").
-- Apply ONLY the user's corrections of transcription errors. Never paraphrase, shorten, or "improve"
-  their words — that's the whole promise.
+O Whisper acerta ~95% em português e erra justo o que importa: nome próprio, termo em inglês, número
+("Claude" virou "Cloud"; "duzentos e oitenta" virou "280 e 80"; "aluguel" virou "a lugar").
 
-## Degraded modes (be honest, never silently paraphrase)
-- **No Node / install fails / transcription errors** → say so plainly and offer to caption from lines
-  the user types instead. Do NOT fall back to writing your own paraphrase of the audio.
-- **No ffmpeg** → can't decode; tell the user (the skill 03 Setup can help), keep the audio as
-  background-only with lines they type.
-- **Very noisy audio** → transcript may be rough; lean harder on the correction gate, suggest
-  `--model Xenova/whisper-small`.
+1. `node "<skill>/scripts/plano.mjs" --rascunho --words <words.json>` imprime o texto com o índice de
+   cada palavra e as pausas.
+2. Mostrar o texto corrido ao Alvaro e pedir que aponte o que foi mal ouvido (AskUserQuestion: "tá certo /
+   quero corrigir").
+3. Cada correção vira uma entrada em `correcoes` no plano, pelo índice: `{"de": 76, "ate": 77, "texto":
+   "aluguel"}` (junta duas palavras numa, mantendo o tempo do trecho); `{"de": 83, "texto": "estante,"}`;
+   `"texto": ""` remove.
+4. Só erro de escuta. Nunca parafrasear, encurtar ou "melhorar" o que ele falou: essa é a promessa.
+
+## Legenda: quem monta é o plano.mjs
+
+A v1 agrupava a fala em slides de até 9 palavras (`group-captions.mjs`, hoje legado). A v2 monta
+blocos de 1 a 3 palavras, uma unidade de sentido, com corte seco no quadro da palavra: quebra em
+pontuação, pausa de 0,25s, corte de cena e em volta da palavra de ênfase; nunca fecha em "o", "de",
+"que" (devolve pro bloco seguinte); cala nas cenas tipográficas (a frase já está na tela) e onde a
+cena pede `"legenda": false`. Ver os blocos com `plano.mjs --props <plano> --legendas`.
+
+## Modos degradados (honestos, sem paráfrase silenciosa)
+
+- Sem Node, instalação falhou ou transcrição errou → dizer isso e oferecer legendar a partir de texto
+  digitado. Nunca cair pra uma paráfrase do áudio.
+- Sem ffmpeg → não dá pra decodificar; dizer.
+- Áudio muito ruidoso → apoiar mais no portão de correção; sugerir `whisper-small`.

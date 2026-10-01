@@ -89,10 +89,10 @@ it (progressive disclosure — do NOT read them all up front):
    a mensagem de abordagem. Use vírgula, dois-pontos, parênteses ou frase curta. Isto é regra dura do
    workspace (`AGENTS.md`) e vence qualquer template de reference file que pareça sugerir o contrário.
    Campo vazio se escreve vazio ou "não identificado", nunca `—`.
-8. **Always close with the "Próximo movimento" block** — the board handoff to `/crm-leads` + the
-   re-run/próximo-lote nudge + the handoff to `/gerar-proposta` pointing at a lead's dossiê. This is MANDATORY in EVERY run,
-   including the empty, degraded, and zero-result paths. Never end the turn with only a question
-   or only an error.
+8. **Always close with the "Próximo movimento" block** — the CRM pipeline pointer (`/pipeline` in
+   `crm/`) + the re-run/próximo-lote nudge + the handoff to `/gerar-proposta` pointing at a lead's
+   dossiê, if that skill happens to be installed. This is MANDATORY in EVERY run, including the
+   empty, degraded, and zero-result paths. Never end the turn with only a question or only an error.
 9. **Always show the `nota_calor` arithmetic** (`FIT x/50 + SINAL y/50 − dedução = total → tier`).
    If a component could not be verified (fetch blocked), show it as `SINAL ?/50 (não verificado)`
    and mark the tier `provisório` — never replace the math with a bare "a confirmar".
@@ -235,22 +235,17 @@ Per `reference/modelo-saida.md`:
   of QUENTES, QUENTE/MORNO/FRIO counts) + the per-lead dossiês, to `prospeccao/<slug>.md`, AND
   the spreadsheet `prospeccao/<nicho>-<regiao>.csv` **following §1 to the letter** (`;`, BOM,
   numeric `nota_calor`, empty means not found, hottest first).
-- **Feed the board — this is automatic, not an offer** (`reference/modelo-saida.md` §5). Decide the
-  case by the presence of the SCRIPT, never of the folder: board already set up
-  (`prospeccao/crm/importar.mjs`) → drop the entrada there and merge; board not set up but the
-  sibling skill IS installed (its own `assets` folder, under `~/.claude/skills/crm-leads/`, carries
-  `importar.mjs`) → **set the board up yourself** (copy those 5 files + create an empty `leads.json`,
-  never `estado.json`) and merge;
-  sibling skill not installed → write the entrada in `prospeccao/` (do NOT create the `crm/`
-  folder) and mention `/crm-leads` in one line. Always report the script's real numbers. Opening the
-  panel is offered, never done unasked.
+- **Feed the CRM — this is automatic, not an offer** (`reference/modelo-saida.md` §5). The CSV from
+  §1 is already the source `crm/scripts/importar-prospeccao.js` reads, so just run it
+  (`node crm/scripts/importar-prospeccao.js` from the workspace root) after closing the CSV, and
+  report the script's real numbers (new vs. updated). No intermediate JSON, no separate board.
 - **Honest tally:** *"Você pediu N; achei X com contato verificável, Y QUENTES; Z ficaram sem
   decisor/contato (em Dados insuficientes). Quer que eu amplie a região ou afrouxe o filtro?"* —
   never pad to N.
-- End with the **board handoff to `/crm-leads`** (these leads become cards you drag through the
-  funnel, and the next batches land in the same board) + the **re-run / próximo-lote nudge** + the
-  **handoff to `/gerar-proposta`** (sibling pack skills) — pointing the chosen lead's dossiê
-  (Negócio + Sinal + Gancho) at it. **No mention of any course or method.**
+- End with the **CRM pipeline pointer** (leads already landed in `crm/`, point at `/pipeline` to
+  work the funnel) + the **re-run / próximo-lote nudge** + the **handoff to `/gerar-proposta`**, if
+  that skill is installed — pointing the chosen lead's dossiê (Negócio + Sinal + Gancho) at it.
+  **No mention of any course or method.**
 
 ## Degraded / empty mode
 Per `reference/metodologia.md` §degradado. First emit ≥2 plain-PT-BR progress lines (no tool

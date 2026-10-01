@@ -34,9 +34,10 @@ const ICON_STROKE = (ink: string, _accent: string) => ink; // white stroke (max 
 export const KenBurns: React.FC<{children: React.ReactNode; seed?: number}> = ({children, seed = 1}) => {
   const frame = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
-  const scale = interpolate(frame, [0, durationInFrames], [1.02, 1.09], {extrapolateRight: 'clamp'});
-  const dx = noise2D(`camx${seed}`, frame / 120, 0) * 16;
-  const dy = noise2D(`camy${seed}`, frame / 140, 0) * 12;
+  // v2: 0 a 4% (era 2 a 9%). O objeto já se move; câmera e objeto empurrando juntos viram tremor.
+  const scale = interpolate(frame, [0, durationInFrames], [1.0, 1.04], {extrapolateRight: 'clamp'});
+  const dx = noise2D(`camx${seed}`, frame / 120, 0) * 8;
+  const dy = noise2D(`camy${seed}`, frame / 140, 0) * 6;
   return <AbsoluteFill style={{transform: `scale(${scale}) translate(${dx}px, ${dy}px)`}}>{children}</AbsoluteFill>;
 };
 
@@ -358,19 +359,26 @@ export const CodeScreen: React.FC<{lines?: string[]}> = ({lines = DEFAULT_CODE})
 // ---------------------------------------------------------------------------
 // Counter — a big number that counts up to a target. "growth / scale / metric".
 // ---------------------------------------------------------------------------
-export const Counter: React.FC<{to?: number; prefix?: string; suffix?: string; decimals?: number}> = ({to = 100, prefix = '', suffix = '', decimals = 0}) => {
+export const Counter: React.FC<{to?: number; de?: number; prefix?: string; suffix?: string; decimals?: number; evento?: number; sub?: string}> = ({to = 100, de = 0, prefix = '', suffix = '', decimals = 0, evento, sub}) => {
+  // v2: com `evento` (quadro local) o número POUSA no alvo exatamente na palavra dita, com um pulso
+  // curto de acento. Sem evento, cai no comportamento antigo (mola de ~1s).
   const frame = useCurrentFrame();
   const {width, height, fps} = useVideoConfig();
-  const {ink, accent} = useTheme();
-  const p = interpolate(spring({frame, fps, config: {damping: 200, mass: 1.2}}), [0, 1], [0, 1]);
-  const val = (to * p).toFixed(decimals);
+  const {ink, ink2, accent} = useTheme();
+  const p = evento !== undefined
+    ? interpolate(frame, [0, Math.max(12, evento)], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic)})
+    : interpolate(spring({frame, fps, config: {damping: 200, mass: 1.2}}), [0, 1], [0, 1]);
+  const val = (de + (to - de) * p).toFixed(decimals);
+  const ev = evento ?? 30;
+  const pulso = interpolate(frame, [ev, ev + 5, ev + 14], [1, 1.07, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{justifyContent: 'flex-start', alignItems: 'center', paddingTop: height * 0.24}}>
-      <div style={{fontFamily: 'AntonReel, Impact, sans-serif', fontSize: width * 0.26, color: ink, lineHeight: 1, letterSpacing: '-0.02em'}}>
+      <div style={{fontFamily: 'AntonReel, Impact, sans-serif', fontSize: width * 0.26, color: ink, lineHeight: 1, letterSpacing: '-0.02em', transform: `scale(${pulso})`}}>
         {prefix}
-        {Number(val).toLocaleString('pt-BR')}
+        {Number(val).toLocaleString('pt-BR', {minimumFractionDigits: decimals, maximumFractionDigits: decimals})}
         <span style={{color: accent}}>{suffix}</span>
       </div>
+      {sub ? <div style={{fontFamily: 'Arial, sans-serif', fontSize: width * 0.034, color: ink2, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 18}}>{sub}</div> : null}
     </AbsoluteFill>
   );
 };

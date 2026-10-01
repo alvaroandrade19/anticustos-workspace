@@ -43,3 +43,7 @@ Data é a de publicação de verdade, lida do `_estado.md` de cada peça.
 | 2026-09-15 08:30 | Post | Imposto de prateleira | LinkedIn |
 | 2026-09-15 18:00 | Carrossel, 9 slides | Mártir de quatro meses: o pesquisador que saiu da Anthropic sem abrir mão de equity nenhum | Instagram |
 | 2026-09-16 18:00 | Carrossel, 8 folhas, Terra Clara | Problema do milênio: a régua do Akita para manchete de IA (qual versão, quem atesta, quanto custou) | Instagram |
+| 2026-09-18 08:30 | Post | Onde a IA se decide: a Apple terceirizou o modelo da Siri pro Google (fonte: Nate B Jones) | LinkedIn |
+| 2026-09-18 17:45 | Carrossel, 8 folhas, Terra Clara | O modelo é a fechadura: a Apple terceirizou o motor da Siri pro Google, ranking de modelo não é onde a IA se decide | Instagram |
+| 2026-09-20 18:00 | Post | Mito do modelo gigante: o AlphaFold resolveu o dobramento de proteínas com 93 milhões de parâmetros, não trilhão (fonte: Alvin Wang Graylin, podcast CFR, 8 jul 2026) | LinkedIn |
+| 2026-09-20 18:45 | Carrossel, 8 folhas, Terra Clara | Mito do modelo gigante: a conta que ninguém faz antes de assinar o modelo mais caro | Instagram |

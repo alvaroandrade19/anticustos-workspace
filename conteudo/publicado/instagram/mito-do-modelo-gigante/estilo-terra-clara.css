@@ -1,0 +1,178 @@
+/* Sistema Terra Clara. Meio termo entre a paleta Terra (escura, quente) e o sistema Papel.
+   Spec e porquês: formato-terra-clara.md. Arquivo autossuficiente.
+
+   O que veio do Papel: a folha, a serifada editorial, a hierarquia por fio e posição,
+   zero gradiente em texto.
+   O que veio da Terra: a temperatura inteira (barro, terracota, areia), a sans Libre Franklin
+   e o tratamento de imagem de sangria com scrim.
+   O que foi embora: a coluna de marginália. Rótulo de seção vive no rodapé, e a fonte do número
+   vive colada embaixo do número, que é o que o design-guide já mandava.
+
+   A tinta não é uma só: o nível tipográfico também escolhe a temperatura. Título de capa no
+   marrom terra mais fundo, título de miolo num marrom mais neutro, corpo num cinza quente. A
+   hierarquia é lida por três canais ao mesmo tempo (tamanho, posição, temperatura), e é isso que
+   deixa a folha respirar sem precisar de mais peso.
+
+   Um par de cores, dois papéis. No claro, tinta sobre papel. Na placa, os mesmos dois trocam de
+   lado: o papel vira tinta sobre barro #110B07. */
+
+:root{
+  /* Contraste sobre --pp, pela fórmula WCAG */
+  --pp:#F3EEE6;   /* papel. Meio termo medido: luminância 0,859, entre 0,823 do areia e 0,889 do off-white */
+  --ps:#FBF8F2;   /* folha inserida: tabela e moldura de anexo */
+
+  --h1:#2A1A0C;   /* título de capa, marrom terra fundo. 14,53:1 */
+  --h2:#35281C;   /* título de miolo e destaque, marrom neutro. 12,36:1 */
+  --tt:#2A1A0C;   /* tinta cheia: ênfase no corpo, número, total da tabela. 14,53:1 */
+  --tx:#514D47;   /* corpo e estrutura, cinza quente. 7,27:1 */
+
+  --ll:#DED7CA;   /* fio */
+  --in:#8F4A24;   /* caneta: terracota da Terra, escurecida até passar em corpo. 5,73:1 */
+  --in-2:#AC6238; /* fim do traço de caneta, 3,99:1, só gesto gráfico, nunca texto */
+  --trilho:rgba(42,26,12,.14);
+  --barro:#110B07;   /* fundo da placa, o --bg da paleta Terra */
+  --scrim:17,11,7;
+
+  --m:96px;      /* margem da folha */
+  --F:'Libre Franklin',system-ui,sans-serif;    /* estrutura: cabeçalho, rodapé, legenda */
+  --FH:'Newsreader',Georgia,serif;              /* o argumento: título e corpo */
+  --M:'IBM Plex Mono',ui-monospace,monospace;   /* número, ordinal e fólio */
+
+  --marca:'®Anti Custos';
+  --perfil:'@anticustos.ia';
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:light}
+body{background:#7A6A58;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0;
+  font-family:var(--FH);-webkit-font-smoothing:antialiased}
+::selection{background:var(--in);color:#fff}
+
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--pp);color:var(--tx)}
+.slide.card{height:1080px}
+
+/* Fibra do papel. Papel claro chapado lê como light mode de interface.
+   Multiply para a fibra escurecer, nunca clarear. Passa por cima da foto também, e é o que
+   faz a imagem pertencer à folha em vez de parecer colada nela. */
+.slide::before{content:'';position:absolute;inset:0;z-index:6;pointer-events:none;
+  opacity:.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23f)'/%3E%3C/svg%3E")}
+
+/* Placa: a folha inteira vira foto. Os tokens trocam de lado, e todo o resto do sistema
+   (cabeçalho, rodapé, título, corpo) continua funcionando sem uma regra a mais.
+   Na capa com imagem e na placa de miolo é o mesmo componente.
+   Contraste sobre --barro: tinta invertida 16,92:1 · secundária 11,16:1 · caneta 6,58:1 */
+.slide.placa{background:var(--barro);
+  --pp:#110B07; --ps:#1D140D; --h1:#F3EEE6; --h2:#F3EEE6; --tt:#F3EEE6; --tx:#C9C3B9;
+  --ll:rgba(243,238,230,.20); --in:#CD8552; --in-2:#EAD0A6; --trilho:rgba(243,238,230,.16)}
+.slide.placa::before{mix-blend-mode:normal;opacity:.05}
+
+.foto{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center top}
+/* Scrim de duas camadas, igual ao sistema escuro: nunca confiar na foto ser escura.
+   Piso da marca: a soma nunca desce de 70% na faixa onde o texto se apoia. */
+.scrim-base{position:absolute;inset:0;z-index:1;background:rgba(var(--scrim),.34)}
+.scrim-rampa{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
+  rgba(var(--scrim),.20) 0%,rgba(var(--scrim),.45) 34%,rgba(var(--scrim),.88) 68%,rgba(var(--scrim),.97) 100%)}
+
+/* Capa. Com imagem, a capa é a placa cheia: a foto ocupa a folha inteira e os tokens
+   trocam de lado. Sem imagem, é a folha limpa com o título grande em .centro. Não existe
+   um terceiro tratamento de capa, e imagem partindo a folha ao meio foi testada e recusada. */
+
+/* Cabeçalho. Fio duplo é convenção de documento e é o que mais separa este sistema do escuro.
+   Só marca e perfil vivem aqui: rótulo de seção acima do título é eyebrow, e o guia proíbe. */
+.topo{position:absolute;top:64px;left:var(--m);right:var(--m);z-index:4;
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:16px;border-bottom:3px double var(--ll);
+  font-family:var(--F);font-size:19px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tx)}
+.topo .marca::before{content:var(--marca)}
+.topo .perfil::before{content:var(--perfil)}
+.topo .perfil{font-weight:500}
+
+/* Rodapé: rótulo de seção, progresso e fólio. O trilho existe porque a peça é carrossel
+   e o leitor precisa saber quanto falta. */
+.pe{position:absolute;bottom:64px;left:var(--m);right:var(--m);z-index:4;
+  display:flex;align-items:center;gap:24px;padding-top:16px;border-top:1px solid var(--ll)}
+.pe .tag{font-family:var(--F);font-size:17px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--in);white-space:nowrap;flex-shrink:0}
+.pe .trilho{flex:1;height:3px;background:var(--trilho);overflow:hidden}
+.pe .preench{height:100%;background:var(--in)}
+.pe .folio{font-family:var(--M);font-size:17px;font-weight:500;letter-spacing:.06em;color:var(--tx);
+  font-variant-numeric:tabular-nums}
+
+/* Coluna única. O documento começa no alto e desce: esse é o padrão.
+   Centralizar é exceção de bloco fechado, encostar embaixo é exceção de placa. */
+.corpo{position:absolute;left:var(--m);right:var(--m);top:184px;bottom:172px;z-index:3;
+  display:flex;flex-direction:column;justify-content:flex-start;gap:40px}
+.corpo.centro{justify-content:center}
+.corpo.base{justify-content:flex-end}
+
+.titulo{font-family:var(--FH);font-size:66px;font-weight:500;line-height:1.12;letter-spacing:-.014em;
+  text-wrap:balance;color:var(--h2);font-variation-settings:"opsz" 48}
+.titulo.capa{font-size:92px;line-height:1.02;letter-spacing:-.024em;color:var(--h1);
+  font-variation-settings:"opsz" 72}
+/* Sobre a placa a headline perde o papel atrás e ganha a foto, então desce um degrau:
+   linha mais longa sobre imagem cansa mais do que sobre folha. */
+.placa .titulo.capa{font-size:84px;line-height:1.06}
+
+/* Grifo: o traço de caneta de quem finalmente achou a linha. É a assinatura do sistema,
+   e substitui o gradiente da headline escura. Um por peça inteira, só no título.
+   Fio, nunca preenchimento: engrossar isso até virar marca-texto quebra o contraste. */
+.grifo{background-image:linear-gradient(90deg,var(--in),var(--in-2));background-repeat:no-repeat;
+  background-size:100% 5px;background-position:0 100%;padding-bottom:.12em;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+/* Diagramação de ênfase, igual em todos os sistemas da marca:
+   afirmação na tinta cheia em 600, desenvolvimento em 400 no cinza quente. */
+.texto p{font-size:34px;line-height:1.5;color:var(--tx)}
+.texto p + p{margin-top:24px}
+.texto strong{font-weight:600;color:var(--tt)}
+.texto.lead p{font-size:37px;line-height:1.44}
+
+/* Destaque: a frase que o leitor leva embora. Entre dois fios de tinta cheia, não em caixa. */
+.destaque{font-size:50px;font-weight:500;line-height:1.3;letter-spacing:-.012em;color:var(--h2);
+  padding:48px 0;border-top:1px solid var(--h2);border-bottom:1px solid var(--h2)}
+
+/* Livro: a conta aberta tratada como razão contábil, não como tabela de slide. */
+.livro{width:100%;border-collapse:collapse;background:var(--ps);border:1px solid var(--ll)}
+.livro th{font-family:var(--F);font-size:16px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tx);text-align:left;padding:16px 24px;border-bottom:1px solid var(--ll)}
+.livro th:last-child,.livro td:last-child{text-align:right}
+.livro td{font-size:29px;line-height:1.3;color:var(--tx);padding:24px;border-bottom:1px solid var(--ll)}
+.livro td:last-child{font-family:var(--M);font-size:27px;font-variant-numeric:tabular-nums;
+  color:var(--tt);white-space:nowrap}
+.livro tr:last-child td{border-bottom:none;color:var(--tt);font-weight:600;background:#F7F3EB}
+
+/* O número e a fonte colada nele. A fonte fica embaixo do número, no lugar onde o olho
+   já está, e não numa margem que o leitor precisa procurar. */
+.soma{font-family:var(--M);font-size:96px;font-weight:500;line-height:1;letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums;margin-top:32px;color:var(--tt)}
+.soma-l{font-family:var(--F);font-size:21px;font-weight:400;line-height:1.45;color:var(--tx);margin-top:12px}
+
+/* Cláusulas: sequência numerada, onde o ordinal carrega a posição de verdade. */
+.clausula{display:grid;grid-template-columns:auto 1fr;column-gap:24px;align-items:baseline}
+.clausula + .clausula{margin-top:32px;padding-top:32px;border-top:1px solid var(--ll)}
+.clausula .ord{font-family:var(--M);font-size:21px;font-weight:500;letter-spacing:.04em;color:var(--in)}
+.clausula p{font-size:31px;line-height:1.42;color:var(--tx)}
+.clausula strong{font-weight:600;color:var(--tt)}
+
+/* Anexo: o segundo modo de imagem, para print e captura, onde cortar apaga informação.
+   Foto de assunto vai em placa, print vem para cá, dentro da moldura. */
+.figura{background:var(--ps);border:1px solid var(--ll);padding:16px}
+.figura .img{height:520px;background-size:cover;background-position:center}
+.figura .img.print{background-size:contain;background-repeat:no-repeat;background-color:var(--ps)}
+.ph{background:radial-gradient(120% 90% at 50% 18%,#D9D1C2 0%,#C5BCAA 50%,#ACA18E 100%)}
+
+/* Legenda: nota de pé de bloco, não de margem. Entra abaixo do que ela explica. */
+.legenda{font-family:var(--F);font-size:20px;line-height:1.45;color:var(--tx);margin-top:16px}
+.legenda .ref{font-family:var(--M);font-size:17px;letter-spacing:.04em;color:var(--in);margin-right:12px}
+
+/* Fecho: bloco de assinatura. A peça termina como documento termina, não como anúncio. */
+.assinatura{border-top:1px solid var(--h2);padding-top:24px}
+.assinatura .quem{font-family:var(--F);font-size:23px;font-weight:600;letter-spacing:.01em;color:var(--tt)}
+.assinatura .cargo{font-family:var(--F);font-size:19px;font-weight:400;color:var(--tx);margin-top:4px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

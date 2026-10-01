@@ -1,102 +1,101 @@
-# fluxo.md — the run order
+# fluxo.md: a ordem do trabalho (v2)
 
-## 0. Where things go
-- Output: `conteudo/reels/<slug>/<slug>.mp4` (slug = kebab of the topic) + `conteudo/reels/<slug>/plano.json`
-  (the scene plan you rendered, so a re-render is one command).
-- The engine + font live inside the skill at `assets/`; the render script at `scripts/render.mjs`.
+`<skill>` = caminho absoluto de `.claude/skills/reels`. Rodar tudo da raiz do projeto.
 
-## 1. Intake (one short PT-BR exchange, no form)
-- If the user gave a topic ("um reel sobre criar ferramentas com IA") → YOU write the lines.
-- If the user gave the exact lines → respect them; only fix anti-slop tics (and say what you
-  changed and why).
-- Empty / vague → ask in one line: "Sobre o que é o vídeo? Me dá o tema ou a frase principal."
-- Optional brand: `Glob` for `marca/design-guide.md` (a fonte de marca deste workspace) or ask if they
-  have brand colors → use them as the `theme`. Default to `mono-dark` if nothing is given.
-- Optional AUDIO: if the user has a voiceover/audio, take its path → `audio` in the plan. The
-  reel length will match the audio and captions sync at the beat level (each line over its slice).
-- Current-event topic → you MAY `WebSearch` to get the fact right, then verify date/source before
-  putting any claim on screen. If web is down, keep the line evergreen.
+## 0. Pasta da peça
 
-## 2. Be the SCENE DIRECTOR (read estetica.md FIRST) — build the reel FOR this text
-Don't slot copy into a fixed template. Read the script line by line and, for EACH beat, choose the
-visual that MATCHES THE MEANING and author the SPECIFIC content for it. Aim for **8–12 beats** over
-20–30s so it feels rich, and never repeat the same visual back-to-back.
+`conteudo/reels/<slug>/`: `plano.json`, `words.json`, `prova/`, `broll/`, `_prancha/`, `<slug>.mp4`,
+`<slug>.qa.json`, `<slug>.resolvido.json`, `legenda.md`. Áudio original em `dados/audio/`.
 
-**Pick the color theme FIRST** (`theme`): the user's brand (marca/design-guide.md, tema `anticustos`) → else
-the topic (Claude/Anthropic → `claude` orange; finance → `emerald`/`gold`) → else **prefer a LIGHT
-theme (`editorial`)** — that's our DIFFERENTIATION (competitors do black-bg/white; a light or
-accent look never reads as a copy). `mono-dark` only if the user wants dark. Palettes in engine-remotion.md.
+## 1. Entrada
 
-**Intent → visual (and what to author):**
-| The line is about… | visual | author this specific content |
-|---|---|---|
-| **hero beat where real 3D depth matters** (hook or final CTA) | `hero3d` | (WebGL metallic sphere + orbital rings — use for the opening or closing when you want the 3D premium look; `place:"top"` works well) |
-| idea / AI / energy / the brand / open & close | `orb` | (CSS gradient sphere — lighter, works everywhere) |
-| the world / system / "where you are" / a strong hook | `grid` | (perspective floor + signature motif) |
-| building / coding / "the AI does it" | `device` or `code` | REAL `code` lines about the topic |
-| structure / how it works | `wireframe` / `network` | — |
-| people / crowd / get ahead / stand out | `crowd` or `figures` | — (use `place:"top"` for the text) |
-| growth / results / it scales | `chart` | `points` that END HIGH |
-| a metric / number / proof | `counter` | `to` + `suffix` (`x`, `%`, `R$ `) |
-| infinite / calm / space | `particles` | — |
-| a concrete THING with no built-in (rocket, brain, globe, key) | `svg` | draw a SPATIAL METAPHOR of the concept — see rule below |
+- **Áudio** (principal): arquivo em `dados/audio/`. Se estiver vazio e o Alvaro citou áudio, pedir o
+  caminho.
+- **Tema ou frase** (modo texto): você escreve as frases (ver `estetica.md` §7); se ele deu as frases,
+  respeitar, corrigindo só vício de IA e dizendo o que mudou.
+- Assunto de notícia: WebSearch pra checar fato e data antes de pôr na tela.
 
-- `text`: the line. `\n` break. ≤9 words/line. `place:"top"` for `grid`/`crowd` (visual fills below).
-- `big`: hook/payoff (bigger + scale-punch + flash). `sub`: kicker. `hold`: ~70–104.
-- **FILL THE FRAME** (the pro look): favor the big frame-filling scenes (`grid`/`device`/`crowd`/
-  `orb`) for hero beats — they have 3D depth and fill the screen, vs leaving empty space. Arc
-  Hook→Escalation→Payoff→close; alternate calm (orb/particles/grid) and dense (device/code/crowd/
-  chart). Use `svg` sparingly (1-2 beats). Duration auto-computed (or set by the audio length).
+## 2. Transcrever (modo áudio)
 
-**SEMANTIC CHECK — mandatory before locking any scene:**
-For every beat, ask: *"Does this visual ENACT the meaning of the line, or just vaguely associate with it?"*
-A visual ENACTS when someone who can't read the text can still infer the concept from the visual alone.
-- ✅ "sem limite" → `svg` drawing an open horizon (a line extending past the frame edge), or a ceiling/barrier with a break in it, or a path diverging to infinity → ENACTS "no ceiling"
-- ❌ "sem limite" → `svg` lightning bolt → a bolt is power/speed, not "limitlessness" — reject
-- ✅ "liberdade" → `svg` two chains separating OR a door opening (two L-shapes moving apart)
-- ✅ "crescimento" → `chart` with points going steeply up → ENACTS growth
-- ✅ "escala global" → `network` (nodes connecting across the frame) → ENACTS reach
-- ❌ "you're building something" → `orb` → orb is AI/energy, not building — use `device` or `code`
-
-**SVG semantic rule (when you reach `svg`):**
-Describe the concept spatially: what does "X" look like as a line drawing? Reject any icon that could
-belong to a different concept. Draw the THING or the ACTION:
-- "crescimento" → an upward arrow or staircase path
-- "conexão" → two dots with a line drawn between them  
-- "velocidade" → diagonal slash lines with spacing (speed lines)
-- "rompimento" → a straight horizontal line with a zig-break in the center
-Keep paths simple (2–4 anchors each), valid SVG syntax, ≤1200 chars. Always validate: does this
-path — if you saw it with no text — make you think of the concept? If not, rethink.
-
-## 3. Approval gate (mandatory — never skip)
-Show the plan as a clean numbered list in PT-BR — the line + (between paras) the visual/beat:
+```bash
+node "<skill>/scripts/transcribe.mjs" --audio "dados/audio/<arq>" --out "conteudo/reels/<slug>/words.json"
+node "<skill>/scripts/plano.mjs" --rascunho --words "conteudo/reels/<slug>/words.json"
 ```
-Roteiro do vídeo (~16s):
-1. VOCÊ DESCREVE            (gancho · esfera de luz)
-2. em português claro       (tela de código digitando)
-3. a IA CONSTRÓI            (monitor se desenhando)
-4. a ferramenta que você imaginou  (figuras correndo)
-5. sem DIGITAR CÓDIGO       (virada · campo de partículas)
-6. Claude Code — você fala, ele constrói   (fecho · esfera)
+
+O rascunho numera cada palavra (`palavra[índice]`) e marca as pausas. Mostrar o texto corrido ao Alvaro
+e pedir que aponte palavra mal ouvida (nome próprio e termo em inglês erram mais: "Cloud" por "Claude").
+Cada correção vira uma linha em `correcoes` (`{"de": 76, "ate": 77, "texto": "aluguel"}`).
+
+## 3. Dirigir (ler `registros.md` antes)
+
+Ler a fala ideia por ideia. Pra cada ideia: registro → visual → âncora → conteúdo específico.
+
+- **Âncora** = a primeira palavra (ou frase curta) da ideia. A cena corta no silêncio antes dela. Busca
+  em ordem, sem acento e sem caixa; `"texto#2"` pega a 2ª ocorrência depois da cena anterior.
+- **Evento** (dados): a palavra em que o número pousa.
+- **Prova:** achou a fonte? Capture a página real e marque o trecho que a fala cita:
+  ```bash
+  node "<skill>/scripts/captura.mjs" --url <url> --out conteudo/reels/<slug>/prova/<nome>.png \
+       --bloco "frase do parágrafo" --marcar "trecho 1" --marcar "trecho 2" [--altura 400] [--ocultar ".banner"]
+  ```
+  Copie as coordenadas do `.json` gerado pra `marcas` da cena, cada uma com `em` (a palavra em que risca).
+  Página responsiva pode trocar de layout na largura estreita: se aparecer botão ou menu no recorte,
+  `--ocultar` com a classe dele (achar no HTML).
+- **Logo:** `node "<skill>/scripts/logo.mjs" <slug-simpleicons> --out conteudo/reels/<slug>/prova/<marca>.svg`
+- **Animação (Lottie):** `reference/animacoes.md`. Buscar, baixar (já recolore e gera prévia), olhar a
+  prévia, usar o `trecho`/`loop` que ela sugerir e prender o `pico` à palavra.
+- **B-roll:** `reference/broll.md`.
+- 1,2 a 5s por cena; lista falada vira rajada com `flash`; última cena com `push`.
+
+## 4. Validar
+
+```bash
+node "<skill>/scripts/plano.mjs" --props conteudo/reels/<slug>/plano.json --legendas
 ```
-Then `AskUserQuestion`: **aprovar e renderizar / ajustar a copy / mudar o tom**. Render ONLY on
-approval. If they ask to adjust, edit the plan and show it again.
 
-## 4. Render
-1. Write the approved plan to a temp `plano.json`.
-2. Run the engine (see engine-remotion.md):
-   `node scripts/render.mjs --props "<plano.json>" --out "conteudo/reels/<slug>/<slug>.mp4"`
-3. Narrate in PT-BR: first run installs the video tools (1–2 min), then renders. Don't go silent.
-4. On non-zero exit → ffmpeg fallback (fallback-ffmpeg.md). Say it's the lighter engine.
+Imprime a linha do tempo (início, duração, registro, âncora, evento), os blocos de legenda e o laudo.
+Erro barra. Aviso se lê e se decide (ex.: cena de 5,5s num gancho de tela digitando pode ficar).
 
-## 5. Look before delivering (quality gate)
-Extract 2–3 frames and view them (SKILL.md §quality self-check). Verify against the estetica.md
-premium checklist. Fix + re-render if a line overflows or a beat looks wrong.
+## 5. Aprovar o roteiro (AskUserQuestion)
 
-## 6. Deliver (PT-BR, anti-guru)
-- The MP4 path + duration.
-- One "como postar" line: the video is silent on purpose — add a trending sound in the Reels/
-  TikTok editor (helps reach). 
-- Save `plano.json` next to the MP4 and offer a one-line re-render if they want a word changed
-  ("muda só uma frase? eu re-renderizo rápido").
-- If it is for a client with its own brand file, mention the look matches their identity/carrossel.
+```
+Roteiro (~80s, 27 cenas):
+ 1. 0,0s  tela: terminal listando "instaladas 34, de terceiros 11"
+ 2. 5,5s  dado: 34 pousa no "34"
+ 3. 6,7s  tipográfica: "11 NEM ERAM MINHAS"
+ 7. 17,5s prova: paper real, marca o título no "paper" e a data no "agosto"
+ ...
+```
+Opções: aprovar e gerar prancha / ajustar cenas / ajustar texto.
+
+## 6. Prancha
+
+```bash
+node "<skill>/scripts/render.mjs" --props conteudo/reels/<slug>/plano.json --prancha conteudo/reels/<slug>/_prancha
+```
+
+Folhas com início, meio e fim de cada cena (rotuladas "12 meio"). ~1,5 min pra 27 cenas (2 abas em paralelo). Ler cada folha
+respondendo por escrito: há um dominante? o visual encena a frase? algo vaza da tela ou fica pequeno
+demais pra ler no celular? texto de cena repete a fala? Corrigir e, se mudou muito, gerar de novo.
+
+## 7. Render
+
+```bash
+node "<skill>/scripts/render.mjs" --props conteudo/reels/<slug>/plano.json --out conteudo/reels/<slug>/<slug>.mp4
+```
+
+Render incremental: só as cenas que mudaram desde o último render são refeitas (o resto sai do cache).
+Vídeo novo de 80s leva alguns minutos; corrigir uma cena leva ~1 min. Narrar a espera. No fim, sozinho:
+volume normalizado pra -14 LUFS, `<slug>.resolvido.json` (o plano com os quadros calculados) e QA.
+Saída 3 = plano reprovado, 4 = QA reprovou (vídeo existe, não entregar sem resolver), 1 = falha do
+Remotion (→ `fallback-ffmpeg.md`).
+
+## 8. Olhar e entregar
+
+```bash
+ffmpeg -v error -y -i <slug>.mp4 -vf "fps=1/3,scale=270:-1,tile=6x5" -frames:v 1 _contato.jpg
+```
+
+Olhar a folha. Entregar: caminho, duração, resultado do QA em uma linha, o que mudou em relação ao
+pedido. Depois `legenda.md` (regras de voz da marca, fonte citada quando houver prova, crédito de cada B-roll pelo `credito_legenda` do `.credito.json`) e oferta de
+agendamento. Re-render de uma frase é barato: oferecer.

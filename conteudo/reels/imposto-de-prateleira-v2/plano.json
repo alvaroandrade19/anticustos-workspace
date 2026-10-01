@@ -1,0 +1,279 @@
+{
+ "theme": "anticustos",
+ "audio": "dados/audio/imposto-de-prateleira.mp3",
+ "words": "words.json",
+ "correcoes": [
+  {
+   "de": 52,
+   "ate": 54,
+   "texto": "280"
+  },
+  {
+   "de": 76,
+   "ate": 77,
+   "texto": "aluguel"
+  },
+  {
+   "de": 83,
+   "texto": "estante,"
+  },
+  {
+   "de": 111,
+   "texto": "pior"
+  },
+  {
+   "de": 117,
+   "texto": "Fiz"
+  },
+  {
+   "de": 127,
+   "ate": 128,
+   "texto": "91%"
+  },
+  {
+   "de": 148,
+   "texto": "avisam."
+  }
+ ],
+ "enfase": [],
+ "scenes": [
+  {
+   "visual": "device",
+   "code": [
+    "$ listar ferramentas",
+    "",
+    "instaladas ...... 34",
+    "de terceiros .... 11",
+    "",
+    "custo: toda mensagem"
+   ]
+  },
+  {
+   "visual": "counter",
+   "ancora": "34.",
+   "evento": "34.",
+   "to": 34,
+   "sub": "ferramentas instaladas",
+   "legenda": false
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "11.",
+   "text": "11\nNEM ERAM\nMINHAS"
+  },
+  {
+   "visual": "orb",
+   "ancora": "Aqui está",
+   "transicao": "flash"
+  },
+  {
+   "visual": "animacao",
+   "ancora": "A ferramenta",
+   "arquivo": "animacoes/servidor.json"
+  },
+  {
+   "visual": "code",
+   "ancora": "mas o resumo",
+   "code": [
+    "mensagem 1",
+    "+ resumo de 34 ferramentas",
+    "",
+    "mensagem 2",
+    "+ resumo de 34 ferramentas",
+    "",
+    "mensagem 3",
+    "+ resumo de 34 ferramentas"
+   ]
+  },
+  {
+   "visual": "prova",
+   "ancora": "Um paper",
+   "transicao": "flash",
+   "imagem": "prova/paper-resumo.png",
+   "fonte": "Yin et al., arXiv 2608.12610 (ago/2026)",
+   "marcas": [
+    {
+     "x": 0.1396,
+     "y": 0.1061,
+     "w": 0.353,
+     "h": 0.0788,
+     "em": "paper"
+    },
+    {
+     "x": 0.0185,
+     "y": 0.0667,
+     "w": 0.1708,
+     "h": 0.0364,
+     "em": "agosto"
+    },
+    {
+     "x": 0.3853,
+     "y": 0.3492,
+     "w": 0.2347,
+     "h": 0.0455,
+     "em": "mediu"
+    }
+   ]
+  },
+  {
+   "visual": "faixa",
+   "ancora": "De 50",
+   "evento": "280",
+   "de": 50,
+   "ate": 280,
+   "unidade": "tokens por ferramenta"
+  },
+  {
+   "visual": "ripple",
+   "ancora": "em toda a mensagem"
+  },
+  {
+   "visual": "prova",
+   "ancora": "Os autores",
+   "imagem": "prova/paper-imposto.png",
+   "fonte": "Yin et al., arXiv 2608.12610",
+   "zoom": 1.9,
+   "marcas": [
+    {
+     "x": 0.9411,
+     "y": 0.3654,
+     "w": 0.0378,
+     "h": 0.0846,
+     "em": "autores"
+    },
+    {
+     "x": 0.0211,
+     "y": 0.4577,
+     "w": 0.1856,
+     "h": 0.0846,
+     "em": "autores"
+    },
+    {
+     "x": 0.1533,
+     "y": 0.3654,
+     "w": 0.1525,
+     "h": 0.0846,
+     "em": "nome"
+    }
+   ]
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "imposto de prateleira",
+   "text": "IMPOSTO DE\n*PRATELEIRA*"
+  },
+  {
+   "visual": "video",
+   "ancora": "Você paga",
+   "arquivo": "broll/estante.mp4",
+   "inicio": 0.5
+  },
+  {
+   "visual": "animacao",
+   "ancora": "O dinheiro",
+   "arquivo": "animacoes/dinheiro.json",
+   "loop": false,
+   "trecho": [
+    0.13,
+    1.9
+   ],
+   "pico": 0.8,
+   "evento": "dinheiro",
+   "escala": 0.78
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "o que se perde",
+   "text": "O QUE SE PERDE\nÉ A ATENÇÃO"
+  },
+  {
+   "visual": "crowd",
+   "ancora": "Quanto mais"
+  },
+  {
+   "visual": "chart",
+   "ancora": "pior",
+   "points": [
+    96,
+    88,
+    74,
+    57,
+    40,
+    22
+   ]
+  },
+  {
+   "visual": "checklist",
+   "ancora": "Fiz a auditoria"
+  },
+  {
+   "visual": "barras",
+   "ancora": "De 34",
+   "evento": "3,",
+   "valores": [
+    {
+     "rotulo": "antes",
+     "valor": 34
+    },
+    {
+     "rotulo": "depois",
+     "valor": 3
+    }
+   ],
+   "destaque": 1,
+   "unidade": "ferramentas instaladas"
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "91%",
+   "text": "*91%*\nA MENOS\nPOR MENSAGEM"
+  },
+  {
+   "visual": "animacao",
+   "ancora": "Não apaguei",
+   "arquivo": "animacoes/caixa.json",
+   "loop": false,
+   "pico": 0.42,
+   "evento": "guardei"
+  },
+  {
+   "visual": "object",
+   "ancora": "Os próprios autores",
+   "name": "scale"
+  },
+  {
+   "visual": "grid",
+   "ancora": "Mesmo assim",
+   "transicao": "flash"
+  },
+  {
+   "visual": "object",
+   "ancora": "A assinatura",
+   "name": "credit-card"
+  },
+  {
+   "visual": "key",
+   "ancora": "A licença",
+   "transicao": "flash"
+  },
+  {
+   "visual": "object",
+   "ancora": "O relatório",
+   "name": "book",
+   "transicao": "flash"
+  },
+  {
+   "visual": "counter",
+   "ancora": "faz essa pergunta",
+   "evento": "três",
+   "to": 3,
+   "sub": "coisas que sua empresa paga"
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "Quantas",
+   "text": "QUANTAS\nSOBREVIVEM?",
+   "transicao": "push"
+  }
+ ]
+}

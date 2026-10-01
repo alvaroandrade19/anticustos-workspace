@@ -31,7 +31,7 @@ Vazio grande embaixo lê como folha inacabada. É o erro mais comum aqui.
 | **T5** | Conta | `.livro` + `.soma` + `.soma-l` + `.legenda` com ref `Base` |
 | **T6** | Cláusulas | `.clausula` com ordinal mono, quando o número é posição de verdade |
 | **T7** | Anexo | `.figura` com `.img.print` + `.legenda` com ref `Fig. 1` |
-| **T8** | Encerramento | `.titulo` + `.texto` + `.assinatura` |
+| **T8** | Encerramento | `.titulo` + `.texto` + `.assinatura`, assinada pela Anti Custos, nunca por nome de pessoa |
 
 ## Imagem
 

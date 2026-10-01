@@ -138,3 +138,12 @@ tem dois tratamentos e só dois: placa cheia quando há imagem, folha limpa quan
 2. Sem gradiente em texto. A assinatura vira o grifo de caneta.
 3. Serifada no corpo, em vez de Schibsted Grotesk, porque argumento longo em grotesca vira
    relatório de software.
+
+**Assinatura do T8: nunca nome de pessoa (2026-09-17).** O template trazia "Alvaro de Andrade" no
+`.quem` do encerramento. Corrigido a pedido do Alvaro: o carrossel publica na página da Anti Custos
+no Instagram, sem vínculo com o perfil pessoal dele, ao contrário do LinkedIn, que é pessoal por
+decisão de alcance orgânico (ver `postar-linkedin/references/voz-linkedin.md`). `.quem` leva
+"Anti Custos" e `.cargo` carrega só a descrição, sem repetir o nome da marca. Vale para qualquer
+peça nova gerada pelo template a partir de agora. Não confundir com o formato tweet, que usa o nome
+de Alvaro no cartão de perfil como dispositivo de estilo (simula um tweet dele), não como
+assinatura de fechamento; se um dia isso também precisar mudar, é decisão separada.

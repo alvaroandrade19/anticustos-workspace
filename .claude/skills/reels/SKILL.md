@@ -1,234 +1,126 @@
 ---
 name: reels
 description: >-
-  Cria um vídeo minimalista preto e branco no estilo cinematográfico (fundo preto, uma esfera de
-  luz que pulsa, texto grande aparecendo palavra por palavra) pra Reels, TikTok e Shorts — a
-  partir de UMA frase sobre o tema. Use quando a pessoa quiser criar um reel, fazer um vídeo
-  minimalista, montar um vídeo pro TikTok ou Shorts, transformar uma frase num vídeo, criar um
-  vídeo com IA, ou um vídeo de texto animado no estilo "frase de impacto na tela preta". Mostra o
-  roteiro (as frases que vão aparecer) pra você aprovar ANTES de renderizar, e entrega um MP4
-  vertical 1080x1920 pronto pra postar. Gatilhos: "cria um reel", "faz um vídeo minimalista",
-  "vídeo pro tiktok", "vídeo pro shorts", "transforma essa frase num vídeo", "vídeo de texto na
-  tela preta", "vídeo com aquela bolinha de luz", "reel sobre". NÃO é pra gerar imagem/arte parada
-  (isso é a /briefing-de-imagem) nem carrossel de fotos (isso é a /carrossel).
-argument-hint: "[o tema ou a frase do vídeo — ex: 'um reel sobre criar ferramentas com IA']"
+  Cria reels verticais 1080x1920 pra Instagram, TikTok e Shorts no motor Remotion da Anti Custos:
+  a partir de um áudio narrado (legenda verbatim sincronizada palavra a palavra + cenas presas às
+  palavras da fala) ou de UMA frase/tema (tipografia cinética). Direção por registros visuais (dado,
+  prova real com marca-texto, tipográfica, animação Lottie recolorida pra marca, tela, processo,
+  objeto, B-roll), prancha de aprovação
+  antes do render, som e QA medidos. Use quando a pessoa quiser criar um reel, fazer um vídeo
+  minimalista, montar vídeo pro TikTok ou Shorts, transformar uma frase ou um áudio num vídeo, ou
+  pôr legenda num áudio. Gatilhos: "cria um reel", "faz um vídeo", "vídeo pro tiktok", "vídeo pro
+  shorts", "transforma esse áudio em reel", "legenda esse áudio", "reel sobre". NÃO é pra imagem
+  parada nem carrossel (isso é a /carrossel).
+argument-hint: "[o tema, a frase ou o áudio do vídeo]"
 allowed-tools: Read, Write, Edit, Glob, Bash, AskUserQuestion, WebSearch, WebFetch
 effort: high
 model: inherit
 ---
 
-# Reels (vídeo minimalista P&B a partir de 1 frase)
+# Reels (v2, 29/09/2026)
 
-## Anti Custos: o que muda neste workspace (esta seção vence o resto do arquivo)
-Skill genérica adaptada em 14/09/2026. Onde o texto abaixo discordar do restante, o abaixo manda.
+## Anti Custos: o que vale neste workspace (vence o resto do arquivo)
 
-1. **Travessão é proibido**, regra dura do workspace (`AGENTS.md`). Vale em TUDO: linha na tela,
-   legenda, plano de cenas e o que você escreve no chat. Vírgula, dois-pontos, parênteses ou frase
-   curta no lugar. O `reference/estetica.md` já bane travessão na copy de tela; aqui vale pro resto.
-2. **Marca:** a fonte é `marca/design-guide.md`, não um `brand.md` (que não existe aqui). O tema
-   padrão é **`anticustos`** (fundo `#05060A`, texto `#F2F4F8`, acento `#2563EB`), e o claro é
-   `anticustos-claro`. Só sair dele se o Alvaro pedir outro tema por nome.
-3. **Tipografia:** Anton continua na headline, decisão consciente. O design guide pede Schibsted
-   Grotesk, e a exceção existe porque tipografia cinética pede peso condensado. Cor e medida vêm do
-   guia; só a face da headline é exceção, como já acontece no carrossel.
-4. **Pastas, seguindo o ciclo de vida das peças:**
-   - produção: `conteudo/reels/<slug>/` com `<slug>.mp4`, `plano.json` e `legenda.md`
-   - áudio de entrada: `dados/audio/` (criar se não existir)
-   - agendado e publicado: **não mover à mão.** Quem move é `/publicar-social-ratos`
-5. **Publicação:** o Instagram publica Reels por API. Depois de aprovar o vídeo, escrever a
-   `legenda.md` na pasta da peça e oferecer o agendamento:
+1. **Travessão é proibido** em tudo: tela, legenda, plano, chat. Vírgula, dois-pontos, parênteses.
+2. **Marca:** `marca/design-guide.md`. Tema padrão `anticustos` (fundo `#05060A`, texto `#F2F4F8`,
+   acento `#2563EB`); claro é `anticustos-claro`. Anton na tipografia do vídeo é exceção consciente
+   (tipografia cinética pede peso condensado), como no carrossel.
+3. **Pastas:** produção em `conteudo/reels/<slug>/` (`<slug>.mp4`, `plano.json`, `legenda.md`,
+   `words.json`, `prova/`, `broll/`). Áudio de entrada em `dados/audio/`. Agendado e publicado **não
+   se move à mão**: quem move é o `agendar.js` da `/publicar-social-ratos`.
+4. **Publicação:** depois de aprovado, escrever `legenda.md` e oferecer o agendamento:
    `node .claude/skills/publicar-social-ratos/scripts/agendar.js --video "conteudo/reels/<slug>/<slug>.mp4" --quando "AAAA-MM-DD HH:MM"`
-   (`--quando` também aceita relativo: `+30min`, `+2h`, `+1d`. Pra publicar na hora, é o
-   `publish-graph-api.js --video ...` em vez do agendar.) Isso move a pasta pra
-   `conteudo/agendado/instagram/` e grava o `_estado.md` sozinho.
-6. **ffmpeg** está instalado (9.0.1, via winget, no PATH do usuário). O autocheck de frames e o
-   fallback funcionam. Num shell aberto antes de 14/09/2026 o PATH pode estar velho: nesse caso use
-   `C:\Users\aandr\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin\ffmpeg.exe`.
-7. **O motor do Remotion é persistente**, fica em `%LOCALAPPDATA%\reel-engine`. Instala na primeira
-   vez e reaproveita depois. Pra liberar disco: `node scripts/render.mjs --limpar`.
+   (`+30min`, `+2h`, `+1d` também valem; na hora, `publish-graph-api.js --video ...`).
+5. **A API não põe música.** Reel sem voz precisa de `trilha` no plano, senão vai ao ar mudo
+   (`reference/som.md`). Nunca mais orientar "adicione som no editor do Instagram" pra peça agendada.
+6. **ffmpeg** 9.0.1 no PATH (o render se cura sozinho se o shell for antigo). Motor do Remotion
+   persistente em `%LOCALAPPDATA%\reel-engine` (`node scripts/render.mjs --limpar` libera disco).
+7. **B-roll:** chaves grátis `PEXELS_API_KEY` / `PIXABAY_API_KEY` no `.env` (`reference/broll.md`).
 
-You turn ONE prompt (a topic or a single line) into a premium minimalist black-and-white
-motion video — black background, a soft glowing orb, heavy kinetic typography revealed word
-by word — vertical 1080x1920 MP4 for Reels/TikTok/Shorts. The LOOK is the product: it must be
-restrained and premium, never templated AI-slop. Everything the user sees is **Brazilian
-Portuguese, direct, anti-guru**: no time-to-money, no income promises, no hype, R$ never a bare
-`$`. Your internal reasoning stays in English.
+## O que mudou na v2 e por quê
 
-This file is the orchestrator. Read each reference file WHEN you reach the step that needs it
-(progressive disclosure — do NOT read them all up front):
-- `reference/fluxo.md` — the run order: intake → scene plan → approval gate → render → deliver.
-- `reference/estetica.md` — THE MOAT: the premium look recipe + anti-slop copy guard (read before writing any on-screen line).
-- `reference/engine-remotion.md` — the primary render path: props schema, the render script, the verified Windows landmines.
-- `reference/transcricao.md` — audio → VERBATIM captions: the transcribe script, grouping the exact words into slides, the correction gate. Read when the user wants captions from their audio.
-- `reference/biblioteca-movimento.md` — the MOVING-object catalog (the continuously-animated heroes) + the lever to INVENT a new moving visual (bespoke `svg` + `motion`). Read before choosing objects.
-- `reference/biblioteca-icones.md` — the 5093-icon library (the `icon` visual): how to pick by meaning, the no-repeat rule, the curated PT palette. Read before choosing objects.
-- `reference/fallback-ffmpeg.md` — the zero-install fallback when Node/npm is missing.
+A v1 esticava todas as cenas na mesma proporção pra caber no áudio, empilhava a fala inteira em
+slides de 9 a 12 palavras e escolhia um ícone por slide. O reel `imposto-de-prateleira` saiu com 20
+cenas de ícone seguidas e um contador marcando 32 quando a voz dizia 34. A v2 aplica o método de
+motion editorial (estudo da skill motion-vox, adaptado sem gerador pago):
 
-## Non-negotiable rules (read before anything)
-1. **Copy-first, approve before render.** ALWAYS show the scene plan (the exact lines + the beat
-   order) in PT-BR and get a yes BEFORE rendering. Rendering burns a minute; a wrong line wastes
-   it. Never render unseen copy.
-2. **The look is premium or it's nothing.** Obey `reference/estetica.md`: ONE heavy font, white
-   on black, ≤10 words on screen, word-by-word reveal with ease-out (NEVER bounce/spin/fly-in),
-   the breathing orb, grain + vignette. Name the generic default and forbid it (see §Forbidden).
-3. **Anti-slop copy.** The on-screen lines must read like a sharp human wrote them. Ban the AI
-   tics and the genre clichés listed in `reference/estetica.md`. No income/guru promises.
-4. **Honesty about the method.** You make videos in THIS minimalist style. Do NOT claim you
-   replicate any specific creator's exact tool — you own the look, not the person.
-5. **Never hard-fail.** If the premium engine (Remotion) can't run, fall back to the ffmpeg path
-   and SAY which engine produced the file. If nothing can render, deliver the scene plan + the
-   exact command so the user can render later. Always leave them with something.
-6. **Zero API key, no paid service.** Everything renders locally. Music is never fetched/bundled
-   (license risk) — see §Audio.
-7. **Audio captions are VERBATIM.** When the user gives an audio to caption, the on-screen text is
-   EXACTLY what they said — transcribed locally (`scripts/transcribe.mjs`), never paraphrased, never
-   summarized, never with words dropped or added. Group the exact words into slides; do NOT reword
-   them. Show the transcript so the user can fix any mis-heard word BEFORE rendering. See §Audio.
+- **Duas camadas:** a legenda (fala verbatim em blocos de 1 a 3 palavras, corte seco na palavra) e a
+  cena (dura o tempo da ideia, presa à palavra-âncora).
+- **Tempo absoluto:** cada cena e cada evento (número pousando, marca-texto riscando) cai na palavra,
+  ±3 quadros. Quem calcula é `scripts/plano.mjs`, não o olho.
+- **Registros, não objetos:** tipo de cena alternando, prova real no lugar de símbolo.
+- **Transição por sentido** (corte, flash, push), não em rodízio.
+- **Prancha antes do render, QA medido depois**, volume normalizado, sons discretos.
 
-## Forbidden (the generic-default blacklist for this output)
-Reject these the moment they appear — they are what "default AI video" looks like:
-- centered Arial/Helvetica/Segoe/Inter as the title font → use the bundled **Anton** always.
-- more than one typeface for the headline; drop shadows as a crutch; outlines/strokes on text.
-- rainbow / many clashing colors → the reel uses ONE theme (bg + ink + a single accent); color is
-  fine (orange, a brand color, light mode), but stay inside the chosen theme — never a multicolor mess.
-- bouncy/spinny/fly-in-from-the-side text; letters that wobble; star-wipe transitions.
-- more than ~10 words on screen at once; full sentences; tiny text.
-- the orb cycling colors or strobing → it glows the ONE theme accent and **breathes slowly**.
-- a perfectly clean image with no grain (reads as fake/AI) → keep the subtle grain + vignette.
+## Arquivos (ler cada um QUANDO chegar no passo)
 
-## Where the scripts/assets live + the FOLDER CONVENTION (IMPORTANT for running)
-The working directory at runtime is the USER'S project, not this skill folder. So always call the
-bundled scripts by the ABSOLUTE path to THIS skill's directory (the folder holding this SKILL.md),
-not a bare relative path. E.g. on Windows: `node "C:\Users\<nome>\.claude\skills\reels\scripts\render.mjs" ...`
-(same for `transcribe.mjs` / `group-captions.mjs`). Resolve the skill dir once at the start and reuse it.
+- `reference/registros.md`: **o manual do diretor.** Registros, regras cobradas, transições. Ler antes de escrever qualquer plano.
+- `reference/estetica.md`: o visual premium e a guarda anti-clichê do texto.
+- `reference/fluxo.md`: a ordem do trabalho, passo a passo, com os comandos.
+- `reference/engine-remotion.md`: o esquema do `plano.json` (todos os campos) e as armadilhas do Windows.
+- `reference/transcricao.md`: áudio → transcript palavra a palavra, correções.
+- `reference/animacoes.md`: ilustração animada Lottie (busca, cor da marca, trecho, pico na palavra).
+- `reference/broll.md`: vídeo real (Pexels/Pixabay/gravação de tela).
+- `reference/som.md`: voz, trilha, efeitos, volume.
+- `reference/biblioteca-movimento.md` e `reference/biblioteca-icones.md`: catálogo de heróis e ícones.
+- `reference/fallback-ffmpeg.md`: sem Node.
 
-**Standard folders in the USER's project (create them if missing, at the start of any run, and tell the
-user once):**
-- **`dados/audio/`** — where the user drops audio files to caption. ALWAYS look here first for an
-  audio; if it's empty and the user mentioned audio, ask for the path.
-- **`conteudo/reels/<slug>/`** — the piece's folder: `<slug>.mp4`, `plano.json`, `legenda.md`. This is
-  the production state; `/publicar-social-ratos` moves the whole folder to `conteudo/agendado/instagram/`
-  when it goes into the queue. Never write into `conteudo/agendado/` or `conteudo/publicado/` yourself.
-Intermediate JSON (words/captions) goes in the piece folder or a temp path, never inside the skill folder.
+Scripts sempre pelo caminho absoluto da skill (o cwd é o projeto):
+`plano.mjs` (resolve e valida), `render.mjs` (prancha, render, volume, QA), `qa.mjs`, `captura.mjs`
+(página real → PNG + coordenadas do trecho), `logo.mjs` (logo oficial), `lottie.mjs` (animação Lottie), `broll.mjs`, `transcribe.mjs`,
+`sfx-gerar.mjs`. `group-captions.mjs` é legado do modo slide e não se usa mais no modo áudio.
 
-## The run (detailed in reference/fluxo.md)
-1. **Intake.** Get the topic/idea. If it's a bare topic, you write the lines; if the user gave
-   exact lines, respect them (only fix anti-slop tics, and flag the change). Read
-   `marca/design-guide.md` for the brand tokens; in this workspace the default theme is
-   `anticustos`, not monochrome. If the user references a current event, you MAY
-   WebSearch to get it right, then check the date/source before putting a claim on screen.
-2. **Direct the reel FOR this text** (read `reference/estetica.md` + `reference/fluxo.md` §2). You
-   are the scene DIRECTOR, not a template-filler. First pick a color `theme` — here it is
-   **`anticustos` by default** (the brand's dark base + blue accent), unless the Alvaro names another. The dark,
-   light-on-black look reads far more premium/cinematic for this style —
-   the glow/atmosphere/orb only exist on a dark bg. Light themes (`editorial`) exist but are NOT the
-   default look anymore. Then read the script line by line and, per beat, choose the visual that
-   MATCHES THE MEANING and author the SPECIFIC content. **Pick in this order (read
-   `reference/biblioteca-movimento.md` for the full catalog):**
-   (a) **A moving HERO that ENACTS the line** — these animate the WHOLE scene (premium, first choice):
-   `waveform` (voz/áudio), `orbit` (sistema/conectado), `ripple` (alcance/viraliza), `rocket`
-   (lançar/decolar), `gears` (automação), `pipeline` (transforma X→Y/processo), `radar`
-   (busca/encontra), `constellation` (rede/comunidade), `brain` (IA/pensar), `burst` (ideia/insight),
-   `funnel` (funil/converte), `coins` (dinheiro/faturamento — metáfora, NUNCA promessa de renda),
-   `checklist` (passo a passo/método), `globe` (global/mundo), `magnet` (atrai/clientes),
-   `hourglass` (tempo/rápido), `lock` (destrava/acesso), `typing` (escrever/criar), `chart`
-   (crescimento — `points`), `counter` (`to`+`suffix`), `figures` (correr), `orb`/`hero3d` (a marca),
-   and the frame-filling 3D heroes `grid` (chão/mundo), `device` (monitor 3D — write REAL `code`),
-   `crowd` (multidão — `place:"top"`), `wireframe`/`network` (estrutura). **Real-object heroes (highest
-   impact — a viewer names the thing instantly):** `lightbulb` (ideia — preferir a `burst`), `shield`
-   (segurança/sem risco), `trophy` (vitória), `phone` (no celular/post), `target` (meta/foco), `plant`
-   (crescer do zero), `megaphone` (divulga), `bell` (notificação/engajamento), `key` (a chave/acesso),
-   `gift` (bônus). PREFER a recognizable real object over the abstract clusters (`brain`/`burst`/
-   `constellation`/`particles` — only for genuinely abstract lines).
-   (b) **`object` = 50 ready premium real objects by NAME** (`{"visual":"object","name":"rocket"}`) —
-   bold + glow + a fitting motion already assigned (rocket rises, bell swings, heart pulses, star spins).
-   The easy breadth tier; full list in `reference/biblioteca-movimento.md`. For anything not in the 50,
-   **`icon` = THE 5093-Tabler tool** (pick by MEANING, inline the paths — `reference/biblioteca-icones.md`;
-   icons now FLOAT + breathe).
-   (c) **Nothing fits? INVENT one** — author a bespoke `svg` (path `d` strings = a spatial metaphor)
-   AND give it a `motion`: `spin` (sol/estrela/roda), `pulse` (coração/alerta/"ama"), `trace`
-   (caminho/jornada/sinal vivo), `float` (objeto calmo respirando), or omit for `draw` (reveal once).
-   This makes the library effectively infinite — YOU draw it, the engine animates it.
-   **HYBRID:** open/punctuate with the brand/atmosphere heroes (orb / hero3d / grid / device / crowd),
-   carry variety with the topical moving heroes + icons + bespoke svg in between.
-   **SEMANTIC CHECK:** for every beat, ask "does this visual ENACT the meaning, or just loosely
-   associate?" See `reference/fluxo.md` §2 for the full check + examples.
-   **FILL THE FRAME** — favor the big depth scenes for hero beats, don't leave empty space. Aim for
-   **8–12 beats**, alternate calm/dense, and **NEVER repeat an object in the same reel** (not the same
-   icon, not the same hero — each beat is a distinct object; this was the #1 complaint). Each scene: a line
-   (`\n` break, ≤9 words/line, `big:true` for hook/payoff, `place` top/bottom), optional `sub`,
-   `hold` (~70–104). Full catalog + schema in `reference/engine-remotion.md` + `reference/fluxo.md`.
-   **`hero3d`** = WebGL 3D sphere via Three.js (metallic + orbital rings). Use for hook/CTA hero
-   beats when the reel needs true 3D depth (vs `orb` which is CSS gradient). Works with all themes.
-   Total ~20–30s (or the audio length).
-3. **Approval gate.** Show the plan as a numbered list of the lines (PT-BR) + total seconds. Use
-   AskUserQuestion: aprovar / ajustar a copy / mudar o tom. Do NOT render until approved.
-4. **Render.** Write the approved plan to `conteudo/reels/<slug>/plano.json` and follow
-   `reference/engine-remotion.md`: run
-   `scripts/render.mjs --props conteudo/reels/<slug>/plano.json --out conteudo/reels/<slug>/<slug>.mp4`.
-   It installs Remotion into the persistent engine dir on the FIRST run only, reuses the system
-   Edge/Chrome, keeps the engine outside the spaces-in-path project, and copies the MP4 back.
-   Narrate progress in PT-BR ("montando o vídeo, primeira vez instala as ferramentas...").
-5. **If render fails or Node is absent** → `reference/fallback-ffmpeg.md` (pure ffmpeg, already on
-   the machine). Same scene plan, simpler motion. Tell the user it's the lighter engine.
-6. **Deliver.** Give the MP4 path + a one-line "como postar" note (see §Audio) + the scene plan
-   saved next to it. Offer one quick re-render if they want a line changed (re-render is cheap).
-7. **Publish (this workspace).** Write the caption to `conteudo/reels/<slug>/legenda.md` following
-   the voice rules, then offer to schedule it on Instagram:
-   `node .claude/skills/publicar-social-ratos/scripts/agendar.js --video "conteudo/reels/<slug>/<slug>.mp4" --quando "AAAA-MM-DD HH:MM"`
-   (`--quando` also takes `+30min`, `+2h`, `+1d`; to publish right now use `publish-graph-api.js
-   --video ...` instead). That script moves the piece folder into
-   `conteudo/agendado/instagram/` and writes `_estado.md`. Never move those folders by hand.
+## Regras que não se negociam
 
-## Audio → caption (read `reference/transcricao.md` for the full how-to)
-- **The user drops an audio and wants the captions to BE that audio** (the main path) → transcribe it
-  locally and put the EXACT words on screen, well paced. Steps:
-  1. **Find the audio in `dados/audio/`** (the convention here). If empty, ask for the path. Create
-     `dados/audio/` if missing so the user has a place to drop files.
-  2. **Transcribe:** `node "<skill>/scripts/transcribe.mjs" --audio "<file>" --out "<tmp>/words.json"`.
-     First run installs the engine (~1–2 min) + model (~150MB), then offline/cached. Needs Node + ffmpeg
-     (already on the machine). Narrate the wait in PT-BR.
-  3. **Pace the slides DETERMINISTICALLY — do NOT eyeball this** (flashing slides was the #1 complaint,
-     twice): `node "<skill>/scripts/group-captions.mjs" --words "<tmp>/words.json" --out "<tmp>/captions.json"`.
-     It groups the EXACT words into slides that each stay on screen long enough to READ (~1.9s floor)
-     without dragging, synced to the speech. Output: `{slides:[{text,hold}], audioDurationInFrames, fullText}`.
-  4. **Build the plan from the slides AS-IS:** one scene per slide using its `text` + `hold` UNCHANGED
-     (verbatim words, already paced). Just add a `visual` per slide by MEANING (object/hero/icon) and
-     pick the theme; put the audio path in `audio`. Do NOT re-group, re-time, paraphrase, drop, or add a
-     word — the script already handled grouping + timing.
-  5. **Approval gate = the guarantee.** Show `fullText` + the slide breakdown (PT-BR) and ask the user to
-     confirm or fix any MIS-HEARD word (whisper heard "Cloud" for "Claude"). Apply ONLY their corrections
-     of transcription errors; never reword. Then render to `reels/<slug>.mp4`.
-  - If the user wants more/fewer slides after seeing them, re-run group-captions with `--min`/`--max`
-    (higher `--min` = fewer, calmer slides; lower = more). Don't hand-edit the grouping.
-  - Degraded: no Node/transcription fails → say so honestly and offer to caption from lines the user
-    types instead (don't silently fall back to paraphrase).
-- **The user has audio but wants you to WRITE fresh lines** (not caption the speech) → write the lines,
-  audio plays under, the reel fits the audio length, captions at the beat level. Make clear which it is.
-- **No audio** → the video ships **SILENT by default** (no zero-license music to bundle; fetching
-  copyrighted tracks is a real legal risk). Tell the user, in PT-BR, to add a trending sound INSIDE
-  the Reels/TikTok editor (it also helps reach). Never present any synthesized tone as licensed music.
+1. **Texto antes do render.** O roteiro (e, no modo áudio, o transcript corrigido) é aprovado antes de
+   qualquer render. Render custa 5 a 10 minutos; frase errada desperdiça isso.
+2. **Legenda de áudio é VERBATIM.** Só se corrige o que o Whisper ouviu errado, via `correcoes` no plano
+   (índices do `words.json`). Nunca parafrasear, resumir, tirar ou pôr palavra.
+3. **Prova é prova.** `captura.mjs` só fotografa o que existe e falha se o trecho não está na página.
+   Se a fala afirma algo que a fonte não sustenta, a cena não leva prova (e isso se avisa ao Alvaro).
+4. **O plano passa no validador.** `plano.mjs` com erro não renderiza. Avisos se leem e se decidem.
+5. **Prancha aprovada antes do render completo**, com a leitura escrita das perguntas de julgamento
+   de `registros.md` (dominante, encenação, texto repetindo fala).
+6. **Olhar antes de entregar.** QA aprovado + folha de contato do MP4 final vista. Nunca entregar vídeo
+   que ninguém olhou.
+7. **Anti-guru:** nada de promessa de renda, "fature", "em X dias". R$ nunca como `$` solto.
+8. **Nunca falhar em silêncio.** Remotion não roda → fallback ffmpeg, e dizer qual motor gerou.
 
-## Quality self-check before delivering (look, don't assume)
-After rendering, extract 2–3 frames with ffmpeg (`select=eq(n\,<frame>)`) and LOOK at them. Check
-against `reference/estetica.md`: is the headline Anton (not Arial)? colors within the chosen theme
-(accent reads, good contrast)? does any line overflow the safe margins? is the orb breathing, not
-strobing? did each beat get a visual that FITS its line (chart for growth, code for building)? If a line
-overflows or a beat looks off, fix the plan and re-render before handing it over. Never deliver a
-video you haven't looked at.
+## O fluxo (detalhe e comandos em `reference/fluxo.md`)
 
-## Degraded mode
-- **No Node/npm** → ffmpeg fallback. **No ffmpeg either** → deliver the scene plan + the exact
-  render command + a one-line "instala o Node (a skill 03 Preparador de Máquina faz isso)".
-- **WebSearch down** (only matters for a current-event topic) → say you couldn't verify the fact
-  and keep the line evergreen instead of stating an unverified claim.
-- **Spaces in the project path** → already handled by the render script (no-space temp dir).
+1. **Entrada.** Áudio em `dados/audio/` (modo áudio, o principal) ou tema/frase (modo texto).
+2. **Transcrever** (modo áudio): `transcribe.mjs` → `words.json` na pasta da peça. Rascunho numerado:
+   `node plano.mjs --rascunho --words <words.json>`. Mostrar o texto ao Alvaro e anotar as correções.
+3. **Dirigir** (ler `registros.md`): uma cena por ideia, cada uma com `ancora` (palavra em que corta),
+   `evento` nos dados, prova real onde houver fonte (`captura.mjs`, `logo.mjs`), animação Lottie onde um
+   objeto ou ação ganha com movimento de animador (`lottie.mjs`, uma família de estilo por reel), B-roll
+   onde a fala descreve ação/lugar. 1,2 a 5s por cena.
+4. **Validar:** `node plano.mjs --props <plano.json> --legendas`. Zerar erros.
+5. **Aprovar o roteiro** (AskUserQuestion): lista numerada das cenas com registro e âncora.
+6. **Prancha:** `render.mjs --props <plano.json> --prancha conteudo/reels/<slug>/_prancha` (~1,5 min).
+   Ler as folhas, corrigir, mostrar ao Alvaro.
+7. **Render:** `render.mjs --props <plano.json> --out conteudo/reels/<slug>/<slug>.mp4`. Incremental: só
+   as cenas alteradas renderizam (corrigir uma cena leva ~1 min). Normaliza o volume e roda o QA sozinho;
+   sai 4 se o QA reprovar. `--sem-cache` refaz tudo.
+8. **Olhar e entregar:** folha de contato do MP4, caminho, duração, o que mudou. Depois `legenda.md` e
+   oferta de agendamento.
 
-## Edge cases
-- Empty prompt → ask for the topic in one PT-BR line; don't invent a random theme.
-- Very long line → split or shorten to fit ≤9 words/line and the 9:16 safe area; tell the user.
-- Non-tech niche (padaria, advogado) → the orb/minimalist look still works, but adapt the COPY to
-  the niche; don't force tech-bro phrasing onto a bakery.
-- Abuse (hateful/illegal/defamatory text on screen) → refuse in PT-BR, offer a clean alternative.
-- Other aspect ratios (1:1, 16:9) → v1 is built for 9:16 vertical; if asked, deliver 9:16 and say
-  the square/landscape variants aren't in this version yet.
+## Modo texto (sem áudio)
+
+Mesmo motor e mesmas regras de registro, com `hold` (quadros) no lugar de `ancora`, e a frase de cada
+cena em `text` (tipografia cinética). Precisa de `trilha` se for agendado. Ganchos por cena ≤ 9
+palavras por linha, arco gancho → escalada → virada → fecho.
+
+## Modo degradado
+
+- Sem Node → `reference/fallback-ffmpeg.md` (movimento mais simples; dizer isso).
+- Sem chave de B-roll → cena volta a ser motion, e avisar que a chave falta.
+- Transcrição falhou → dizer, e oferecer legendar a partir de texto digitado (nunca paráfrase).
+- Assunto de notícia com a web fora → frase atemporal em vez de afirmação não verificada.
+
+## Casos de borda
+
+- Pedido vazio → perguntar o tema numa linha.
+- Nicho fora de tecnologia (padaria, advogado) → o visual serve, a copy se adapta ao nicho.
+- Texto ofensivo, ilegal ou difamatório na tela → recusar e oferecer alternativa.
+- Formato quadrado ou horizontal → esta versão é 9:16; entregar 9:16 e dizer.

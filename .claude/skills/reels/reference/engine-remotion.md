@@ -1,120 +1,130 @@
-# engine-remotion.md — the primary render path (Remotion 4)
+# engine-remotion.md: o motor e o esquema do plano (v2)
 
-The premium engine is **Remotion** (React → headless Chrome → bundled ffmpeg → MP4). You do NOT
-write React. You write the scene plan (`props.json`); the bundled generic component
-(`assets/remotion/src/Reel.tsx`) renders it. The orchestration is the `scripts/render.mjs` script.
+O motor é Remotion 4.0.474 (React → Chrome headless → MP4). Você não escreve React: escreve o
+`plano.json`. `scripts/plano.mjs` resolve (âncoras → quadros, legenda, sons) e `scripts/render.mjs`
+entrega ao componente `assets/remotion/src/Reel.tsx`.
 
-## How to render (one command)
-```
-node scripts/render.mjs --props "<plano.json>" --out "conteudo/reels/<slug>/<slug>.mp4"
-```
-The script:
-1. Picks a **no-spaces temp dir** (project path "fabrica de ferramentas IA" has spaces, which
-   breaks Chromium with "Multiple targets are not supported" — verified in this repo's history).
-2. Copies the engine + the bundled Anton font into `public/` there, and the plan as `props.json`.
-3. **Probes a system browser** (Edge, then Chrome) and passes `--browser-executable` so Remotion
-   **skips the ~150–300MB Chrome Headless Shell download**. If none is found, Remotion downloads
-   its own shell once.
-4. `npm install` (first run only; deps are pinned exact, lockstep `@remotion/*` at 4.0.474).
-5. `npx remotion render src/index.ts reel out/reel.mp4 --props=./props.json` — note `--props` is a
-   **FILE**, never inline JSON (inline breaks on the Windows shell — verified in the Remotion docs).
-6. Copies the finished MP4 back to `--out` (a path with spaces is fine for the copy).
-7. Exits non-zero on any failure so the skill can fall back to ffmpeg.
+## plano.json
 
-## props.json schema (what you write)
-Each scene picks an animated VISUAL + the on-screen line. The visual sits in the upper ~60%; the
-text sits in the lower third (the engine separates them — never overlap). A top-level `theme`
-colors everything; an optional `audio` adds a soundtrack.
 ```json
 {
-  "theme": "claude",
-  "audio": "C:/caminho/voz.mp3",
+  "theme": "anticustos",
+  "audio": "dados/audio/<arq>.mp3",
+  "words": "words.json",
+  "correcoes": [{"de": 76, "ate": 77, "texto": "aluguel"}],
+  "enfase": ["prateleira"],
+  "trilha": null,
+  "sfx": true,
+  "sfxDir": null,
+  "legenda": true,
   "scenes": [
-    {"visual": "orb",       "text": "VOCÊ TEM\nUMA IDEIA", "big": true, "hold": 80},
-    {"visual": "code",      "text": "você só descreve",   "hold": 78, "code": ["> criar app de", "  agendamento", "", "claude: feito ✓"]},
-    {"visual": "wireframe", "text": "a IA monta\nA ESTRUTURA", "big": true, "hold": 84},
-    {"visual": "chart",     "text": "e ela CRESCE",       "hold": 76, "points": [6,14,10,26,34,30,56,78,98]},
-    {"visual": "counter",   "text": "mais rápido",        "hold": 74, "to": 10, "suffix": "x"},
-    {"visual": "svg",       "text": "sem\nLIMITE", "big": true, "hold": 80, "paths": ["M58 8 L34 56 H53 L44 92 L72 42 H52 Z"], "viewBox": "0 0 100 100"},
-    {"visual": "figures",   "text": "saia\nNA FRENTE",    "hold": 80},
-    {"visual": "orb",       "text": "CLAUDE CODE", "sub": "você fala, ele constrói", "hold": 100}
-  ],
-  "perScene": 78
+    {"visual": "device", "code": ["$ listar ferramentas", "instaladas ...... 34"]},
+    {"visual": "counter", "ancora": "34.", "evento": "34.", "to": 34, "sub": "ferramentas instaladas", "legenda": false},
+    {"visual": "tipografica", "ancora": "11.", "text": "11\nNEM ERAM\n*MINHAS*"},
+    {"visual": "prova", "ancora": "Um paper", "transicao": "flash", "imagem": "prova/paper.png", "fonte": "Yin et al., arXiv 2608.12610",
+     "marcas": [{"x": 0.14, "y": 0.10, "w": 0.35, "h": 0.08, "em": "paper"}]},
+    {"visual": "faixa", "ancora": "De 50", "evento": "280", "de": 50, "ate": 280, "unidade": "tokens por ferramenta"},
+    {"visual": "video", "ancora": "atende", "arquivo": "broll/atendente.mp4", "inicio": 1.2},
+    {"visual": "tipografica", "ancora": "Quantas", "text": "QUANTAS\nSOBREVIVEM?", "transicao": "push"}
+  ]
 }
 ```
 
-### Visuals (pick by MEANING — see fluxo.md's director table)
-- **`orb`** — living glowing sphere (glow tinted by the theme accent + rings + particle halo).
-  "AI / idea / energy / brand." Hook + CTA.
-- **`code`** — terminal with code TYPING in. Pass `code` (array of short lines) — **write REAL
-  lines about the topic** (the actual thing being built), not lorem. "Building / Claude."
-- **`wireframe`** / **`network`** — line-art that DRAWS ITSELF on (monitor / node-graph). "Explainer."
-- **`figures`** — running silhouettes + motion-blur. "People / momentum / get ahead."
-- **`particles`** — depth starfield. "Infinite / space / calm." (Also the global ambient bed.)
-- **`counter`** — a big number counting up. Fields: `to` (target), `suffix`/`prefix` (e.g. `"x"`,
-  `"%"`, `"R$ "`), `decimals`. "Metric / scale / proof."
-- **`chart`** — a draw-on rising line + area + tip dot. Field: `points` (array of numbers, the
-  trend — make it END HIGH). "Growth / results."
-- **`svg`** — BESPOKE: YOU author SVG path `d` strings for THIS topic (a bolt, a rocket, a brain,
-  a globe, a key…) and the engine draws them on. Fields: `paths` (array of `d` strings),
-  `viewBox` (default `"0 0 100 100"`). Keep 1-3 simple paths; the engine validates each (a broken
-  path is silently skipped). Use SPARINGLY (1-2 beats) for the concept that has no built-in visual.
-- **`grid`** — a 3D PERSPECTIVE FLOOR (Tron-style) receding to the horizon + a floating rotating
-  3D polyhedron (the signature motif). Frame-filling depth. Great hook / "the world / the system".
-- **`device`** — a 3D-TILTED MONITOR filling the frame, code typing on its screen, slow rotate.
-  Pass `code` (lines). The premium "building it" hero shot.
-- **`crowd`** — depth-stacked marching SILHOUETTES on the grid + a hero figure in front. "People /
-  get ahead / não fique para trás." (Big, frame-filling, grounded with shadows.)
-- `text` `\n` = break. `big` = larger + scale-punch + flash. `sub` = kicker. `hold` = frames.
-  `place` = `"top"` or `"bottom"` (default) — put the BIG hero type at the top for `grid`/`crowd`
-  scenes so it doesn't sit on the visual.
+Caminhos: relativos à raiz do projeto OU à pasta do plano (tenta os dois).
 
-### Theme (colors)
-`theme` is a named palette OR an object `{bg, ink, ink2, accent, mode}`:
-- Named: `mono-dark` (default/signature), `mono-light` (white bg, dark ink), `editorial` (our
-  DIFFERENTIATED flagship — off-white #f4f2ee bg + dark ink + indigo accent, the light premium
-  look that doesn't copy the black-bg competitors), `editorial-lime`, `ink` (dark + indigo),
-  `claude` (warm orange #d97757), `midnight`, `emerald`, `crimson`, `gold`, `violet`.
-- **Prefer a DARK theme by default**: the light-on-black look reads far
-  more premium/cinematic — glow, atmosphere and the orb only exist on a dark bg, so a white recolor
-  always looks like "dark with the light off". Default to `mono-dark` or the topic/brand color
-  (e.g. `claude`). Light themes still work but are NOT the default. (Differentiation from the
-  black-bg competitor is an open item — solve it INSIDE dark: a signature color, less orb-cliché.)
-- Object: `mode` is `"dark"` or `"light"` (light mode recolors specially — solid orb, dark grain,
-  soft vignette). `accent` drives the orb glow, chart line, svg, sub-text. `ink` = primary
-  text/lines, `ink2` = dim, `bg` = background.
-- Pick the palette from the user's BRAND (marca/design-guide.md, tema `anticustos`), else the TOPIC
-  (Claude/Anthropic → `claude`), else default `mono-dark`. Never invent a brand color.
+### Campos do plano
 
-### Audio (optional)
-`audio` = a path to the user's audio file (mp3/m4a/wav). The render script copies it in, **plays
-it under the video, and auto-scales the scenes so the reel length = the audio length** (beat-level
-caption sync: each line shows over its slice). Without `audio`, duration = sum of holds.
+| Campo | O quê |
+|---|---|
+| `theme` | nome (`anticustos`, `anticustos-claro`, `mono-dark`, `claude`, `editorial`...) ou `{bg, ink, ink2, accent, mode}` |
+| `audio` + `words` | liga o modo áudio (legenda + âncoras). Sem `words` = modo texto (`hold`) |
+| `correcoes` | troca palavras do transcript por índice (`de`..`ate` → `texto`; `""` remove). Só erro de escuta |
+| `enfase` | até 2 palavras que aparecem sozinhas, em acento e maiores, na legenda |
+| `trilha`, `trilhaVol` | música de fundo (obrigatória se não houver voz e o reel for agendado) |
+| `sfx`, `sfxDir` | efeitos automáticos (padrão ligado) e biblioteca própria |
+| `legenda` | `false` desliga a legenda no reel inteiro |
 
-Total duration is auto-computed. ONE visual idea per beat; CHANGE the visual when the line changes.
+### Campos de cena comuns
 
-## Verified facts (don't regress these)
-- Versions: remotion / @remotion/cli / react / react-dom pinned; never mix `@remotion/*` versions.
-- Use the **brownfield 3-file scaffold** (`index.ts` registerRoot + `Root.tsx` `<Composition>` +
-  `Reel.tsx`). There is **no `registerComposition` function**. `create-video` is interactive-only,
-  so we don't use it.
-- Remotion v4 **bundles ffmpeg** for the render — the system ffmpeg is NOT required by this path
-  (it's only used by the fallback and by the quality-frame extraction).
-- The component loads the font via `delayRender`/`continueRender` so the MP4 never shows a
-  font-swap flash.
-- Node 20+ on Windows: spawning `npm.cmd`/`npx.cmd` needs `shell:true`; the script already does
-  this and quotes the Edge path (which lives under "Program Files", with a space).
+| Campo | O quê |
+|---|---|
+| `visual` | ver tabela abaixo |
+| `ancora` | palavra/frase da fala em que a cena corta (a 1ª cena não precisa) |
+| `evento` | palavra em que o dado pousa (counter, faixa, barras) |
+| `transicao` | `corte` (padrão), `flash`, `push` = como ESTA cena entra |
+| `legenda` | `false` cala a legenda só nesta cena (ex.: contador que já mostra o número falado) |
+| `sfx` | `false` tira o som automático desta cena |
+| `hold` | só no modo texto: duração em quadros (30 qps) |
+| `text`, `sub`, `big`, `place` | modo texto: a frase da cena. No modo áudio, `text` só vale na `tipografica` |
 
-## License (safe to sell — but disclose)
-Remotion is free for individuals, non-profits, and for-profit orgs with **≤3 employees**. A solo
-creator buying this skill and rendering their own videos pays Remotion nothing — the trigger is
-ENTITY SIZE, not whether money changes hands or per-video. Two honest disclosures (put them in
-LEIA-PRIMEIRO, not on screen): (1) Remotion uses a custom source-available license, not MIT;
-(2) a buyer who is a for-profit company with 4+ employees needs their own remotion.pro license.
+### Visuais novos da v2
 
-## If it fails
-Common causes + what the script/skill already does:
-- spaces in path → handled (temp dir).   - `--props` inline → handled (file).
-- no system browser → Remotion downloads its shell (slower first run, still works).
-- Node/npm absent → the script can't run at all → go to fallback-ffmpeg.md.
-Surface the real error to the user in one PT-BR line, then offer the ffmpeg fallback.
+| visual | campos |
+|---|---|
+| `tipografica` | `text` (`\n` quebra, `*palavra*` = acento), `sub` |
+| `faixa` | `de`, `ate`, `unidade`, `prefix`, `suffix`, `evento` |
+| `barras` | `valores: [{rotulo, valor}]` (2+), `destaque` (índice), `unidade`, `fonte`, `suffix`, `evento` |
+| `prova` | `imagem`, `marcas: [{x,y,w,h,em}]` (frações, de `captura.mjs`), `lente: {x,y,r,em}`, `zoom` (padrão 2), `fonte` |
+| `logo` | `arquivo` (svg/png, de `logo.mjs`), `sub` |
+| `video` | `arquivo` (de `broll.mjs`), `inicio` (s), `vel` |
+| `animacao` | `arquivo` (.json de `lottie.mjs`), `loop`, `trecho: [ini, fim]`, `pico` + `evento`, `vel`, `escala` (ver `animacoes.md`) |
+| `counter` | agora com `evento`, `de` (ponto de partida) e `sub` |
+
+Os visuais da v1 continuam (`orb`, `hero3d`, `code`, `device`, `chart`, `icon`, `svg`, `object`, heróis
+de movimento, `grid`, `crowd`...), com catálogo em `biblioteca-movimento.md` e `biblioteca-icones.md`.
+Nome de `object` é validado contra `assets/remotion/src/objetos.ts`.
+
+## Como o motor compõe (não brigar com isso)
+
+- Cenas em `<Sequence>` com `from`/`dur` absolutos; nunca se sobrepõem. Transição vive dentro das
+  cenas (fim de uma, começo da outra).
+- O visual roda 8 quadros antes do corte (herói em voo). Evento e marcas chegam em quadros locais.
+- Modo áudio: herói compacto sobe pra 0,37H e cresce ~28%; a faixa da legenda (0,70H) fica livre.
+  Registros novos se compõem sozinhos. Legenda com fundo escuro suave atrás (cena cheia não engole a letra).
+- Câmera lenta 0 a 4% (`KenBurns`); prova, vídeo, logo e tipográfica têm câmera própria.
+- Animação Lottie: o motor calcula o quadro pela velocidade real do arquivo e enquadra pelo desenho medido (`_reels.bbox` gravado pelo `lottie.mjs`).
+- Grão, vinheta e poeira por cima de tudo (`Ambient`).
+
+## Render (render.mjs)
+
+1. Resolve e valida o plano antes de tocar no motor (erro de plano não gasta instalação).
+2. Copia pro motor, sem espaço no caminho (`%LOCALAPPDATA%\reel-engine`): fonte, voz, trilha, sons,
+   imagens, vídeos (`public/a/NNN.ext`).
+3. Instala só se o `package.json` mudou. Usa o Edge/Chrome do sistema (evita baixar 300MB).
+4. `--prancha`: `prancha-runner.mjs` (um bundle, um navegador, `renderStill` por foto, folhas 6x6).
+5. **Render incremental** (`render-runner.mjs`): cada cena vira um trecho em cache (na pasta do motor,
+   `cache/`), com chave pelo conteúdo (a cena, as legendas do intervalo, o conteúdo dos arquivos que ela
+   usa, a versão do motor). Cenas seguidas que precisam renderizar saem num bloco só, com quadro-chave
+   forçado no início de cada uma, e são fatiadas sem recodificar (cada fatia conferida quadro a quadro).
+   O áudio também fica em cache pelo conteúdo. `--sem-cache` força tudo de novo. Se o incremental
+   falhar, o render inteiro pelo CLI entra de reserva. `crf 17`, concorrência = núcleos menos 1.
+6. Volume: loudnorm em duas passadas (-14 LUFS, pico -1,5 dBTP), vídeo copiado sem reencode.
+7. QA (`qa.mjs`): quadros = plano, 1080x1920, áudio, LUFS, pico, sem tela preta, sem trecho parado.
+
+## Custo medido (nesta máquina: i3-9100, 4 núcleos, GTX 1050)
+
+| O quê | Custo por quadro | Nota |
+|---|---|---|
+| cena comum (tipográfica, dado, ícone) | ~0,16s | o grosso é o Chrome desenhar e fotografar 1080x1920 |
+| animação Lottie em `canvas` | ~0,28s | em `svg` era ~0,74s (por isso o padrão é canvas) |
+| B-roll (`video`) | ~0,5s | com GOP longo era ~0,77s (por isso o `broll.mjs` salva todo quadro como chave) |
+
+- Concorrência 3 contra 4, e GPU (ANGLE): diferença de no máximo 10%, dentro do ruído; a GPU **piorou** a
+  cena de vídeo (161s contra 115s). Fica desligada.
+- Desfoque (`filter: blur`) em elemento que aparece o vídeo todo custa em todo quadro: não usar sem motivo.
+- Uma chamada ao renderizador por cena pagava ~4s fixos cada (27 cenas: 13,5 min no vídeo novo); por isso
+  os blocos.
+
+## Fatos verificados (não regredir)
+
+- `@remotion/*` todos na mesma versão; `--props` sempre ARQUIVO (inline quebra no shell do Windows).
+- Scaffold de 3 arquivos (`index.ts` + `Root.tsx` + `Reel.tsx`); não existe `registerComposition`.
+- Vídeo: `OffthreadVideo` com `trimBefore` (o `startFrom` foi renomeado).
+- Node 20+ no Windows: `npm.cmd`/`npx.cmd` com `shell:true`; caminho do Edge entre aspas.
+- Espaço no caminho do projeto quebra o Chromium ("Multiple targets are not supported").
+- Duração: medir a trilha de VÍDEO. A do contêiner inclui o preenchimento do AAC (~0,1s).
+
+## Licença
+
+Remotion é grátis pra pessoa física e empresa com até 3 funcionários (critério é o tamanho da empresa).
+Licença própria, não MIT. Empresa com 4+ funcionários precisa de remotion.pro.
