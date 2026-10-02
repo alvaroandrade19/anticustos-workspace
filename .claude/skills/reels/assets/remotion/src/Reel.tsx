@@ -21,10 +21,11 @@ import {Grid, Device, Crowd} from './scenes3d';
 import {ThreeOrb} from './scenes-webgl';
 import {Tipografica, Faixa, Barras, Prova, Logo, VideoBroll, Animacao} from './registros';
 import {Legendas, Bloco} from './captions';
+import {Mundo, MundoSpec} from './mundo';
 import {KineticText, FONT} from './text';
 import {Theme, resolveTheme, ThemeProvider, useTheme} from './theme';
 
-export type Trans = 'corte' | 'flash' | 'push';
+export type Trans = 'fundir' | 'corte' | 'flash' | 'push';
 
 export type Scene = {
   visual?: string;
@@ -57,11 +58,17 @@ export type ReelProps = {
   trilhaSrc?: string;
   trilhaVol?: number;
   sfx?: {src: string; from: number; gainDb: number}[];
+  mundo?: MundoSpec; // mundo de pontos contínuo (mundo.tsx); aparece nas cenas "visual": "mundo"
 };
 
 export const PRE = 8; // quadros que o visual já rodou antes do corte
 const FL = 6; // meia duração do flash
 const PU = 10; // duração do push de saída
+// fundir (padrão desde 01/10/2026, pedido do Alvaro: "corte muito seco"): a cena que sai continua viva
+// FU quadros por baixo e a que entra surge por cima (opacidade + desfoque que resolve + leve aproximação).
+// A que sai some mais devagar que a outra entra (1 - k²): sem "mergulho" no escuro no meio da troca.
+export const FU = 9;
+const easeIO = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
 
 const useReelFont = () => {
   const [handle] = useState(() => delayRender('font'));
@@ -72,10 +79,11 @@ const useReelFont = () => {
 };
 
 // f0 = quadro local do visual em que a cena corta; evento vem em quadros locais da CENA.
-const VisualFor: React.FC<{c: Cena}> = ({c}) => {
+const VisualFor: React.FC<{c: Cena; mundo?: MundoSpec}> = ({c, mundo}) => {
   const f0 = PRE;
   const ev = c.evento !== undefined ? c.evento + PRE : undefined;
   switch (c.visual) {
+    case 'mundo': return mundo ? <Mundo spec={mundo} base={c.from - PRE} /> : null;
     case 'tipografica': return <Tipografica text={c.text} sub={c.sub} dur={c.dur + PRE} />;
     case 'faixa': return <Faixa de={c.de} ate={c.ate} unidade={c.unidade} prefix={c.prefix} suffix={c.suffix} evento={ev} f0={f0} />;
     case 'barras': return <Barras valores={c.valores} destaque={c.destaque} unidade={c.unidade} fonte={c.fonte} suffix={c.suffix} evento={ev} f0={f0} />;
@@ -135,9 +143,9 @@ const VisualFor: React.FC<{c: Cena}> = ({c}) => {
 // No modo áudio a cena não carrega frase, então o herói cresce (~57% da largura, porte de insert
 // da referência) e sobe pra deixar a faixa da legenda (0,70H) livre. Registros novos se compõem sozinhos.
 // ---------------------------------------------------------------------------
-const PROPRIOS = new Set(['tipografica', 'faixa', 'barras', 'prova', 'logo', 'video', 'animacao']);
+const PROPRIOS = new Set(['mundo', 'tipografica', 'faixa', 'barras', 'prova', 'logo', 'video', 'animacao']);
 const FILL_VISUALS = new Set<string>(['grid', 'crowd', 'particles']);
-const SEM_CAMERA = new Set(['tipografica', 'prova', 'video', 'logo']); // já têm câmera própria
+const SEM_CAMERA = new Set(['mundo', 'tipografica', 'prova', 'video', 'logo']); // já têm câmera própria
 const CONTENT_CENTER: Record<string, number> = {
   orb: 0.30, hero3d: 0.30, wireframe: 0.27, network: 0.27, code: 0.28, counter: 0.31, chart: 0.27, svg: 0.29, icon: 0.29,
   device: 0.45, figures: 0.30, waveform: 0.30, orbit: 0.30, ripple: 0.30, rocket: 0.30, gears: 0.30, pipeline: 0.30,
@@ -156,30 +164,44 @@ const COMPACT_SCALE: Record<string, number> = {
 // device/code crescem até ~95% da largura (texto legível no celular); chart é largo e vazava pela borda
 const GANHO_AUDIO: Record<string, number> = {code: 1.12, device: 1.22, counter: 1.1, chart: 0.8};
 
-const CenaView: React.FC<{c: Cena; modo: 'audio' | 'texto'}> = ({c, modo}) => {
+const CenaView: React.FC<{c: Cena; modo: 'audio' | 'texto'; mundo?: MundoSpec; ext?: number}> = ({c, modo, mundo, ext = 0}) => {
   const frame = useCurrentFrame();
   const {height} = useVideoConfig();
   const {ink} = useTheme();
   const v = c.visual ?? 'orb';
 
-  // --- transição: entrada e saída nesta própria cena (cenas nunca se sobrepõem no tempo) ---
+  // --- transição: entrada e saída nesta própria cena. Só "fundir" sobrepõe duas cenas (ext quadros
+  // de cauda da que sai); corte, flash e push continuam dentro da janela de cada uma.
   let blur = 0;
   let clarao = 0;
   let escala = 1;
+  let opac = 1;
+  if (c.entrada === 'fundir' && frame < FU) {
+    const k = easeIO((frame + 1) / FU);
+    opac = k;
+    blur = 7 * (1 - k);
+    escala = 1.03 - 0.03 * k;
+  }
+  if (ext > 0 && frame >= c.dur) {
+    const k = (frame - c.dur + 1) / ext;
+    opac = Math.min(opac, 1 - k * k);
+    blur = Math.max(blur, 5 * k);
+  }
+  // flash e push suavizados na mesma revisão (metade do clarão e do desfoque, push mais curto no zoom)
   if (c.entrada === 'flash' && frame < FL) {
     const k = 1 - frame / FL;
-    blur = 20 * k;
-    clarao = 0.8 * k;
+    blur = Math.max(blur, 10 * k);
+    clarao = 0.32 * k;
   }
-  if (c.saida === 'flash' && frame >= c.dur - FL) {
+  if (c.saida === 'flash' && frame >= c.dur - FL && frame < c.dur) {
     const k = (frame - (c.dur - FL) + 1) / FL;
-    blur = Math.max(blur, 20 * k);
-    clarao = Math.max(clarao, 0.8 * k);
+    blur = Math.max(blur, 10 * k);
+    clarao = Math.max(clarao, 0.32 * k);
   }
-  if (c.saida === 'push' && frame >= c.dur - PU) {
+  if (c.saida === 'push' && frame >= c.dur - PU && frame < c.dur) {
     const e = Math.pow((frame - (c.dur - PU) + 1) / PU, 2.4); // aceleração: o corte cai na velocidade
-    escala = 1 + 0.4 * e;
-    blur = Math.max(blur, 12 * e);
+    escala = 1 + 0.22 * e;
+    blur = Math.max(blur, 7 * e);
   }
 
   // --- posição do visual compacto ---
@@ -201,13 +223,13 @@ const CenaView: React.FC<{c: Cena; modo: 'audio' | 'texto'}> = ({c, modo}) => {
   }
   const visual = (
     <AbsoluteFill style={{transform: `translateY(${dy}px) scale(${sc})`, transformOrigin: `50% ${center * height}px`}}>
-      <Sequence from={-PRE} durationInFrames={c.dur + PRE}>
-        <VisualFor c={c} />
+      <Sequence from={-PRE} durationInFrames={c.dur + PRE + ext}>
+        <VisualFor c={c} mundo={mundo} />
       </Sequence>
     </AbsoluteFill>
   );
   return (
-    <AbsoluteFill>
+    <AbsoluteFill style={{opacity: opac < 0.999 ? opac : undefined}}>
       <AbsoluteFill style={{transform: escala !== 1 ? `scale(${escala})` : undefined, filter: blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : undefined}}>
         {SEM_CAMERA.has(v) ? visual : <KenBurns seed={c.from + 1}>{visual}</KenBurns>}
         {modo === 'texto' && c.text && v !== 'tipografica' ? <KineticText text={c.text} sub={c.sub} big={c.big} hold={c.dur} place={c.place} entranceStyle={0} compact={!fill} /> : null}
@@ -217,10 +239,12 @@ const CenaView: React.FC<{c: Cena; modo: 'audio' | 'texto'}> = ({c, modo}) => {
   );
 };
 
-const Body: React.FC<ReelProps> = ({cenas, legendas = [], modo = 'texto', audioSrc, trilhaSrc, trilhaVol, sfx = [], totalFrames}) => {
+const Body: React.FC<ReelProps> = ({cenas, legendas = [], modo = 'texto', audioSrc, trilhaSrc, trilhaVol, sfx = [], totalFrames, mundo}) => {
   useReelFont();
   const {bg} = useTheme();
   const T = totalFrames;
+  // o mundo recebe o total do reel (pro final em mergulho); memo pra não recriar a spec a cada quadro
+  const spec = React.useMemo(() => (mundo ? {...mundo, total: totalFrames} : undefined), [mundo, totalFrames]);
   return (
     <AbsoluteFill style={{backgroundColor: bg}}>
       {audioSrc ? <Audio src={staticFile(audioSrc)} volume={(f) => interpolate(f, [0, 3, T - 4, T], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})} /> : null}
@@ -231,15 +255,22 @@ const Body: React.FC<ReelProps> = ({cenas, legendas = [], modo = 'texto', audioS
         </Sequence>
       ))}
 
-      <AbsoluteFill style={{opacity: 0.5}}>
-        <ParticleField density={70} />
-      </AbsoluteFill>
+      {/* com mundo de pontos, a poeira dele faz o papel do campo de fundo (duas texturas de ponto brigavam) */}
+      {spec ? null : (
+        <AbsoluteFill style={{opacity: 0.5}}>
+          <ParticleField density={70} />
+        </AbsoluteFill>
+      )}
 
-      {cenas.map((c, i) => (
-        <Sequence key={`c${i}`} from={c.from} durationInFrames={c.dur}>
-          <CenaView c={c} modo={modo} />
-        </Sequence>
-      ))}
+      {cenas.map((c, i) => {
+        // a cena seguinte entra fundindo: esta continua viva FU quadros por baixo dela
+        const ext = cenas[i + 1]?.entrada === 'fundir' ? Math.min(FU, Math.max(0, T - c.from - c.dur)) : 0;
+        return (
+          <Sequence key={`c${i}`} from={c.from} durationInFrames={c.dur + ext}>
+            <CenaView c={c} modo={modo} mundo={spec} ext={ext} />
+          </Sequence>
+        );
+      })}
 
       {modo === 'audio' ? <Legendas blocos={legendas} /> : null}
       <Ambient />

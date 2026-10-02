@@ -1,0 +1,776 @@
+[
+  {
+    "text": "Nikola",
+    "scene": 0,
+    "start": 0.06,
+    "end": 0.32
+  },
+  {
+    "text": "Tesla",
+    "scene": 0,
+    "start": 0.32,
+    "end": 0.58
+  },
+  {
+    "text": "tinha",
+    "scene": 0,
+    "start": 0.58,
+    "end": 0.86
+  },
+  {
+    "text": "um",
+    "scene": 0,
+    "start": 0.86,
+    "end": 0.96
+  },
+  {
+    "text": "jeito",
+    "scene": 0,
+    "start": 0.97,
+    "end": 1.19
+  },
+  {
+    "text": "muito",
+    "scene": 1,
+    "start": 1.24,
+    "end": 1.51
+  },
+  {
+    "text": "estranho",
+    "scene": 1,
+    "start": 1.51,
+    "end": 2.0
+  },
+  {
+    "text": "de",
+    "scene": 1,
+    "start": 2.0,
+    "end": 2.1
+  },
+  {
+    "text": "criar",
+    "scene": 1,
+    "start": 2.1,
+    "end": 2.32
+  },
+  {
+    "text": "suas",
+    "scene": 1,
+    "start": 2.36,
+    "end": 2.55
+  },
+  {
+    "text": "invenções.",
+    "scene": 1,
+    "start": 2.55,
+    "end": 3.14
+  },
+  {
+    "text": "Antes",
+    "scene": 2,
+    "start": 3.16,
+    "end": 3.37
+  },
+  {
+    "text": "de",
+    "scene": 2,
+    "start": 3.37,
+    "end": 3.42
+  },
+  {
+    "text": "construir",
+    "scene": 2,
+    "start": 3.47,
+    "end": 3.88
+  },
+  {
+    "text": "alguma",
+    "scene": 2,
+    "start": 3.88,
+    "end": 4.16
+  },
+  {
+    "text": "coisa,",
+    "scene": 2,
+    "start": 4.16,
+    "end": 4.5
+  },
+  {
+    "text": "ele",
+    "scene": 3,
+    "start": 4.54,
+    "end": 4.65
+  },
+  {
+    "text": "dizia",
+    "scene": 3,
+    "start": 4.65,
+    "end": 4.9
+  },
+  {
+    "text": "que",
+    "scene": 3,
+    "start": 4.9,
+    "end": 5.05
+  },
+  {
+    "text": "conseguia",
+    "scene": 3,
+    "start": 5.05,
+    "end": 5.51
+  },
+  {
+    "text": "visualizar",
+    "scene": 3,
+    "start": 5.51,
+    "end": 6.08
+  },
+  {
+    "text": "a",
+    "scene": 4,
+    "start": 6.08,
+    "end": 6.12
+  },
+  {
+    "text": "máquina",
+    "scene": 4,
+    "start": 6.12,
+    "end": 6.44
+  },
+  {
+    "text": "inteira",
+    "scene": 4,
+    "start": 6.44,
+    "end": 6.84
+  },
+  {
+    "text": "na",
+    "scene": 4,
+    "start": 6.84,
+    "end": 6.93
+  },
+  {
+    "text": "cabeça.",
+    "scene": 4,
+    "start": 7.0,
+    "end": 7.84
+  },
+  {
+    "text": "Ele",
+    "scene": 5,
+    "start": 7.84,
+    "end": 7.98
+  },
+  {
+    "text": "imaginava",
+    "scene": 5,
+    "start": 7.98,
+    "end": 8.4
+  },
+  {
+    "text": "as",
+    "scene": 5,
+    "start": 8.4,
+    "end": 8.49
+  },
+  {
+    "text": "peças,",
+    "scene": 5,
+    "start": 8.49,
+    "end": 8.86
+  },
+  {
+    "text": "colocava",
+    "scene": 6,
+    "start": 8.86,
+    "end": 9.22
+  },
+  {
+    "text": "ela",
+    "scene": 6,
+    "start": 9.26,
+    "end": 9.33
+  },
+  {
+    "text": "pra",
+    "scene": 6,
+    "start": 9.41,
+    "end": 9.51
+  },
+  {
+    "text": "funcionar…",
+    "scene": 6,
+    "start": 9.51,
+    "end": 9.93
+  },
+  {
+    "text": "e",
+    "scene": 7,
+    "start": 9.97,
+    "end": 9.97
+  },
+  {
+    "text": "chegava",
+    "scene": 7,
+    "start": 10.01,
+    "end": 10.3
+  },
+  {
+    "text": "até",
+    "scene": 7,
+    "start": 10.3,
+    "end": 10.41
+  },
+  {
+    "text": "a",
+    "scene": 7,
+    "start": 10.5,
+    "end": 10.53
+  },
+  {
+    "text": "fazer",
+    "scene": 7,
+    "start": 10.53,
+    "end": 10.77
+  },
+  {
+    "text": "alterações",
+    "scene": 7,
+    "start": 10.77,
+    "end": 11.43
+  },
+  {
+    "text": "mentalmente",
+    "scene": 7,
+    "start": 11.46,
+    "end": 12.01
+  },
+  {
+    "text": "antes",
+    "scene": 8,
+    "start": 12.02,
+    "end": 12.28
+  },
+  {
+    "text": "de",
+    "scene": 8,
+    "start": 12.28,
+    "end": 12.38
+  },
+  {
+    "text": "construir",
+    "scene": 8,
+    "start": 12.38,
+    "end": 12.86
+  },
+  {
+    "text": "a",
+    "scene": 8,
+    "start": 12.86,
+    "end": 12.86
+  },
+  {
+    "text": "primeira",
+    "scene": 8,
+    "start": 12.96,
+    "end": 13.33
+  },
+  {
+    "text": "versão.",
+    "scene": 8,
+    "start": 13.33,
+    "end": 13.9
+  },
+  {
+    "text": "E",
+    "scene": 9,
+    "start": 13.92,
+    "end": 13.95
+  },
+  {
+    "text": "olha",
+    "scene": 9,
+    "start": 13.95,
+    "end": 14.14
+  },
+  {
+    "text": "como",
+    "scene": 9,
+    "start": 14.19,
+    "end": 14.39
+  },
+  {
+    "text": "isso",
+    "scene": 9,
+    "start": 14.39,
+    "end": 14.61
+  },
+  {
+    "text": "começa",
+    "scene": 9,
+    "start": 14.61,
+    "end": 14.97
+  },
+  {
+    "text": "a",
+    "scene": 9,
+    "start": 14.99,
+    "end": 15.04
+  },
+  {
+    "text": "ficar",
+    "scene": 9,
+    "start": 15.04,
+    "end": 15.31
+  },
+  {
+    "text": "interessante",
+    "scene": 9,
+    "start": 15.31,
+    "end": 15.84
+  },
+  {
+    "text": "hoje.",
+    "scene": 9,
+    "start": 16.19,
+    "end": 16.38
+  },
+  {
+    "text": "Porque",
+    "scene": 10,
+    "start": 16.38,
+    "end": 16.69
+  },
+  {
+    "text": "durante",
+    "scene": 10,
+    "start": 16.69,
+    "end": 17.05
+  },
+  {
+    "text": "muito",
+    "scene": 10,
+    "start": 17.05,
+    "end": 17.24
+  },
+  {
+    "text": "tempo,",
+    "scene": 10,
+    "start": 17.45,
+    "end": 17.67
+  },
+  {
+    "text": "imaginar",
+    "scene": 11,
+    "start": 17.67,
+    "end": 18.08
+  },
+  {
+    "text": "alguma",
+    "scene": 11,
+    "start": 18.08,
+    "end": 18.39
+  },
+  {
+    "text": "coisa",
+    "scene": 11,
+    "start": 18.39,
+    "end": 18.65
+  },
+  {
+    "text": "e",
+    "scene": 11,
+    "start": 18.65,
+    "end": 18.7
+  },
+  {
+    "text": "conseguir",
+    "scene": 11,
+    "start": 18.7,
+    "end": 19.16
+  },
+  {
+    "text": "executar",
+    "scene": 11,
+    "start": 19.16,
+    "end": 19.57
+  },
+  {
+    "text": "aquilo",
+    "scene": 12,
+    "start": 19.57,
+    "end": 19.84
+  },
+  {
+    "text": "eram",
+    "scene": 12,
+    "start": 20.07,
+    "end": 20.08
+  },
+  {
+    "text": "habilidades",
+    "scene": 12,
+    "start": 20.09,
+    "end": 20.7
+  },
+  {
+    "text": "completamente",
+    "scene": 12,
+    "start": 20.7,
+    "end": 21.37
+  },
+  {
+    "text": "diferentes.",
+    "scene": 12,
+    "start": 21.37,
+    "end": 22.04
+  },
+  {
+    "text": "Você",
+    "scene": 13,
+    "start": 22.04,
+    "end": 22.32
+  },
+  {
+    "text": "podia",
+    "scene": 13,
+    "start": 22.32,
+    "end": 22.6
+  },
+  {
+    "text": "ter",
+    "scene": 13,
+    "start": 22.6,
+    "end": 22.77
+  },
+  {
+    "text": "uma",
+    "scene": 13,
+    "start": 22.77,
+    "end": 22.86
+  },
+  {
+    "text": "ideia",
+    "scene": 13,
+    "start": 22.94,
+    "end": 23.21
+  },
+  {
+    "text": "absurda…",
+    "scene": 13,
+    "start": 23.26,
+    "end": 23.65
+  },
+  {
+    "text": "mas",
+    "scene": 14,
+    "start": 23.72,
+    "end": 23.89
+  },
+  {
+    "text": "não",
+    "scene": 14,
+    "start": 23.89,
+    "end": 24.1
+  },
+  {
+    "text": "saber",
+    "scene": 14,
+    "start": 24.11,
+    "end": 24.39
+  },
+  {
+    "text": "como",
+    "scene": 14,
+    "start": 24.39,
+    "end": 24.58
+  },
+  {
+    "text": "transformar",
+    "scene": 14,
+    "start": 24.63,
+    "end": 25.22
+  },
+  {
+    "text": "ela",
+    "scene": 14,
+    "start": 25.22,
+    "end": 25.39
+  },
+  {
+    "text": "em",
+    "scene": 14,
+    "start": 25.39,
+    "end": 25.5
+  },
+  {
+    "text": "algo",
+    "scene": 14,
+    "start": 25.5,
+    "end": 25.72
+  },
+  {
+    "text": "real.",
+    "scene": 14,
+    "start": 25.72,
+    "end": 25.99
+  },
+  {
+    "text": "Só",
+    "scene": 15,
+    "start": 26.22,
+    "end": 26.31
+  },
+  {
+    "text": "que",
+    "scene": 15,
+    "start": 26.31,
+    "end": 26.44
+  },
+  {
+    "text": "essa",
+    "scene": 15,
+    "start": 26.44,
+    "end": 26.62
+  },
+  {
+    "text": "distância",
+    "scene": 15,
+    "start": 26.62,
+    "end": 27.07
+  },
+  {
+    "text": "tá",
+    "scene": 15,
+    "start": 27.07,
+    "end": 27.2
+  },
+  {
+    "text": "diminuindo.",
+    "scene": 15,
+    "start": 27.2,
+    "end": 27.82
+  },
+  {
+    "text": "Cada",
+    "scene": 16,
+    "start": 27.85,
+    "end": 28.06
+  },
+  {
+    "text": "vez",
+    "scene": 16,
+    "start": 28.06,
+    "end": 28.24
+  },
+  {
+    "text": "mais,",
+    "scene": 16,
+    "start": 28.24,
+    "end": 28.6
+  },
+  {
+    "text": "você",
+    "scene": 16,
+    "start": 28.62,
+    "end": 28.9
+  },
+  {
+    "text": "consegue",
+    "scene": 16,
+    "start": 28.9,
+    "end": 29.38
+  },
+  {
+    "text": "descrever",
+    "scene": 16,
+    "start": 29.38,
+    "end": 29.75
+  },
+  {
+    "text": "aquilo",
+    "scene": 16,
+    "start": 29.98,
+    "end": 30.28
+  },
+  {
+    "text": "que",
+    "scene": 17,
+    "start": 30.28,
+    "end": 30.46
+  },
+  {
+    "text": "tá",
+    "scene": 17,
+    "start": 30.46,
+    "end": 30.64
+  },
+  {
+    "text": "enxergando",
+    "scene": 17,
+    "start": 30.64,
+    "end": 31.24
+  },
+  {
+    "text": "na",
+    "scene": 17,
+    "start": 31.24,
+    "end": 31.36
+  },
+  {
+    "text": "sua",
+    "scene": 17,
+    "start": 31.36,
+    "end": 31.54
+  },
+  {
+    "text": "cabeça",
+    "scene": 17,
+    "start": 31.54,
+    "end": 31.79
+  },
+  {
+    "text": "e",
+    "scene": 18,
+    "start": 32.06,
+    "end": 32.1
+  },
+  {
+    "text": "ver",
+    "scene": 18,
+    "start": 32.1,
+    "end": 32.26
+  },
+  {
+    "text": "aquilo",
+    "scene": 18,
+    "start": 32.34,
+    "end": 32.72
+  },
+  {
+    "text": "começar",
+    "scene": 18,
+    "start": 32.72,
+    "end": 33.27
+  },
+  {
+    "text": "a",
+    "scene": 18,
+    "start": 33.27,
+    "end": 33.34
+  },
+  {
+    "text": "existir.",
+    "scene": 18,
+    "start": 33.34,
+    "end": 34.04
+  },
+  {
+    "text": "Então",
+    "scene": 19,
+    "start": 34.04,
+    "end": 34.35
+  },
+  {
+    "text": "talvez",
+    "scene": 19,
+    "start": 34.35,
+    "end": 34.66
+  },
+  {
+    "text": "uma",
+    "scene": 19,
+    "start": 34.66,
+    "end": 34.81
+  },
+  {
+    "text": "das",
+    "scene": 19,
+    "start": 34.81,
+    "end": 34.96
+  },
+  {
+    "text": "habilidades",
+    "scene": 19,
+    "start": 34.96,
+    "end": 35.53
+  },
+  {
+    "text": "mais",
+    "scene": 20,
+    "start": 35.53,
+    "end": 35.66
+  },
+  {
+    "text": "importantes",
+    "scene": 20,
+    "start": 35.73,
+    "end": 36.29
+  },
+  {
+    "text": "daqui",
+    "scene": 20,
+    "start": 36.35,
+    "end": 36.56
+  },
+  {
+    "text": "pra",
+    "scene": 20,
+    "start": 36.56,
+    "end": 36.71
+  },
+  {
+    "text": "frente",
+    "scene": 20,
+    "start": 36.71,
+    "end": 37.02
+  },
+  {
+    "text": "seja",
+    "scene": 20,
+    "start": 37.03,
+    "end": 37.22
+  },
+  {
+    "text": "justamente",
+    "scene": 20,
+    "start": 37.22,
+    "end": 37.74
+  },
+  {
+    "text": "essa:",
+    "scene": 20,
+    "start": 37.74,
+    "end": 38.14
+  },
+  {
+    "text": "conseguir",
+    "scene": 21,
+    "start": 38.16,
+    "end": 38.53
+  },
+  {
+    "text": "enxergar",
+    "scene": 21,
+    "start": 38.64,
+    "end": 39.06
+  },
+  {
+    "text": "antes",
+    "scene": 21,
+    "start": 39.3,
+    "end": 39.36
+  },
+  {
+    "text": "de",
+    "scene": 21,
+    "start": 39.36,
+    "end": 39.47
+  },
+  {
+    "text": "existir.",
+    "scene": 21,
+    "start": 39.49,
+    "end": 40.02
+  }
+]

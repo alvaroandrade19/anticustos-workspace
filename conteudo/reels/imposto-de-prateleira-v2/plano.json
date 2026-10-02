@@ -1,4 +1,5 @@
 {
+ "legado": true,
  "theme": "anticustos",
  "audio": "dados/audio/imposto-de-prateleira.mp3",
  "words": "words.json",

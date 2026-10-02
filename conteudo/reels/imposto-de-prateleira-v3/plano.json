@@ -1,0 +1,390 @@
+{
+ "mapa": {
+  "objetivo": "entender que ferramenta instalada cobra em toda mensagem, usada ou não",
+  "transformacao": "de \"ferramenta parada não custa\" pra \"ferramenta parada cobra aluguel\"",
+  "arco": "gancho 34/11 → paper → nome do imposto → atenção perdida → auditoria 34 pra 3 → a mesma pergunta na empresa"
+ },
+ "theme": "anticustos",
+ "audio": "dados/audio/imposto-de-prateleira.mp3",
+ "words": "../imposto-de-prateleira-v2/words.json",
+ "correcoes": [
+  {
+   "de": 52,
+   "ate": 54,
+   "texto": "280"
+  },
+  {
+   "de": 76,
+   "ate": 77,
+   "texto": "aluguel"
+  },
+  {
+   "de": 83,
+   "texto": "estante,"
+  },
+  {
+   "de": 111,
+   "texto": "pior"
+  },
+  {
+   "de": 117,
+   "texto": "Fiz"
+  },
+  {
+   "de": 127,
+   "ate": 128,
+   "texto": "91%"
+  },
+  {
+   "de": 148,
+   "texto": "avisam."
+  }
+ ],
+ "enfase": [],
+ "cenas": [
+  {
+   "visual": "mundo",
+   "encena": "a poeira se junta em 34 bolhas quando ele conta: uma por ferramenta; o 34 vira número; as 11 de terceiros acendem",
+   "funcao": "gancho"
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "Aqui está",
+   "text": "O QUE NINGUÉM\nEXPLICA",
+   "funcao": "contexto"
+  },
+  {
+   "visual": "animacao",
+   "ancora": "A ferramenta",
+   "arquivo": "../imposto-de-prateleira-v2/animacoes/servidor.json",
+   "encena": "a ferramenta guardada no disco: um servidor parado",
+   "funcao": "contexto"
+  },
+  {
+   "visual": "code",
+   "ancora": "mas o resumo",
+   "code": [
+    "mensagem 1",
+    "+ resumo de 34 ferramentas",
+    "",
+    "mensagem 2",
+    "+ resumo de 34 ferramentas",
+    "",
+    "mensagem 3",
+    "+ resumo de 34 ferramentas"
+   ],
+   "encena": "cada mensagem carregando o resumo das 34 ferramentas",
+   "funcao": "contexto"
+  },
+  {
+   "visual": "prova",
+   "ancora": "Um paper",
+   "transicao": "fundir",
+   "imagem": "../imposto-de-prateleira-v2/prova/paper-resumo.png",
+   "fonte": "Yin et al., arXiv 2608.12610 (ago/2026)",
+   "marcas": [
+    {
+     "x": 0.1396,
+     "y": 0.1061,
+     "w": 0.353,
+     "h": 0.0788,
+     "em": "paper"
+    },
+    {
+     "x": 0.0185,
+     "y": 0.0667,
+     "w": 0.1708,
+     "h": 0.0364,
+     "em": "agosto"
+    },
+    {
+     "x": 0.3853,
+     "y": 0.3492,
+     "w": 0.2347,
+     "h": 0.0455,
+     "em": "mediu"
+    }
+   ],
+   "encena": "o paper real que mediu o custo, com título e data marcados",
+   "funcao": "desenvolvimento"
+  },
+  {
+   "visual": "faixa",
+   "ancora": "De 50",
+   "evento": "280",
+   "de": 50,
+   "ate": 280,
+   "unidade": "tokens por ferramenta",
+   "encena": "o custo medido por ferramenta, de 50 a 280 tokens",
+   "funcao": "desenvolvimento"
+  },
+  {
+   "visual": "mundo",
+   "ancora": "em toda a mensagem",
+   "encena": "as mesmas 34 voltam todas iguais, a cor das 11 se apaga: em toda mensagem, usadas ou não",
+   "funcao": "desenvolvimento"
+  },
+  {
+   "visual": "prova",
+   "ancora": "Os autores",
+   "imagem": "../imposto-de-prateleira-v2/prova/paper-imposto.png",
+   "fonte": "Yin et al., arXiv 2608.12610",
+   "zoom": 1.9,
+   "marcas": [
+    {
+     "x": 0.9411,
+     "y": 0.3654,
+     "w": 0.0378,
+     "h": 0.0846,
+     "em": "autores"
+    },
+    {
+     "x": 0.0211,
+     "y": 0.4577,
+     "w": 0.1856,
+     "h": 0.0846,
+     "em": "autores"
+    },
+    {
+     "x": 0.1533,
+     "y": 0.3654,
+     "w": 0.1525,
+     "h": 0.0846,
+     "em": "nome"
+    }
+   ],
+   "encena": "o trecho do paper em que os autores dão o nome",
+   "funcao": "desenvolvimento"
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "imposto de prateleira",
+   "text": "IMPOSTO DE\n*PRATELEIRA*",
+   "funcao": "desenvolvimento"
+  },
+  {
+   "visual": "video",
+   "ancora": "Você paga",
+   "arquivo": "../imposto-de-prateleira-v2/broll/estante.mp4",
+   "inicio": 0.5,
+   "encena": "a estante cheia pela qual você paga aluguel",
+   "funcao": "evolucao"
+  },
+  {
+   "visual": "animacao",
+   "ancora": "O dinheiro",
+   "arquivo": "../imposto-de-prateleira-v2/animacoes/dinheiro.json",
+   "loop": false,
+   "trecho": [
+    0.13,
+    1.9
+   ],
+   "pico": 0.8,
+   "evento": "dinheiro",
+   "escala": 0.78,
+   "encena": "o dinheiro, o custo menor",
+   "funcao": "evolucao"
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "o que se perde",
+   "text": "O QUE SE PERDE\nÉ A ATENÇÃO",
+   "funcao": "evolucao"
+  },
+  {
+   "visual": "mundo",
+   "ancora": "Quanto mais",
+   "encena": "as instruções se espremem no mesmo espaço e, no \"pior\", o desenho se desfaz: o modelo perde o fio",
+   "funcao": "evolucao"
+  },
+  {
+   "visual": "checklist",
+   "ancora": "Fiz a auditoria",
+   "encena": "a auditoria feita, item por item",
+   "funcao": "resolucao"
+  },
+  {
+   "visual": "mundo",
+   "ancora": "De 34",
+   "encena": "as mesmas 34 bolhas da abertura se fundem em 3 enquanto ele diz \"pra 3\"",
+   "funcao": "resolucao"
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "91%",
+   "text": "91%\nA MENOS\nPOR MENSAGEM",
+   "funcao": "resolucao"
+  },
+  {
+   "visual": "animacao",
+   "ancora": "Não apaguei",
+   "arquivo": "../imposto-de-prateleira-v2/animacoes/caixa.json",
+   "loop": false,
+   "pico": 0.42,
+   "evento": "guardei",
+   "encena": "guardar sem apagar: o que não uso vai pra caixa",
+   "escala": 0.72,
+   "funcao": "resolucao"
+  },
+  {
+   "visual": "object",
+   "ancora": "Os próprios autores",
+   "name": "scale",
+   "encena": "os autores pesando: é proposta, não lei",
+   "funcao": "sintese"
+  },
+  {
+   "visual": "grid",
+   "ancora": "Mesmo assim",
+   "transicao": "fundir",
+   "encena": "o princípio saindo do software pro resto da empresa",
+   "funcao": "sintese"
+  },
+  {
+   "visual": "object",
+   "ancora": "A assinatura",
+   "name": "credit-card",
+   "encena": "a assinatura aprovada uma vez e nunca revista",
+   "funcao": "sintese"
+  },
+  {
+   "visual": "key",
+   "ancora": "A licença",
+   "transicao": "flash",
+   "encena": "a licença de quem já saiu",
+   "funcao": "sintese"
+  },
+  {
+   "visual": "object",
+   "ancora": "O relatório",
+   "name": "book",
+   "transicao": "flash",
+   "encena": "o relatório que ninguém mais lê",
+   "funcao": "sintese"
+  },
+  {
+   "visual": "counter",
+   "ancora": "faz essa pergunta",
+   "evento": "três",
+   "to": 3,
+   "sub": "coisas que sua empresa paga",
+   "encena": "as três coisas que a empresa paga, contadas",
+   "funcao": "sintese"
+  },
+  {
+   "visual": "tipografica",
+   "ancora": "Quantas",
+   "text": "QUANTAS\nSOBREVIVEM?",
+   "transicao": "push",
+   "funcao": "sintese"
+  }
+ ],
+ "mundo": {
+  "chaves": [
+   {
+    "forma": "nuvem",
+    "raio": 360,
+    "encena": "abertura: a nuvem de pontos já em voo no primeiro quadro"
+   },
+   {
+    "ancora": "contei",
+    "forma": "grupos",
+    "quantidade": 34,
+    "dur": 0.7,
+    "encena": "ele conta: a poeira vira 34 bolhas, uma por ferramenta",
+    "camera": {
+     "pose": "diagonal",
+     "dur": 1.6
+    }
+   },
+   {
+    "ancora": "34",
+    "forma": "glifo",
+    "texto": "34",
+    "dur": 0.3,
+    "spread": 0.08,
+    "encena": "o total contado vira o número 34",
+    "camera": "frente"
+   },
+   {
+    "ancora": "11",
+    "forma": "grupos",
+    "quantidade": 34,
+    "destaque": [
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33
+    ],
+    "dur": 0.3,
+    "spread": 0.08,
+    "encena": "as 34 de novo, com as 11 de terceiros acesas"
+   },
+   {
+    "ancora": "toda a mensagem",
+    "forma": "grupos",
+    "quantidade": 34,
+    "dur": 0.5,
+    "encena": "as 34 todas iguais, usadas ou não",
+    "camera": {
+     "pose": "diagonal",
+     "orbita": 0.22
+    }
+   },
+   {
+    "ancora": "Quanto mais",
+    "forma": "grupos",
+    "quantidade": 34,
+    "escala": 0.5,
+    "dur": 0.6,
+    "encena": "instruções espremidas no mesmo espaço",
+    "camera": "frente"
+   },
+   {
+    "ancora": "pior",
+    "forma": "nuvem",
+    "raio": 520,
+    "explosao": 0.5,
+    "dur": 0.7,
+    "encena": "o desenho se desfaz: o modelo perde cada uma"
+   },
+   {
+    "ancora": "De 34",
+    "forma": "grupos",
+    "quantidade": 34,
+    "dur": 0.25,
+    "spread": 0.05,
+    "encena": "as mesmas 34 da abertura"
+   },
+   {
+    "ancora": "3",
+    "forma": "grupos",
+    "quantidade": 3,
+    "pousar": true,
+    "dur": 0.7,
+    "spread": 0.15,
+    "encena": "as 34 se fundem em 3, pousando no \"3\""
+   }
+  ],
+  "cameras": [
+   {
+    "ancora": "instaladas",
+    "yaw": -0.32,
+    "pitch": 0.22,
+    "dur": 1.2
+   },
+   {
+    "ancora": "agente",
+    "pose": "frente",
+    "dur": 0.6
+   }
+  ]
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "0": {"parts": [["Em 1990, Carl Sagan", 0.0], ["convenceu a NASA", 1.55], ["a fazer uma coisa que,", 2.47], ["tecnicamente, não servia", 3.52], ["pra quase *nada.*", 4.60]], "mode": "blur", "y": 1560, "size": 64},
+ "1": {"parts": [["A *Voyager* *1*", 5.76], ["já estava a bilhões", 6.31], ["de quilômetros daqui…", 7.33]], "mode": "blur", "y": 1560, "size": 64},
+ "2": {"parts": [["e ele pediu pra câmera", 8.31], ["olhar pra *trás.*", 9.72]], "mode": "blur", "y": 1560, "size": 64},
+ "3": {"parts": [["Ela fotografou a *Terra.*", 10.27]], "mode": "cut", "y": 1560, "size": 68},
+ "4": {"parts": [["E tudo que a gente conhece", 11.50], ["apareceu praticamente", 12.79], ["como um pequeno *ponto*", 13.98], ["perdido no espaço.", 15.04]], "mode": "blur", "y": 1640, "size": 60},
+ "5": {"parts": [["Aquela foto não descobriu", 15.95], ["um planeta *novo.*", 17.46]], "mode": "cut", "y": 330, "size": 64},
+ "6": {"parts": [["Não trouxe nenhuma", 18.22], ["grande *tecnologia.*", 19.22]], "mode": "cut", "y": 1560, "size": 64},
+ "7": {"parts": [["Mas mudou a forma", 20.40], ["como *milhões* de pessoas", 21.28], ["enxergaram", 22.71], ["o nosso *lugar* no universo.", 23.30]], "mode": "blur", "y": 1560, "size": 64},
+ "8": {"parts": [["E eu gosto muito", 24.96], ["de pensar *nisso.*", 25.75]], "mode": "blur", "y": 1560, "size": 76, "serif": true},
+ "9": {"parts": [["Porque nem tudo", 26.59], ["que a gente cria", 27.13], ["precisa fazer *sentido*", 27.81], ["de primeira.", 28.92]], "mode": "blur", "y": 1560, "size": 64},
+ "10": {"parts": [["Às vezes uma ideia *estranha*,", 29.92], ["uma *curiosidade*…", 31.38], ["alguma coisa que", 32.13], ["ninguém pediu pra você fazer…", 32.89]], "mode": "cut", "y": 1560, "size": 60},
+ "11": {"parts": [["pode acabar *tocando* alguém", 34.83], ["de um jeito que você", 35.77], ["nunca *imaginou.*", 36.58]], "mode": "blur", "y": 1560, "size": 64},
+ "12": {"parts": [["Talvez algumas ideias", 37.52], ["só precisem *existir*", 38.63], ["antes da gente", 39.66], ["entender pra *quê.*", 40.43]], "mode": "blur", "y": 1560, "size": 76, "serif": true}
+}

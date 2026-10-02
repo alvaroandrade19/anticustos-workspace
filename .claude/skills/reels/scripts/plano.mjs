@@ -35,6 +35,7 @@ export const REGISTRO = {
   icon: 'icone', svg: 'icone',
   video: 'video',
   animacao: 'animacao',
+  mundo: 'pontos',
   orb: 'marca', hero3d: 'marca',
   grid: 'atmosfera', crowd: 'atmosfera', particles: 'atmosfera', figures: 'atmosfera', network: 'atmosfera',
   wireframe: 'atmosfera', constellation: 'atmosfera', orbit: 'atmosfera', ripple: 'atmosfera', radar: 'atmosfera',
@@ -50,8 +51,9 @@ const OBJETOS = (() => {
   } catch { return null; }
 })();
 
-const VISUAIS_TEMPLATE = new Set(['animacao', 'tipografica', 'counter', 'faixa', 'barras', 'chart', 'prova', 'logo', 'video', 'code', 'device', 'icon', 'svg']);
-const TRANS = new Set(['corte', 'flash', 'push']);
+const VISUAIS_TEMPLATE = new Set(['mundo', 'animacao', 'tipografica', 'counter', 'faixa', 'barras', 'chart', 'prova', 'logo', 'video', 'code', 'device', 'icon', 'svg']);
+const TRANS = new Set(['fundir', 'corte', 'flash', 'push']);
+const FUNCOES = new Set(['gancho', 'contexto', 'desenvolvimento', 'evolucao', 'resolucao', 'sintese']); // arco narrativo (registros.md)
 
 // palavras que não podem fechar um bloco de legenda (artigo, preposição, conjunção, verbo de ligação solto)
 const FUNCAO = new Set('a o as os um uma uns umas de da do das dos em na no nas nos num numa por pra pro pras pros para com sem e ou mas que se ao aos à às é são sua seu suas seus meu minha tua teu nem já muito mais menos tão como quando onde'.split(' '));
@@ -170,6 +172,115 @@ const SFX_PADRAO = {
 };
 
 // ---------------------------------------------------------------------------
+// Mundo de pontos. Cada chave (forma) e cada câmera presa a uma palavra da fala, como as cenas.
+// A regra que manda aqui é a mesma do reel inteiro: a forma ENCENA o que a voz está dizendo naquela
+// palavra. Por isso toda chave exige `encena` (o que a forma mostra da frase), e o laudo imprime
+// palavra, forma e encena lado a lado pra quem aprova conferir.
+// ---------------------------------------------------------------------------
+export const FORMAS_MUNDO = ['nuvem', 'poeira', 'esfera', 'anel', 'galaxia', 'onda', 'tunel', 'grupos', 'rede', 'glifo', 'imagem', 'logo'];
+const POSES_MUNDO = new Set(['frente', 'perto', 'longe', 'cima', 'baixo', 'lado', 'diagonal', 'mergulho']);
+const LEAD_MUNDO = 2; // quadros: o morph começa junto com a sílaba, não depois dela
+
+const resolverMundo = (pm, {modo, ws, cenas, totalFrames, erros, avisos}) => {
+  const E = (m) => erros.push(`mundo: ${m}`);
+  const A = (m) => avisos.push(`mundo: ${m}`);
+  // tempo de uma chave/câmera: âncora na fala (modo áudio) ou t/f explícito
+  const tempo = (x, rotulo, cursor, primeira) => {
+    if (x.ancora !== undefined) {
+      if (modo !== 'audio') { E(`${rotulo}: "ancora" só existe com áudio; no modo texto use "t" (segundos)`); return {f: null, cursor}; }
+      const idx = acharFrase(ws, x.ancora, cursor.w);
+      if (idx < 0) { E(`${rotulo}: âncora "${x.ancora}" não achada na fala depois da palavra ${cursor.w}`); return {f: null, cursor}; }
+      return {f: Math.max(0, Math.round(ws[idx].start * FPS) - LEAD_MUNDO), cursor: {w: idx + 1}, palavra: ws[idx].texto};
+    }
+    if (x.f !== undefined) return {f: Math.round(x.f), cursor};
+    if (x.t !== undefined) return {f: Math.round(x.t * FPS), cursor};
+    if (primeira) return {f: 0, cursor};
+    E(`${rotulo}: sem "ancora" (nem "t"); a forma precisa estar presa a uma palavra da fala`);
+    return {f: null, cursor};
+  };
+
+  const chavesIn = pm.chaves ?? [];
+  if (!chavesIn.length) { E('sem chaves (a sequência de formas)'); return undefined; }
+  const chaves = [];
+  const cameras = [];
+  let cur = {w: 0};
+  chavesIn.forEach((k, i) => {
+    const rot = `chave ${i + 1} (${k.forma})`;
+    const {f, cursor, palavra} = tempo(k, rot, cur, i === 0);
+    cur = cursor;
+    if (!FORMAS_MUNDO.includes(k.forma)) E(`${rot}: forma inexistente. Opções: ${FORMAS_MUNDO.join(', ')}`);
+    if (k.forma === 'glifo' && !k.texto) E(`${rot}: glifo sem "texto"`);
+    if (k.forma === 'glifo' && k.texto && Math.max(...String(k.texto).split('\n').map((l) => l.length)) > 7) A(`${rot}: glifo com mais de 7 caracteres por linha perde leitura em pontos; quebre a linha ou encurte`);
+    if ((k.forma === 'imagem' || k.forma === 'logo') && !k.arquivo && !k.src) E(`${rot}: ${k.forma} sem "arquivo"`);
+    if (k.forma === 'grupos' && !(k.quantidade >= 1)) E(`${rot}: grupos sem "quantidade"`);
+    // a regra do reel: a forma encena a fala. Abertura em nuvem/poeira é estado de espera, dispensa.
+    const espera = i === 0 && (k.forma === 'nuvem' || k.forma === 'poeira');
+    if (modo === 'audio' && !espera && !String(k.encena ?? '').trim()) E(`${rot}${k.ancora ? ` em "${k.ancora}"` : ''}: falta "encena" (o que esta forma mostra da frase dita nessa palavra). Forma sem ligação clara com a fala não entra`);
+    if (f === null) return;
+    const {t: _t, f: _f, camera, pousar, ...resto} = k;
+    let fi = f;
+    if (pousar && k.dur !== undefined) fi = Math.max(0, f - Math.round(k.dur * FPS)); // a forma termina de se formar NA palavra
+    chaves.push({...resto, f: fi, _palavra: palavra});
+    // atalho: "camera": "diagonal" ou {pose, orbita, dur} junto da chave
+    if (camera) cameras.push({...(typeof camera === 'string' ? {pose: camera} : camera), f: fi, _de: rot});
+  });
+  for (let i = 1; i < chaves.length; i++) if (chaves[i].f <= chaves[i - 1].f) E(`chaves ${i} e ${i + 1} fora de ordem ou no mesmo quadro`);
+
+  // duração do morph: proporcional ao tempo até a próxima forma. Frase curta pede morph curto
+  // (0,3 a 0,5s), senão a forma nunca chega a existir e o espectador só vê nuvem.
+  chaves.forEach((k, i) => {
+    const prox = chaves[i + 1]?.f ?? totalFrames;
+    const janela = (prox - k.f) / FPS;
+    if (k.dur === undefined) k.dur = +Math.min(0.75, Math.max(0.3, janela * 0.4)).toFixed(2);
+    if (k.spread === undefined) k.spread = +Math.min(0.28, janela * 0.15).toFixed(2);
+    if (i === 0) return;
+    const forma = k.dur + k.spread;
+    const pronta = janela - forma;
+    if (forma > janela * 0.85) E(`chave ${i + 1} (${k.forma}): o morph (${forma.toFixed(2)}s) ocupa a janela inteira (${janela.toFixed(2)}s); a forma nunca se completa. Encurte "dur"/"spread" ou mova a âncora seguinte`);
+    else if (pronta < 0.8 && prox < totalFrames) A(`chave ${i + 1} (${k.forma}): fica só ${pronta.toFixed(2)}s formada; o desenho precisa de ~1s inteiro pra ser lido`);
+  });
+
+  // câmeras próprias (além dos atalhos), com cursor próprio na fala
+  let cc = {w: 0};
+  (pm.cameras ?? []).forEach((c, i) => {
+    const rot = `câmera ${i + 1}`;
+    const {f, cursor} = tempo(c, rot, cc, i === 0);
+    cc = cursor;
+    if (f === null) return;
+    const {t: _t, ancora: _a, ...resto} = c;
+    cameras.push({...resto, f, _de: rot});
+  });
+  cameras.forEach((c) => { if (c.pose && !POSES_MUNDO.has(c.pose)) E(`${c._de}: pose "${c.pose}" não existe. Opções: ${[...POSES_MUNDO].join(', ')}`); });
+  cameras.sort((a, b) => a.f - b.f);
+
+  // o que o espectador vê: as janelas das cenas "mundo"
+  const janelas = cenas.filter((c) => c.visual === 'mundo').map((c) => [c.from, c.from + c.dur]);
+  const visivel = (a, b) => janelas.some(([x, y]) => a < y && b > x);
+  chaves.forEach((k, i) => {
+    const fim = chaves[i + 1]?.f ?? totalFrames;
+    if (janelas.length && !visivel(k.f, fim)) A(`chave ${i + 1} (${k.forma}) inteira fora das cenas de mundo: o espectador nunca vê essa forma. Se não é passagem de propósito, mova a âncora ou tire a chave`);
+  });
+  janelas.forEach(([a, b], j) => {
+    let k = -1;
+    chaves.forEach((c, i) => { if (c.f <= a) k = i; });
+    const c = chaves[k];
+    if (c) {
+      // cada cena de mundo abre com a forma legível: protagonista formado em < 1s (regra do pontilhismo)
+      const pronta = c.f + Math.round((c.dur + c.spread) * FPS);
+      if (pronta > a + 30 && pronta < b) A(`cena de mundo ${j + 1} abre com "${c.forma}" ainda se formando por ${((pronta - a) / FPS).toFixed(1)}s; o primeiro segundo precisa mostrar algo legível`);
+    }
+    // teto de 5s vale entre beats (nova forma ou movimento de câmera), não pra cena inteira
+    const beats = [a, ...chaves.map((x) => x.f), ...cameras.map((x) => x.f), b].filter((f) => f >= a && f <= b).sort((x, y) => x - y);
+    let maior = 0;
+    for (let i = 1; i < beats.length; i++) maior = Math.max(maior, beats[i] - beats[i - 1]);
+    if (maior > 150) A(`cena de mundo ${j + 1}: ${(maior / FPS).toFixed(1)}s sem forma nova nem câmera; acima de 5s cansa. Ponha uma chave (ou câmera) presa à palavra em que a ideia muda`);
+  });
+
+  return {...pm, chaves, cameras};
+};
+
+
+// ---------------------------------------------------------------------------
 // resolverPlano: o coração. `words` = conteúdo do words.json (ou null no modo texto).
 // ---------------------------------------------------------------------------
 export const resolverPlano = (plan, words) => {
@@ -238,11 +349,12 @@ export const resolverPlano = (plan, words) => {
 
   // --- transições: `transicao` da cena = como ELA entra. A cena anterior recebe a saída espelhada ---
   cenas.forEach((c, i) => {
-    const t = c.transicao ?? 'corte';
-    if (!TRANS.has(t)) erros.push(`cena ${i + 1}: transição "${t}" não existe (use corte, flash ou push)`);
+    // padrão "fundir" (dissolução curta, 01/10/2026); plano legado mantém o corte seco com que foi aprovado
+    const t = c.transicao ?? plan.transicao ?? (plan.legado ? 'corte' : 'fundir');
+    if (!TRANS.has(t)) erros.push(`cena ${i + 1}: transição "${t}" não existe (use fundir, corte, flash ou push)`);
     c.registro = registroDe(c.visual ?? 'orb');
     if (i > 0) {
-      c.entrada = t === 'flash' ? 'flash' : 'corte'; // push é saída da anterior; a entrada é corte limpo
+      c.entrada = t === 'flash' || t === 'fundir' ? t : 'corte'; // push é saída da anterior; a entrada é corte limpo
       cenas[i - 1].saida = t;
     }
   });
@@ -271,7 +383,7 @@ export const resolverPlano = (plan, words) => {
     }
     if (c.dur < 24) erros.push(`cena ${n}: ${seg}s; abaixo de 0,8s ninguém lê. Junte com a vizinha ou mova a âncora`);
     else if (c.dur < 36) avisos.push(`cena ${n}: ${seg}s; curta. O herói precisa de 1s inteiro resolvido na tela`);
-    if (c.dur > 150 && c.visual !== 'video') avisos.push(`cena ${n}: ${seg}s; acima de 5s uma cena só cansa. Decupe em beats (nova âncora no meio)`);
+    if (c.dur > 150 && c.visual !== 'video' && c.visual !== 'mundo') avisos.push(`cena ${n}: ${seg}s; acima de 5s uma cena só cansa. Decupe em beats (nova âncora no meio)`);
     if (i > 0 && c.transicao === 'push' && cenas[i - 1].transicao === 'push') avisos.push(`cenas ${i} e ${n}: push seguido de push vira tique`);
     // objeto repetido: heróis não repetem; templates (dado, prova, tela...) podem voltar com outro conteúdo
     const chave = c.visual === 'object' ? `object:${c.name}` : c.visual === 'icon' ? `icon:${(c.paths ?? []).join('')}` : c.visual;
@@ -285,11 +397,27 @@ export const resolverPlano = (plan, words) => {
     if (c.visual === 'faixa' && (c.de === undefined || c.ate === undefined)) erros.push(`cena ${n}: faixa precisa de "de" e "ate"`);
     if (c.visual === 'barras' && !(c.valores?.length >= 2)) erros.push(`cena ${n}: barras precisa de 2+ valores`);
     if (['prova', 'logo', 'video', 'animacao'].includes(c.visual) && !c.src && !c.imagem && !c.arquivo) erros.push(`cena ${n}: ${c.visual} sem arquivo (campo "imagem"/"arquivo")`);
+    // a regra-mãe do reel: toda cena ENCENA o que a voz diz naquele trecho. Quem dirige escreve isso em
+    // `encena`; sem a frase, o visual costuma ser só associação (ícone de documento pra "paper").
+    // Tipográfica dispensa: a própria frase é a imagem. Plano antigo ("legado": true) recebe aviso.
+    if (modo === 'audio' && c.visual !== 'tipografica' && !String(c.encena ?? '').trim()) {
+      const msg = `cena ${n}${c.ancora ? ` em "${c.ancora}"` : ''}: falta "encena" (o que este visual mostra da frase dita aqui). Cena sem ligação clara com a fala não entra`;
+      (plan.legado ? avisos : erros).push(msg);
+    }
+    if (c.funcao !== undefined && !FUNCOES.has(c.funcao)) avisos.push(`cena ${n}: funcao "${c.funcao}" fora do arco (${[...FUNCOES].join(', ')})`);
     if (modo === 'audio' && c.visual !== 'tipografica' && c.text) avisos.push(`cena ${n}: "text" é ignorado no modo áudio (a fala vira legenda). Número/nome vão no campo do próprio visual`);
     if (modo === 'audio' && ['counter', 'faixa', 'barras'].includes(c.visual) && c.evento === undefined) avisos.push(`cena ${n}: dado sem "evento"; o número vai pousar em ~0,5s em vez de na palavra dita`);
   });
+  // --- mundo de pontos (mundo.tsx, reference/pontos.md): chaves e câmeras presas à fala ---
+  const mundo = plan.mundo ? resolverMundo(plan.mundo, {modo, ws, cenas, totalFrames, erros, avisos}) : undefined;
+  cenas.forEach((c, i) => { if (c.visual === 'mundo' && !mundo) erros.push(`cena ${i + 1}: visual "mundo" sem o bloco "mundo" no plano`); });
+
   const enf = plan.enfase ?? [];
-  if (enf.length > 2) avisos.push(`${enf.length} palavras de ênfase; acento raro é acento (teto 2 por reel)`);
+  // acento raro: ênfase da legenda + *palavra* das tipográficas + formas do mundo em acento, teto 2 no reel
+  const nAcMundo = mundo ? mundo.chaves.filter((k) => k.acento || k.destaque !== undefined).length : 0;
+  const nAcTipo = cenas.filter((c) => c.visual === 'tipografica').reduce((a, c) => a + (String(c.text ?? '').match(/\*[^*]+\*/g) ?? []).length, 0);
+  const nAc = enf.length + nAcMundo + nAcTipo;
+  if (nAc > 2) avisos.push(`${nAc} usos de acento (${enf.length} na legenda, ${nAcTipo} em tipográfica, ${nAcMundo} no mundo); acento raro é acento (teto 2 por reel)`);
 
   // --- legenda ---
   let legendas = [];
@@ -324,7 +452,7 @@ export const resolverPlano = (plan, words) => {
   return {
     erros,
     avisos,
-    props: {modo, theme: plan.theme ?? 'anticustos', cenas, legendas, totalFrames, sfx, trilhaVol: plan.trilhaVol},
+    props: {...(plan.mapa ? {mapa: plan.mapa} : {}), modo, theme: plan.theme ?? 'anticustos', cenas, legendas, totalFrames, sfx, trilhaVol: plan.trilhaVol, ...(mundo ? {mundo} : {})},
     transcript: ws,
   };
 };
@@ -353,11 +481,22 @@ export const lerPlano = (propsPath) => {
 // laudo legível
 export const imprimirLaudo = ({erros, avisos, props}) => {
   const {cenas, legendas, totalFrames, sfx} = props;
+  // mapa narrativo (registros.md): objetivo, transformação de percepção e arco, antes das cenas
+  if (props.mapa) for (const [k, v] of Object.entries(props.mapa)) console.log(`[mapa] ${k}: ${v}`);
   console.log(`[plano] modo ${props.modo} · ${cenas.length} cenas · ${(totalFrames / FPS).toFixed(1)}s · ${legendas.length} blocos de legenda · ${sfx.length} sons`);
   cenas.forEach((c, i) => {
     const t = (c.from / FPS).toFixed(2).padStart(6);
-    console.log(`  ${String(i + 1).padStart(2)} ${t}s  ${(c.dur / FPS).toFixed(2)}s  ${(c.registro ?? '').padEnd(11)} ${(c.visual ?? '').padEnd(11)} ${c.transicao && i ? `[${c.transicao}] ` : ''}${c.ancora ? `"${c.ancora}"` : ''}${c.evento !== undefined ? ` · evento +${(c.evento / FPS).toFixed(2)}s` : ''}`);
+    console.log(`  ${String(i + 1).padStart(2)} ${t}s  ${(c.dur / FPS).toFixed(2)}s  ${(c.registro ?? '').padEnd(11)} ${(c.visual ?? '').padEnd(11)} ${c.transicao && i ? `[${c.transicao}] ` : ''}${c.ancora ? `"${c.ancora}"` : ''}${c.evento !== undefined ? ` · evento +${(c.evento / FPS).toFixed(2)}s` : ''}${c.funcao ? ` [${c.funcao}]` : ''}${c.encena ? `  → ${c.encena}` : ''}`);
   });
+  // mundo de pontos: palavra, forma e o que ela encena, lado a lado (é aqui que se confere a ligação com a fala)
+  const m = props.mundo;
+  if (m) {
+    console.log(`[plano] mundo de pontos · ${m.chaves.length} formas · ${m.cameras.length} câmeras${m.final ? ` · final ${m.final}` : ''}`);
+    m.chaves.forEach((k) => {
+      const det = [k.texto ? `"${String(k.texto).replace(/\n/g, ' ')}"` : '', k.quantidade ? `${k.quantidade}` : '', k.acento || k.destaque !== undefined ? 'acento' : ''].filter(Boolean).join(' · ');
+      console.log(`   ◦ ${(k.f / FPS).toFixed(2).padStart(6)}s  ${String(k.forma).padEnd(8)} ${k._palavra ? `na "${k._palavra}"`.padEnd(18) : ''.padEnd(18)}${det ? `${det}  ` : ''}${k.encena ? `→ ${k.encena}` : ''}`);
+    });
+  }
   for (const a of avisos) console.log(`  AVISO: ${a}`);
   for (const e of erros) console.log(`  ERRO:  ${e}`);
   console.log(erros.length ? `[plano] REPROVADO: ${erros.length} erro(s).` : `[plano] aprovado${avisos.length ? ` com ${avisos.length} aviso(s)` : ''}.`);

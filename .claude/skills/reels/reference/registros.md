@@ -10,6 +10,45 @@ objeto repetido, e mesmo assim o vídeo lia como uma cena só.
 **Mostrar a prova, apontar o detalhe, concluir. Nessa ordem.** Movimento acompanha raciocínio: nada se
 mexe só pra "dar dinâmica".
 
+**Toda cena e toda animação encena o que a voz diz naquele trecho**, minimalista ou não. Não basta
+combinar com o tema do reel: tem que se encaixar, de forma clara, na frase que está sendo dita. Por isso
+cada cena (e cada forma do mundo de pontos) leva `encena`, uma frase dizendo o que o visual mostra da
+fala; o validador barra cena sem ele e o roteiro de aprovação mostra a frase ao lado da âncora. Se você
+não consegue escrever o `encena` sem forçar, o visual está errado, não a frase.
+
+**Duas perguntas antes de escolher o visual de cada ideia** (método do pontilhismo):
+1. O que a pessoa precisa **VER** para entender isso? (não "o que combina com isso")
+2. Como esta cena **nasce** da anterior? (corte com sentido, morph de pontos, prova que abre)
+
+**Antes das cenas, o mapa** (vai no topo do roteiro de aprovação, 3 linhas): o **objetivo** (o que o
+espectador entende no fim), a **transformação de percepção** que estrutura a fala (de "ferramenta parada não
+custa" pra "toda ferramenta instalada cobra em toda mensagem") e o **arco**: gancho → contexto →
+desenvolvimento → evolução → resolução → síntese. O arco é flexível: não force conflito ou promessa que o
+conteúdo não tem. Cada cena leva `funcao` com a sua etapa; uma cena sem etapa clara costuma ser enfeite.
+
+## Verbo visual: da fala pra ação
+
+O que a fala FAZ decide a ação visual, não o substantivo que ela cita. Referência, não fórmula:
+
+| Verbo da fala | Ação que o espectador vê | Onde está no motor |
+|---|---|---|
+| começar | algo emerge do vazio | poeira → forma; herói já em voo (`PRE`) |
+| organizar | o disperso se alinha | nuvem/poeira → `grupos`, `onda` |
+| conectar | o separado se liga | `rede`; `pipeline` |
+| simplificar | o desnecessário some, sobra o essencial | `grupos` 34 → 3; `densidade` menor |
+| priorizar | um se destaca, o resto recua | `destaque`/`acento`; marca-texto na `prova` |
+| acumular | unidades se somam | `counter` com `evento`; `grupos` crescendo |
+| crescer | expande | `barras`, `faixa`, `chart` |
+| evoluir | um estado vira outro | morph de pontos (mesma matéria) |
+| romper, conflitar | choque, dispersão | `explosao`, forma → `nuvem` |
+| progredir | a sequência se completa | `checklist`, `pipeline` |
+| repetir | ciclo | `anel`, `tunel` |
+| libertar | a restrição some, o espaço abre | `galaxia`, câmera `longe` |
+| concluir | converge e estabiliza | forma final; `push`; `"final": "mergulho"` |
+
+Prefira a metáfora que pede menos esforço pra entender, que permite transformação legível e que conversa com
+as cenas vizinhas. Símbolo genérico só quando nada mais específico existe.
+
 ## Os registros
 
 | Registro | Visuais | Quando usar | O que carrega |
@@ -25,6 +64,7 @@ mexe só pra "dar dinâmica".
 | **atmosfera** | `grid`, `crowd`, `ripple`, `orbit`, `radar`, `brain`, `constellation`... | ideia ampla, "o mundo", "todos", respiro entre blocos densos | clima, não informação |
 | **marca** | `orb`, `hero3d` | abertura/fecho da marca, pausa de virada | a assinatura visual |
 | **vídeo** | `video` | ação ou lugar que a fala descreve (balcão, telefone, estoque) | B-roll real (ver `broll.md`) |
+| **pontos** | `mundo` (ver `pontos.md`) | contagem que muda (34 → 3), transformação de uma coisa em outra, conceito abstrato (conexão, escala, tempo), fio que costura cenas | um conjunto de pontos contínuo que morfa na palavra; cada forma com seu `encena` |
 
 ## As regras que o validador cobra (scripts/plano.mjs)
 
@@ -51,6 +91,10 @@ mexe só pra "dar dinâmica".
 - **Nome citado pede prova real, não símbolo.** Ferramenta, empresa, estudo: logo oficial
   (`scripts/logo.mjs`) ou captura da página (`scripts/captura.mjs`). Símbolo genérico só quando a
   identidade não está confirmada.
+- **A cena acrescenta camada nova?** O mesmo conceito mostrado de novo sem informação nova se corta
+  (callback de propósito é outra coisa: a mesma forma volta TRANSFORMADA).
+- **A troca tem motivo?** Pra cada transição, uma resposta curta a "por que esta imagem vira a próxima?".
+- **O fecho é consequência?** A última imagem resume o que o desenvolvimento construiu, não um enfeite novo.
 - **Texto de cena nunca repete a fala.** A fala mora na legenda. No visual só entra número, nome ou
   termo (`sub`, `unidade`, `fonte`). Se o contador mostra 34, a legenda daquela cena pode calar
   (`"legenda": false`).
@@ -60,15 +104,49 @@ mexe só pra "dar dinâmica".
 - **Faixa não é contador.** "De 50 a 280" é `faixa`; um contador subindo de 0 diz "cresceu", que é
   outra ideia.
 
+## Pontos: quando entra e quando perde
+
+O mundo de pontos é o registro da **continuidade**: a ideia seguinte nasce dos pontos da anterior. Usar quando
+a fala transforma uma coisa em outra ("34 ferramentas... 11 nem eram minhas... sobraram 3"), quando o
+conceito é abstrato e não tem prova fotografável (conexão, escala, tempo passando) e como fio entre blocos
+de prova (o mundo some na prova e volta já na forma nova). Hierarquia quando competem pela mesma frase:
+**prova real > dado verificável > pontos > animação > objeto > ícone.** Nome citado pede o logo real (`logo`
+de prova, ou `"forma": "logo"` em pontos se a cena é de transformação). Pontos não substituem a prova: o
+paper que mediu o custo aparece como paper.
+
+Regras próprias (o validador cobra as mensuráveis, `pontos.md` tem o detalhe):
+- **Uma ideia = uma forma.** Repetir forma só quando é a mesma coisa voltando (callback de propósito).
+- **Frase curta, morph curto** (0,3 a 0,5s); cada forma fica ~1s inteira formada antes da próxima.
+- **A cena de mundo abre legível:** no primeiro segundo já há forma, não nuvem.
+- **Câmera viva, mas a serviço:** órbita em escala/conexão, vista de cima em grade/onda, mergulho pra fechar.
+- **Acento num aglomerado só** (o que a fala aponta) e conta no teto de 2 do reel.
+- Duas cenas de mundo vizinhas são uma cena só: ponha as formas como chaves dentro dela.
+
+## Ligação entre cenas: por que esta imagem vira a próxima?
+
+Toda troca responde essa pergunta. Mecanismos, do mais conectado ao mais neutro:
+1. **Morph de pontos:** a mesma matéria vira a ideia seguinte (as 34 bolhas viram o número).
+2. **Callback/match:** forma, posição ou escala que volta (as bolhas da abertura voltam pro "de 34 pra 3").
+3. **Câmera:** aproximar, orbitar ou afastar revela a camada seguinte (dentro do mundo, `cameras`).
+4. **Composição e cor:** o elemento principal no mesmo lugar da tela entre as duas cenas.
+5. **`fundir`:** o padrão quando não há relação direta. É o piso da ligação, não o teto: se existe uma das
+   relações acima, use-a; não invente morph entre coisas sem parentesco.
+6. **`corte`:** revelação de impacto, de propósito. **`flash`:** rajada de lista. **`push`:** fechar.
+
+Quando der, termine a cena com o que a próxima aproveita (a forma que sobra, o lugar do olhar).
+
 ## Transições (campo `transicao` da cena = como ELA entra)
 
 | Valor | Efeito | Quando |
 |---|---|---|
-| `corte` (padrão) | corte seco no silêncio antes da palavra-âncora | quase sempre. O corte É a revelação |
-| `flash` | desfoca e estoura em claro (0,4s), resolve na próxima | troca de prova, rajada de lista, virada de bloco |
+| `fundir` (padrão) | dissolução de 0,3s: a cena que sai continua viva por baixo e a que entra surge por cima, com desfoque que resolve e leve aproximação | quase sempre. Liga uma ideia na outra sem tranco (pedido do Alvaro em 01/10/2026: o corte seco lia como solavanco) |
+| `corte` | corte seco no silêncio antes da palavra-âncora | só de propósito: a revelação que precisa de impacto (um número que cai, uma virada) |
+| `flash` | desfoque com clarão leve (0,4s; suavizado em 01/10/2026) | rajada de lista (obrigatório nela), troca brusca de bloco |
 | `push` | a cena anterior acelera pra dentro e o corte cai na velocidade | fechar uma ideia; a última cena |
 
-Sem flip e sem deslize lateral: liam como PowerPoint. Push seguido de push vira tique (avisado).
+Sem flip e sem deslize lateral: liam como PowerPoint. Push seguido de push vira tique (avisado). A legenda
+não entra nessa regra: ela continua cortando seco na palavra (é cadência de leitura, medida). Plano com
+`"legado": true` mantém o corte como padrão, pra re-render sair igual ao aprovado.
 
 ## Tempo e movimento (o motor já faz; não brigar com ele)
 
@@ -80,4 +158,6 @@ Sem flip e sem deslize lateral: liam como PowerPoint. Push seguido de push vira 
 
 Uma unidade visual que se repete idêntica entre reels vira a medida da série (no estudo Porsche, a
 mesma ficha aparece seis vezes). Para a Anti Custos, candidata natural: uma cena `barras` ou `faixa`
-de "custo por mês" sempre no mesmo formato. Decidir com o Alvaro antes de fixar.
+de "custo por mês" sempre no mesmo formato. Decidir com o Alvaro antes de fixar. Outra candidata, desde
+01/10/2026: o fechamento em pontos com `"final": "mergulho"` (a câmera mergulha e o reel termina no escuro,
+o replay emenda sem costura).

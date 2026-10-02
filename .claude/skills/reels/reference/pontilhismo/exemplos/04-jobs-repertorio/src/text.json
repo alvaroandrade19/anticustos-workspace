@@ -1,0 +1,260 @@
+{
+ "0": {
+  "parts": [
+   [
+    "Steve Jobs tinha uma visão",
+    0
+   ],
+   [
+    "sobre *criatividade*",
+    1.32
+   ]
+  ],
+  "mode": "blur",
+  "y": 1440,
+  "size": 72
+ },
+ "1": {
+  "parts": [
+   [
+    "que eu acho que vai ficar",
+    2.32
+   ],
+   [
+    "ainda mais *importante*",
+    3.59
+   ]
+  ],
+  "mode": "blur",
+  "y": 1440,
+  "size": 72
+ },
+ "2": {
+  "parts": [
+   [
+    "com *inteligência* *artificial.*",
+    4.68
+   ]
+  ],
+  "mode": "blur",
+  "y": 1440,
+  "size": 72
+ },
+ "3": {
+  "parts": [
+   [
+    "Pra ele, criatividade",
+    6.2
+   ],
+   [
+    "tinha muito a ver",
+    7.33
+   ],
+   [
+    "com *conectar* coisas.",
+    8.28
+   ]
+  ],
+  "mode": "cut",
+  "y": 1440,
+  "size": 72
+ },
+ "4": {
+  "parts": [
+   [
+    "E pensa nisso *hoje…*",
+    9.32
+   ]
+  ],
+  "mode": "blur",
+  "y": 340,
+  "size": 84,
+  "serif": true
+ },
+ "5": {
+  "parts": [
+   [
+    "Daqui a pouco todo mundo",
+    10.5
+   ],
+   [
+    "vai ter acesso às *mesmas* inteligências artificiais,",
+    12
+   ]
+  ],
+  "mode": "cut",
+  "y": 1520,
+  "size": 68
+ },
+ "6": {
+  "parts": [
+   [
+    "capazes de gerar",
+    13.37
+   ],
+   [
+    "praticamente *qualquer* *coisa.*",
+    14.22
+   ]
+  ],
+  "mode": "cut",
+  "y": 1440,
+  "size": 72
+ },
+ "7": {
+  "parts": [
+   [
+    "Então talvez o diferencial",
+    15.98
+   ],
+   [
+    "não esteja mais",
+    17.33
+   ]
+  ],
+  "mode": "blur",
+  "y": 340,
+  "size": 84,
+  "serif": true
+ },
+ "8": {
+  "parts": [
+   [
+    "na capacidade de executar",
+    18.06
+   ],
+   [
+    "uma *ideia.*",
+    19.19
+   ]
+  ],
+  "mode": "cut",
+  "y": 1440,
+  "size": 72
+ },
+ "9": {
+  "parts": [
+   [
+    "Mas nas *conexões*",
+    19.8
+   ],
+   [
+    "que você consegue fazer.",
+    20.5
+   ]
+  ],
+  "mode": "blur",
+  "y": 900,
+  "size": 96,
+  "serif": true
+ },
+ "10": {
+  "parts": [
+   [
+    "Uma referência de um *filme.*",
+    22
+   ]
+  ],
+  "mode": "cut",
+  "y": 300,
+  "size": 72
+ },
+ "11": {
+  "parts": [
+   [
+    "Uma *experiência* que você viveu.",
+    23.51
+   ]
+  ],
+  "mode": "cut",
+  "y": 1440,
+  "size": 72
+ },
+ "12": {
+  "parts": [
+   [
+    "Uma *música.*",
+    25.03
+   ]
+  ],
+  "mode": "cut",
+  "y": 300,
+  "size": 84
+ },
+ "13": {
+  "parts": [
+   [
+    "Uma *conversa.*",
+    25.69
+   ]
+  ],
+  "mode": "cut",
+  "y": 1440,
+  "size": 84
+ },
+ "14": {
+  "parts": [
+   [
+    "Uma coisa que você viu",
+    26.46
+   ],
+   [
+    "*dez* *anos* atrás…",
+    27.53
+   ]
+  ],
+  "mode": "blur",
+  "y": 1440,
+  "size": 72
+ },
+ "15": {
+  "parts": [
+   [
+    "A inteligência artificial pode executar",
+    28.48
+   ],
+   [
+    "essa *combinação.*",
+    29.81
+   ]
+  ],
+  "mode": "cut",
+  "y": 1440,
+  "size": 72
+ },
+ "16": {
+  "parts": [
+   [
+    "Mas *alguém* precisa pensar",
+    30.76
+   ],
+   [
+    "em combinar essas coisas *primeiro.*",
+    31.84
+   ]
+  ],
+  "mode": "blur",
+  "y": 1440,
+  "size": 72
+ },
+ "17": {
+  "parts": [
+   [
+    "E é por isso que, pra mim,",
+    33.36
+   ],
+   [
+    "*repertório*",
+    34.64
+   ],
+   [
+    "vai valer cada vez mais.",
+    35.27
+   ]
+  ],
+  "mode": "blur",
+  "y": 900,
+  "size": 96,
+  "serif": true
+ }
+}

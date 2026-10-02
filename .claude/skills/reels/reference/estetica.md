@@ -27,8 +27,9 @@ nada se mexe só pra "dar dinâmica" (regra-mãe em `registros.md`: mostrar a pr
   não de easing: animar a entrada de um bloco de 0,3s gasta metade da vida dele.
 - **Cena:** o herói já está em voo no primeiro quadro; o evento importante cai na palavra, ±3 quadros.
 - **Câmera** de 0 a 4% por cena. Câmera e objeto não empurram juntos.
-- **Transição:** `corte` é o padrão; `flash` pra trocar de prova; `push` pra fechar ideia. Sem flip, sem
-  deslize lateral, sem wipe, sem estrela, sem glitch.
+- **Transição:** `fundir` é o padrão (dissolução curta, conectada); `corte` seco só pra revelação de
+  impacto; `flash` na rajada de lista; `push` pra fechar. Sem flip, sem deslize lateral, sem wipe, sem
+  estrela, sem glitch.
 - Proibido: bounce, spin gratuito, letra tremendo, máquina de escrever em tipografia editorial,
   estroboscópio, tudo aparecendo de uma vez.
 
@@ -54,6 +55,14 @@ nada se mexe só pra "dar dinâmica" (regra-mãe em `registros.md`: mostrar a pr
 - Grão ~7% + vinheta: o que tira o "limpo demais = IA". Sutil.
 - Acento raro: até 2 usos no reel inteiro.
 
+## 6b. Pontos (mundo de pontos)
+- Pontos na cor `ink` do tema; o acento só no aglomerado que a fala aponta. Nunca pontos em arco-íris.
+- Brilho aditivo sutil (padrão 0,55) só no tema escuro; no claro o ponto é tinta, sem halo.
+- Centro do mundo em 0,40 da altura: a faixa da legenda (0,70) fica livre. Nada encostando nas bordas.
+- Densidade 6 mil pontos por padrão; 12 mil só em retrato denso (medido: +15% de render).
+- Retrato em pontos só de pessoa pública citada, foto de licença livre e crédito na legenda do post.
+- Glifo é número curto ou palavra curta (até 7 caracteres por linha); frase inteira vai na legenda.
+
 ## 7. Anti-slop COPY guard (PT-BR), the lines must not smell like AI
 The on-screen text is the product as much as the visuals. Ban these:
 - **AI vícios (cited, Envox-style lists):** incrível, fascinante, essencial, revolucionário,
@@ -76,7 +85,8 @@ The on-screen text is the product as much as the visuals. Ban these:
 ## 8. Checklist antes de entregar (tudo verdadeiro)
 1. `plano.mjs` sem erro; avisos lidos e decididos.
 2. Registros alternando; ícone/svg no máximo 3; nenhum objeto repetido.
-3. Todo dado pousa na palavra (`evento`); toda prova é página real com a marca no trecho citado.
+3. Toda cena tem `encena` e ele é verdadeiro: o visual mostra o que a voz diz ali, não só o tema.
+   Todo dado pousa na palavra (`evento`); toda prova é página real com a marca no trecho citado.
 4. Legenda verbatim, correções só de escuta, blocos curtos, nada fechando em "o/de/que".
 5. Prancha lida (dominante, encenação, texto não repete a fala, nada vazando da tela).
 6. QA aprovado (quadros, formato, áudio, -14 LUFS, pico, sem tela preta, sem trecho parado).

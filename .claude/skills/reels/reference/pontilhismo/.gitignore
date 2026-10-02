@@ -1,0 +1,12 @@
+node_modules/
+out/
+renders/
+*.mp4
+*.wav
+*.mp3
+!assets/**/*.mp3
+.DS_Store
+Thumbs.db
+
+# imagens de terceiros dos exemplos (5MB): ficam só no disco, não sobem pro git
+exemplos/*/public/img/

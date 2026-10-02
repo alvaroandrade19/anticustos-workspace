@@ -49,7 +49,8 @@ motion editorial (estudo da skill motion-vox, adaptado sem gerador pago):
 - **Tempo absoluto:** cada cena e cada evento (número pousando, marca-texto riscando) cai na palavra,
   ±3 quadros. Quem calcula é `scripts/plano.mjs`, não o olho.
 - **Registros, não objetos:** tipo de cena alternando, prova real no lugar de símbolo.
-- **Transição por sentido** (corte, flash, push), não em rodízio.
+- **Transição por sentido**, não em rodízio: `fundir` é o padrão (dissolução curta, desde 01/10/2026);
+  corte seco, flash e push só quando o sentido pede.
 - **Prancha antes do render, QA medido depois**, volume normalizado, sons discretos.
 
 ## Arquivos (ler cada um QUANDO chegar no passo)
@@ -61,6 +62,8 @@ motion editorial (estudo da skill motion-vox, adaptado sem gerador pago):
 - `reference/transcricao.md`: áudio → transcript palavra a palavra, correções.
 - `reference/animacoes.md`: ilustração animada Lottie (busca, cor da marca, trecho, pico na palavra).
 - `reference/broll.md`: vídeo real (Pexels/Pixabay/gravação de tela).
+- `reference/pontos.md`: o mundo de pontos contínuo (`"visual": "mundo"`), formas, câmera e números de
+  performance. `reference/pontilhismo/` é a biblioteca de referência de onde ele veio (não é skill).
 - `reference/som.md`: voz, trilha, efeitos, volume.
 - `reference/biblioteca-movimento.md` e `reference/biblioteca-icones.md`: catálogo de heróis e ícones.
 - `reference/fallback-ffmpeg.md`: sem Node.
@@ -68,7 +71,7 @@ motion editorial (estudo da skill motion-vox, adaptado sem gerador pago):
 Scripts sempre pelo caminho absoluto da skill (o cwd é o projeto):
 `plano.mjs` (resolve e valida), `render.mjs` (prancha, render, volume, QA), `qa.mjs`, `captura.mjs`
 (página real → PNG + coordenadas do trecho), `logo.mjs` (logo oficial), `lottie.mjs` (animação Lottie), `broll.mjs`, `transcribe.mjs`,
-`sfx-gerar.mjs`. `group-captions.mjs` é legado do modo slide e não se usa mais no modo áudio.
+`sfx-gerar.mjs`, `pontos.mjs` (imagem → pontos do mundo), `respiros.mjs` (pausas em narração corrida). `group-captions.mjs` é legado do modo slide e não se usa mais no modo áudio.
 
 ## Regras que não se negociam
 
@@ -76,15 +79,18 @@ Scripts sempre pelo caminho absoluto da skill (o cwd é o projeto):
    qualquer render. Render custa 5 a 10 minutos; frase errada desperdiça isso.
 2. **Legenda de áudio é VERBATIM.** Só se corrige o que o Whisper ouviu errado, via `correcoes` no plano
    (índices do `words.json`). Nunca parafrasear, resumir, tirar ou pôr palavra.
-3. **Prova é prova.** `captura.mjs` só fotografa o que existe e falha se o trecho não está na página.
+3. **Toda cena encena a fala.** Cada cena e cada animação, minimalista ou não, tem que se encaixar
+   claramente no que a voz diz naquele trecho (não só no tema). Campo `encena` obrigatório, cobrado pelo
+   validador e mostrado no roteiro de aprovação.
+4. **Prova é prova.** `captura.mjs` só fotografa o que existe e falha se o trecho não está na página.
    Se a fala afirma algo que a fonte não sustenta, a cena não leva prova (e isso se avisa ao Alvaro).
-4. **O plano passa no validador.** `plano.mjs` com erro não renderiza. Avisos se leem e se decidem.
-5. **Prancha aprovada antes do render completo**, com a leitura escrita das perguntas de julgamento
+5. **O plano passa no validador.** `plano.mjs` com erro não renderiza. Avisos se leem e se decidem.
+6. **Prancha aprovada antes do render completo**, com a leitura escrita das perguntas de julgamento
    de `registros.md` (dominante, encenação, texto repetindo fala).
-6. **Olhar antes de entregar.** QA aprovado + folha de contato do MP4 final vista. Nunca entregar vídeo
+7. **Olhar antes de entregar.** QA aprovado + folha de contato do MP4 final vista. Nunca entregar vídeo
    que ninguém olhou.
-7. **Anti-guru:** nada de promessa de renda, "fature", "em X dias". R$ nunca como `$` solto.
-8. **Nunca falhar em silêncio.** Remotion não roda → fallback ffmpeg, e dizer qual motor gerou.
+8. **Anti-guru:** nada de promessa de renda, "fature", "em X dias". R$ nunca como `$` solto.
+9. **Nunca falhar em silêncio.** Remotion não roda → fallback ffmpeg, e dizer qual motor gerou.
 
 ## O fluxo (detalhe e comandos em `reference/fluxo.md`)
 
@@ -94,7 +100,8 @@ Scripts sempre pelo caminho absoluto da skill (o cwd é o projeto):
 3. **Dirigir** (ler `registros.md`): uma cena por ideia, cada uma com `ancora` (palavra em que corta),
    `evento` nos dados, prova real onde houver fonte (`captura.mjs`, `logo.mjs`), animação Lottie onde um
    objeto ou ação ganha com movimento de animador (`lottie.mjs`, uma família de estilo por reel), B-roll
-   onde a fala descreve ação/lugar. 1,2 a 5s por cena.
+   onde a fala descreve ação/lugar, mundo de pontos onde uma ideia se transforma na outra (`pontos.md`).
+   Cada cena com `encena`. 1,2 a 5s por cena.
 4. **Validar:** `node plano.mjs --props <plano.json> --legendas`. Zerar erros.
 5. **Aprovar o roteiro** (AskUserQuestion): lista numerada das cenas com registro e âncora.
 6. **Prancha:** `render.mjs --props <plano.json> --prancha conteudo/reels/<slug>/_prancha` (~1,5 min).

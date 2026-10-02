@@ -41,10 +41,21 @@ const hashDe = (rel) => {
   if (!hashArq.has(rel)) hashArq.set(rel, existsSync(path.join('public', rel)) ? sha(readFileSync(path.join('public', rel))) : 'ausente');
   return hashArq.get(rel);
 };
-const chaveDe = (c) => {
+// campos só de direção (o que a cena encena, a etapa do arco, a palavra do laudo) não mudam nenhum pixel:
+// ficam fora da chave, senão anotar o plano obrigaria a renderizar tudo de novo
+const SO_DIRECAO = new Set(['encena', 'funcao', '_palavra', '_de', 'ancora']);
+const visual = (x) => (x ? Object.fromEntries(Object.entries(x).filter(([k]) => !SO_DIRECAO.has(k))) : x);
+const visualMundo = (m) => (m ? {...m, chaves: m.chaves.map(visual), cameras: (m.cameras ?? []).map(visual)} : m);
+const chaveDe = (c0, i) => {
+  const c = visual(c0);
   const fim = c.from + c.dur;
   const leg = (props.legendas || []).filter((b) => b.to > c.from && b.from < fim);
-  return sha(JSON.stringify({motor, theme: props.theme, modo: props.modo, total: props.totalFrames, c, leg, arq: hashDe(c.src)}));
+  // cena do mundo de pontos: o quadro depende da spec inteira do mundo e dos pontos de imagem que ela cita
+  const mundo = c.visual === 'mundo' && props.mundo ? {m: visualMundo(props.mundo), arqs: props.mundo.chaves.map((k) => hashDe(k.src))} : null;
+  // entrada "fundir": os primeiros quadros desta cena também desenham a cauda da anterior
+  const ant = c.entrada === 'fundir' && i > 0 ? visual(props.cenas[i - 1]) : null;
+  const fundo = ant ? {ant, arq: hashDe(ant.src), m: ant.visual === 'mundo' ? visualMundo(props.mundo) : null} : null;
+  return sha(JSON.stringify({motor, theme: props.theme, modo: props.modo, total: props.totalFrames, c, leg, arq: hashDe(c.src), mundo, fundo}));
 };
 
 console.log('[render] montando o bundle...');
@@ -57,7 +68,7 @@ const composition = await selectComposition({serveUrl, id: 'reel', inputProps: p
 
 const t0 = Date.now();
 const nQuadros = (f) => parseInt(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=nb_frames', '-of', 'csv=p=0', f], {encoding: 'utf8'}).trim(), 10);
-const chaves = props.cenas.map((c) => path.join(CACHE, `${chaveDe(c)}.mp4`));
+const chaves = props.cenas.map((c, i) => path.join(CACHE, `${chaveDe(c, i)}.mp4`));
 const falta = props.cenas.map((c, i) => semCache || !existsSync(chaves[i]) || statSync(chaves[i]).size === 0);
 props.cenas.forEach((c, i) => { if (!falta[i]) { const n = new Date(); utimesSync(chaves[i], n, n); } }); // marca uso (a limpeza vai pela data)
 

@@ -26,9 +26,27 @@ O rascunho numera cada palavra (`palavra[índice]`) e marca as pausas. Mostrar o
 e pedir que aponte palavra mal ouvida (nome próprio e termo em inglês erram mais: "Cloud" por "Claude").
 Cada correção vira uma linha em `correcoes` (`{"de": 76, "ate": 77, "texto": "aluguel"}`).
 
+## 2b. Respiros (opcional, voz corrida)
+
+Se a fala está corrida demais pra caber uma cena por ideia, alongar as pausas antes de dirigir:
+```bash
+node "<skill>/scripts/respiros.mjs" --audio "dados/audio/<arq>" --words "conteudo/reels/<slug>/words.json" \
+     --out-audio "conteudo/reels/<slug>/voz-respiros.wav" --out-words "conteudo/reels/<slug>/words-respiros.json"
+```
+Só corta em silêncio real; os índices das palavras não mudam. O plano passa a apontar `audio`/`words` pros
+arquivos novos. Dizer ao Alvaro que as emendas precisam ser ouvidas (o agente mede, não escuta).
+
 ## 3. Dirigir (ler `registros.md` antes)
 
-Ler a fala ideia por ideia. Pra cada ideia: registro → visual → âncora → conteúdo específico.
+Primeiro o **mapa** (objetivo, transformação de percepção, arco; ver `registros.md`). Depois a fala ideia
+por ideia: **o que a pessoa precisa ver** (o verbo da fala decide a ação) → registro → visual → âncora →
+conteúdo específico → `encena` → `funcao` (etapa do arco) → **ligação** com a anterior. Storyboard:
+
+| Fala (âncora) | Função | O que precisa ver | Registro / visual | Encena | Ligação |
+|---|---|---|---|---|---|
+| "34." | gancho | o total contado | pontos: glifo "34" | o total contado vira o número | morph das bolhas |
+
+Se o `encena` só sai forçado, troque o visual.
 
 - **Âncora** = a primeira palavra (ou frase curta) da ideia. A cena corta no silêncio antes dela. Busca
   em ordem, sem acento e sem caixa; `"texto#2"` pega a 2ª ocorrência depois da cena anterior.
@@ -45,6 +63,8 @@ Ler a fala ideia por ideia. Pra cada ideia: registro → visual → âncora → 
 - **Animação (Lottie):** `reference/animacoes.md`. Buscar, baixar (já recolore e gera prévia), olhar a
   prévia, usar o `trecho`/`loop` que ela sugerir e prender o `pico` à palavra.
 - **B-roll:** `reference/broll.md`.
+- **Pontos:** `reference/pontos.md`. Imagem → `scripts/pontos.mjs` (olhar a prévia); logo → `logo.mjs` e
+  `"forma": "logo"`. Chaves do mundo com `ancora` e `encena`, como as cenas.
 - 1,2 a 5s por cena; lista falada vira rajada com `flash`; última cena com `push`.
 
 ## 4. Validar
@@ -59,13 +79,15 @@ Erro barra. Aviso se lê e se decide (ex.: cena de 5,5s num gancho de tela digit
 ## 5. Aprovar o roteiro (AskUserQuestion)
 
 ```
+Objetivo: entender que ferramenta instalada cobra em toda mensagem, usada ou não.
+Transformação: de "parada não custa" pra "parada cobra aluguel". Arco: gancho 34/11 → paper → nome → auditoria → pergunta.
 Roteiro (~80s, 27 cenas):
- 1. 0,0s  tela: terminal listando "instaladas 34, de terceiros 11"
- 2. 5,5s  dado: 34 pousa no "34"
- 3. 6,7s  tipográfica: "11 NEM ERAM MINHAS"
- 7. 17,5s prova: paper real, marca o título no "paper" e a data no "agosto"
+ 1. 0,0s  "Essa semana"  [gancho] pontos: 34 bolhas → glifo 34  → cada bolha é uma ferramenta instalada
+ 2. 6,7s  "11"           tipográfica: "11 NEM ERAM MINHAS"
+ 3. 17,5s "Um paper"     prova: paper real, marca o título  → o estudo que mediu o custo, na fonte
  ...
 ```
+Cada linha leva o `encena`: é nele que o Alvaro confere se o visual se encaixa na fala.
 Opções: aprovar e gerar prancha / ajustar cenas / ajustar texto.
 
 ## 6. Prancha

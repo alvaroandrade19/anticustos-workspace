@@ -1,0 +1,50 @@
+{
+  "video": "conteudo/reels/imposto-de-prateleira-v3/imposto-de-prateleira-v3.mp4",
+  "travas": [
+    {
+      "nome": "quadros batem com o plano",
+      "ok": true,
+      "detalhe": "2393 medidos, 2393 no plano"
+    },
+    {
+      "nome": "formato 1080x1920",
+      "ok": true,
+      "detalhe": "1080x1920"
+    },
+    {
+      "nome": "tem áudio",
+      "ok": true,
+      "detalhe": "ok"
+    },
+    {
+      "nome": "volume entre -16 e -12 LUFS",
+      "ok": true,
+      "detalhe": "-14 LUFS"
+    },
+    {
+      "nome": "pico verdadeiro ≤ -1 dBTP",
+      "ok": true,
+      "detalhe": "-1.4 dBTP"
+    },
+    {
+      "nome": "nenhuma cena vazia (preto > 0,4s)",
+      "ok": true,
+      "detalhe": "ok"
+    },
+    {
+      "nome": "nada parado acima de 1,5s",
+      "ok": true,
+      "detalhe": "ok"
+    }
+  ],
+  "medidas": {
+    "duracao_s": 79.767,
+    "quadros": 2393,
+    "bitrate_kbps": 4413,
+    "lufs": -14,
+    "true_peak_db": -1.4,
+    "trechos_pretos": [],
+    "trechos_congelados": []
+  },
+  "aprovado": true
+}

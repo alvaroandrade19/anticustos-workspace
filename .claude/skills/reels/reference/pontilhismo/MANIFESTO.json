@@ -1,0 +1,16 @@
+{
+  "name": "brabo-minimalista-pontilhismo",
+  "version": "1.0.0",
+  "autor": "Fernando Araújo (BRABO)",
+  "descricao": "Vídeos verticais minimalistas narrados em pontilhismo (Remotion): partículas que morfam, câmera 3D, obras com moldura de pontos e legenda palavra por palavra.",
+  "entrada": "SKILL.md",
+  "requisitos": ["node >= 18", "ffmpeg", "narração: MCP ElevenLabs OU arquivo de áudio do usuário"],
+  "scripts": {
+    "transcrever": "scripts/transcrever-palavras.mjs",
+    "respiros": "scripts/inserir-respiros.mjs",
+    "pontos": "scripts/imagem-para-pontos.mjs",
+    "revisao": "scripts/contact-sheet.mjs"
+  },
+  "exemplos": ["01-tesla-mundo-3d", "02-socrates-perguntas", "03-ponto-azul-threejs", "04-jobs-repertorio"],
+  "licenca": "MIT (código); imagens conforme fontes"
+}

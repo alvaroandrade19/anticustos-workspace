@@ -178,6 +178,23 @@ try {
     return out;
   });
 
+  // pontos de imagem do mundo (JSON de scripts/pontos.mjs)
+  if (props.mundo) {
+    props.mundo.chaves = props.mundo.chaves.map((c, i) => {
+      if (c.forma === 'imagem' && c.arquivo) return {...c, src: publicar(c.arquivo, `mundo, chave ${i + 1}`).nome};
+      if (c.forma === 'logo' && c.arquivo) {
+        // logo (SVG de uma cor do logo.mjs): os caminhos vão nas props e o motor desenha com Path2D
+        const abs = achar(c.arquivo, base);
+        if (!abs) throw new Error(`mundo, chave ${i + 1}: logo "${c.arquivo}" não encontrado`);
+        const svg = readFileSync(abs, 'utf8');
+        const paths = [...svg.matchAll(/<path[^>]*\sd="([^"]+)"/g)].map((m) => m[1]);
+        if (!paths.length) throw new Error(`mundo, chave ${i + 1}: o SVG "${c.arquivo}" não tem <path d=...> (use um logo do scripts/logo.mjs)`);
+        return {...c, paths, viewBox: (svg.match(/viewBox="([^"]+)"/) ?? [])[1] ?? '0 0 24 24'};
+      }
+      return c;
+    });
+  }
+
   writeFileSync(path.join(engine, 'props.json'), JSON.stringify(props));
 
   // --- 3. instalar só quando precisa ---

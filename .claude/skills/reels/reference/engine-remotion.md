@@ -43,6 +43,8 @@ Caminhos: relativos à raiz do projeto OU à pasta do plano (tenta os dois).
 | `trilha`, `trilhaVol` | música de fundo (obrigatória se não houver voz e o reel for agendado) |
 | `sfx`, `sfxDir` | efeitos automáticos (padrão ligado) e biblioteca própria |
 | `legenda` | `false` desliga a legenda no reel inteiro |
+| `mundo` | o mundo de pontos contínuo: `chaves`, `cameras`, `final`, `n`, `brilho` (ver `pontos.md`) |
+| `legado` | `true` só em plano anterior a 01/10/2026: falta de `encena` vira aviso em vez de erro |
 
 ### Campos de cena comuns
 
@@ -50,8 +52,10 @@ Caminhos: relativos à raiz do projeto OU à pasta do plano (tenta os dois).
 |---|---|
 | `visual` | ver tabela abaixo |
 | `ancora` | palavra/frase da fala em que a cena corta (a 1ª cena não precisa) |
+| `encena` | **obrigatório com áudio** (menos tipográfica): o que o visual mostra da frase dita ali |
+| `funcao` | etapa do arco: `gancho`, `contexto`, `desenvolvimento`, `evolucao`, `resolucao`, `sintese` (aparece no laudo) |
 | `evento` | palavra em que o dado pousa (counter, faixa, barras) |
-| `transicao` | `corte` (padrão), `flash`, `push` = como ESTA cena entra |
+| `transicao` | `fundir` (padrão), `corte`, `flash`, `push` = como ESTA cena entra. No plano, `"transicao"` no topo troca o padrão do reel |
 | `legenda` | `false` cala a legenda só nesta cena (ex.: contador que já mostra o número falado) |
 | `sfx` | `false` tira o som automático desta cena |
 | `hold` | só no modo texto: duração em quadros (30 qps) |
@@ -69,6 +73,7 @@ Caminhos: relativos à raiz do projeto OU à pasta do plano (tenta os dois).
 | `video` | `arquivo` (de `broll.mjs`), `inicio` (s), `vel` |
 | `animacao` | `arquivo` (.json de `lottie.mjs`), `loop`, `trecho: [ini, fim]`, `pico` + `evento`, `vel`, `escala` (ver `animacoes.md`) |
 | `counter` | agora com `evento`, `de` (ponto de partida) e `sub` |
+| `mundo` | nenhum na cena: mostra o mundo de pontos do bloco `mundo` do plano (ver `pontos.md`) |
 
 Os visuais da v1 continuam (`orb`, `hero3d`, `code`, `device`, `chart`, `icon`, `svg`, `object`, heróis
 de movimento, `grid`, `crowd`...), com catálogo em `biblioteca-movimento.md` e `biblioteca-icones.md`.

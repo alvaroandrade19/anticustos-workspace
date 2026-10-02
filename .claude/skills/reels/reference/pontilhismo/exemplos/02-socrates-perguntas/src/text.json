@@ -1,0 +1,18 @@
+{
+ "0": {"parts": [["Sócrates morreu", 0.0], ["há mais de *2.400* anos", 0.93]], "mode": "blur", "y": 1580, "size": 64},
+ "1": {"parts": [["sem deixar nenhum", 2.85], ["livro *escrito.*", 3.65]], "mode": "blur", "y": 1580, "size": 64},
+ "2": {"parts": [["Mesmo assim,", 4.32], ["a forma como ele pensava", 4.98], ["continua sendo estudada", 6.07], ["até *hoje.*", 7.24]], "mode": "blur", "y": 1600, "size": 60},
+ "3": {"parts": [["E uma das coisas", 7.76], ["mais interessantes", 8.38], ["é que Sócrates não ficou conhecido", 9.37], ["simplesmente por dar", 10.75], ["boas *respostas.*", 11.64]], "mode": "blur", "y": 1580, "size": 60},
+ "4": {"parts": [["Ele fazia *perguntas.*", 12.55]], "mode": "cut", "y": 1580, "size": 72},
+ "5": {"parts": [["Perguntava de *novo.*", 13.8]], "mode": "cut", "y": 1580, "size": 72},
+ "6": {"parts": [["Questionava uma *certeza.*", 14.62]], "mode": "cut", "y": 1580, "size": 72},
+ "7": {"parts": [["Tentava encontrar", 15.92], ["uma *contradição…*", 16.92]], "mode": "blur", "y": 1580, "size": 64},
+ "8": {"parts": [["até fazer a outra pessoa", 17.97], ["perceber que talvez", 19.13], ["não entendesse aquilo", 20.01], ["tão bem quanto *imaginava.*", 21.07]], "mode": "blur", "y": 1640, "size": 60},
+ "9": {"parts": [["Agora pensa no momento", 22.45], ["que a gente tá *vivendo.*", 23.57]], "mode": "blur", "y": 1580, "size": 64},
+ "10": {"parts": [["Nunca foi tão fácil", 24.5], ["conseguir uma *resposta.*", 25.91]], "mode": "cut", "y": 1580, "size": 64},
+ "11": {"parts": [["Você pergunta qualquer coisa", 26.62], ["e uma inteligência artificial", 28.14], ["responde em *segundos.*", 29.66]], "mode": "blur", "y": 1580, "size": 60},
+ "12": {"parts": [["Então uma das habilidades", 30.7], ["mais importantes", 32.09], ["nos dias de hoje é…", 32.96]], "mode": "blur", "y": 1580, "size": 64},
+ "13": {"parts": [["saber fazer boas *perguntas!*", 33.85]], "mode": "blur", "y": 1580, "size": 86, "serif": true},
+ "14": {"parts": [["Porque ter todas as respostas", 35.48], ["disponíveis", 36.84], ["não adianta *muito…*", 37.5]], "mode": "blur", "y": 1580, "size": 60},
+ "15": {"parts": [["se você não souber", 38.47], ["o que vale a pena *perguntar.*", 39.16]], "mode": "blur", "y": 1580, "size": 76, "serif": true}
+}
