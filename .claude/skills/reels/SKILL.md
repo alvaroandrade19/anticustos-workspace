@@ -91,6 +91,10 @@ Scripts sempre pelo caminho absoluto da skill (o cwd é o projeto):
    que ninguém olhou.
 8. **Anti-guru:** nada de promessa de renda, "fature", "em X dias". R$ nunca como `$` solto.
 9. **Nunca falhar em silêncio.** Remotion não roda → fallback ffmpeg, e dizer qual motor gerou.
+10. **Passada do Chefe só no texto que é nosso.** A fala transcrita é verbatim e nunca passa pelo
+    revisor. Passam pela skill `revisor-chefe` (passada padrão, como bastidor): o `text` das cenas no
+    modo texto, antes de aprovar o roteiro, e a `legenda.md` do post, antes de oferecer o agendamento.
+    O Chefe respeita o limite de palavras por linha, o arco do modo texto e as âncoras já aprovadas.
 
 ## O fluxo (detalhe e comandos em `reference/fluxo.md`)
 

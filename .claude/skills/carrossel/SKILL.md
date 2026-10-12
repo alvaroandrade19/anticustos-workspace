@@ -131,6 +131,14 @@ Rodar também a **regra das duas fontes de número** (mesmo arquivo): todo núme
 público com fonte e ano, ou conta aberta com a base à mostra. Não existe terceira categoria. Número
 que não se encaixa em nenhuma das duas é cortado, não suavizado.
 
+Por último, a **passada do Chefe**: carregar a skill `revisor-chefe` e rodar a passada padrão no texto
+de todos os slides e na legenda, antes da Etapa 5. O filtro editorial já aprovou o método; o Chefe
+ajusta ofício e voz (ritmo, escorregador de um slide para o outro, marcas de IA, teste do estranho,
+venda o objeto). Ele não muda headline escolhida, espinha aprovada, número de slides nem limite de
+caracteres do design system, e cada correção só fica se vencer a linha original. A passada é
+bastidor: o Alvaro vê só o texto melhor, sem a linha do Chefe. A revisão ponto a ponto sai só se ele
+pedir "mostre a revisão".
+
 ## Etapa 5: Aprovação do texto
 
 Mostrar o texto final slide a slide, no formato:

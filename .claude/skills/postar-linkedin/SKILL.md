@@ -71,7 +71,9 @@ Três entradas possíveis, e a pergunta é uma linha só quando não estiver ób
 - **Texto pronto:** nunca publicar direto. O Alvaro pede avaliação crítica em toda peça que chega
   pronta, e ela vem antes do agendamento: o que está fraco na escrita, no tema e no ângulo, com a
   correção proposta e o porquê. Ordenar por impacto, recomendar em vez de listar tudo no mesmo peso.
-  Se estiver bom, dizer que está bom e não mexer por mexer.
+  Se estiver bom, dizer que está bom e não mexer por mexer. A avaliação usa a **passada de revisão**
+  da skill `revisor-chefe` (modo para copy que o usuário escreveu): aponta com a linha citada e a
+  correção exata, nunca reescreve em silêncio, e todo achado de estilo diz o que custa (ponto 022).
 
 ### 1b. Decidir a imagem, e é decisão do Alvaro
 
@@ -130,7 +132,13 @@ O Alvaro gera a imagem por fora e traz o arquivo. Salvar em `conteudo/linkedin/<
 
 ### 3. Filtrar antes de mostrar
 
-Checar, e corrigir antes de mostrar ao Alvaro:
+Primeiro, em post escrito por esta skill, a **passada do Chefe**: carregar a skill `revisor-chefe` e
+rodar a passada padrão no corpo do post (não na nota de transparência, que é fixa). Ela corrige
+ofício e voz dentro de `references/voz-linkedin.md`: primeira pessoa, ritmo, escorregador, marcas de
+IA, teste do estranho. Cada correção só fica se vencer a linha original. Mostrar ao Alvaro só o texto
+final; a revisão ponto a ponto sai se ele pedir "mostre a revisão".
+
+Depois checar, e corrigir antes de mostrar ao Alvaro:
 
 - Nenhum travessão. O script recusa e é chato descobrir isso na hora de publicar.
 - Máximo 3000 caracteres.

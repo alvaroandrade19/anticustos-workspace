@@ -118,6 +118,18 @@ O `ui-ux-pro-max` entra como evidência, não como decisão pronta. Se a busca v
 
 ---
 
+## Copy e oferta
+
+Duas famílias de skill instaladas em 11/10/2026 e adaptadas a este workspace. Os pacotes originais, como foram baixados, estão no commit `8f0c053`.
+
+- **Oferta vai pela `/ofertaos`** (métodos de $100M Offers e $100M Money Models): promessa, entregáveis, garantia, preço e pagamento, prazo mínimo de contrato, complementos e as contas de contribuição e de capacidade em horas. Antes de mexer em qualquer peça que "não vende", o diagnóstico de restrição (`ofertaos/references/diagnostico-de-restricao.md`) diz se o problema é oferta, mensagem, medição ou capacidade. Ficha salva em `propostas/ofertas/`; decisão só entra em `_contexto/` com aprovação.
+- **Copy de venda sem skill própria vai pelo CopyOS**, com porta de entrada no `copy-de-conversao`: anúncio de Meta, página de captura e de vendas, sequência de e-mail ou WhatsApp, texto de proposta. Ele carrega sozinho o `revisor-chefe` (passada final de ofício), a `checagem-de-alegacoes`, a `checagem-pre-lancamento` (antes de subir anúncio), a `voz-do-cliente` (pesquisa de mercado, dossiê em `dados/pesquisa/`) e a `biblioteca-dos-mestres` (14 volumes de consulta, lidos por seção, nunca inteiros).
+- **Carrossel, LinkedIn e reel continuam nas skills deles**, que chamam o `revisor-chefe` como passada final. No reel, só no texto que é nosso: a fala transcrita é verbatim. O revisor ajusta voz e ritmo dentro do formato da skill de origem e nunca muda decisão editorial já aprovada.
+- **Intensidade:** o padrão é o da casa (força total de argumento, sem hype). `--extreme` só quando pedido. Nenhuma flag libera travessão, prova inventada, urgência falsa ou garantia de faturamento.
+- **Correção de estilo que se repete** vira linha em `.claude/skills/revisor-chefe/pontos-de-contexto/_lista-de-flagrantes.md` (forma de texto de IA, ou achado vetado pelo Alvaro), além do `_contexto/preferencias.md` quando for regra de tom.
+
+---
+
 ## Tráfego pago: nomenclatura de campanha
 
 Padrão fechado em 2026-09-16, vale pra toda campanha de Meta Ads. Existe pra localizar campanha, conjunto e anúncio sem abrir nenhum deles, e pra fechar o rastro do anúncio até a conversa no WhatsApp. O procedimento de mídia (o que rodar, em qual ordem, quando cortar) fica em `Wiki/Gerencial/Tráfego Pago - Protocolo e Escala.md`, não aqui.
@@ -125,8 +137,12 @@ Padrão fechado em 2026-09-16, vale pra toda campanha de Meta Ads. Existe pra lo
 **Campanha:** `[OBJETIVO] [PRODUTO] [POSICIONAMENTO] [ORÇAMENTO] [TEMPERATURA] [FASE] [ESTRUTURA] [SEQ]`
 Exemplo: `[TRÁFEGO] [DIAG] [INSTA] [CBO-30] [FRIO] [CT] [1-1-4] [01]`
 
+Dois acréscimos fechados em 2026-10-08, na montagem do teste A/B de captura. **Orçamento em ABO** se escreve `[ABO-10]`, com o número sendo o valor por conjunto, que é o que importa quando o orçamento não está na campanha. **Variante de página em teste** entra como sufixo do produto, `[DIAG-A]` e `[DIAG-B]`, porque a página é a superfície do produto sendo testada e o nome precisa dizer para onde a campanha manda tráfego sem que ninguém abra nada. O `utm_campaign` acompanha: `diag-a-ct-03` e `diag-b-ct-03`, mesma sequência porque é a mesma rodada.
+
 **Conjunto:** `NN - [POSICIONAMENTO] [SEGMENTO] [FAIXA ETÁRIA]`
-Exemplo: `01 - [INSTA] [Aberto] [25-55]`. O campo de segmento fica `Aberto` enquanto a fase for CT, porque público amplo é a definição da fase, e passa a carregar o interesse na fase de segmentação (`[Dentista]`, `[Contabilidade]`).
+Exemplo: `01 - [INSTA] [Aberto] [25-55]`. O campo de segmento fica `Aberto` enquanto a fase for CT, porque público amplo é a definição da fase, e passa a carregar o interesse na fase de segmentação (`[Dentista]`, `[Contabilidade]`). Quando a variável em teste for o criativo, o conjunto carrega o criativo no fim (`01 - [INSTA] [Aberto] [25-55] [CRIATIVO_06]`), senão dois conjuntos ficam com nomes idênticos fora o número e o padrão perde a função de localizar.
+
+**CBO está proibido em fase de teste**, por decisão de 2026-10-08. Na rodada de 17/09 ele deu 91% das impressões ao criativo de pior CTR e deixou cinco dos oito anúncios abaixo do piso de 1.000 impressões, porque otimiza custo por clique e converge em horas. Teste é ABO, uma variante por conjunto. CBO volta a valer em escala, com vencedor já conhecido.
 
 **Anúncio:** `CRIATIVO_NN`, com o número igual ao do arquivo em `criativos/` e igual ao `utm_content` do link. Exemplo: `CRIATIVO_07` para `criativos/7_feed.png` com `utm_content=criativo_07`.
 
