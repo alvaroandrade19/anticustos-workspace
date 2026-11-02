@@ -49,9 +49,9 @@ O que torna isso difícil de copiar por frase: quase todo concorrente vende proj
 
 **O que a instalação compra:** o tempo do Alvaro para desenhar e montar toda a automação e integração de IA do negócio do cliente. É venda de tempo de projeto, não de licença nem de ferramenta.
 
-**Custo de operação:** estimado em cerca de R$ 500 por cliente por mês, sem base apurada ainda. A recorrência foi precificada para cobrir esse custo e lucrar em cima dele. Trabalhos futuros devem tratar esse número como estimativa não verificada e nunca publicá-lo como fato.
+**Custo de operação:** estimado pelo Alvaro em R$ 600 a 700 por cliente por mês no máximo (API do WhatsApp, IA e servidor), sem base apurada ainda. Revisado em 15/10/2026; a estimativa anterior era R$ 500. A recorrência foi precificada para cobrir esse custo e lucrar em cima dele. Trabalhos futuros devem tratar esse número como estimativa não verificada e nunca publicá-lo como fato.
 
-**Meta de capacidade:** 20 clientes ativos. Esse é o patamar em que a operação deixa de ser solo e a contratação de equipe entra. A R$ 1.500 por cliente, 20 ativos são R$ 30.000 por mês de receita recorrente bruta e cerca de R$ 20.000 líquidos, descontada a estimativa de R$ 500 de custo por cliente. Isso divide cerca de 8 horas mensais por cliente numa semana de trabalho cheia. Trabalhos futuros devem tratar 20 como meta declarada, não como capacidade já comprovada.
+**Meta de capacidade:** 20 clientes ativos. Esse é o patamar em que a operação deixa de ser solo e a contratação de equipe entra. A R$ 1.500 por cliente, 20 ativos são R$ 30.000 por mês de receita recorrente bruta e cerca de R$ 17.000 líquidos antes de imposto, descontada a estimativa de R$ 650 de custo por cliente. Isso divide cerca de 8 horas mensais por cliente numa semana de trabalho cheia. Trabalhos futuros devem tratar 20 como meta declarada, não como capacidade já comprovada.
 
 **Outras restrições:**
 
@@ -61,10 +61,13 @@ O que torna isso difícil de copiar por frase: quase todo concorrente vende proj
 
 Decisões explicitamente em aberto, a não serem inventadas por trabalhos futuros:
 
-- Custo real de operação por cliente. A estimativa de R$ 500 nunca foi apurada, e ela é a diferença entre R$ 1.000 e algo bem menor de lucro por cliente.
-- Entregáveis nomeados da instalação. Sabe-se que ela compra tempo de projeto, mas não o que o cliente recebe por escrito ao final.
-- Quais processos a Anti Custos atende primeiro dentro da PME de serviço.
-- Prazo mínimo de contrato, se houver.
+- Custo real de operação por cliente. A estimativa de R$ 600 a 700 nunca foi apurada; apurar no primeiro cliente, junto com as horas reais de instalação.
+
+Decididas em 15/10/2026 pela `/ofertaos` (ficha em `propostas/ofertas/motor-anti-custos.md`):
+
+- **Primeiros processos:** atendimento no WhatsApp e agenda (marcar, confirmar, remarcar). Orçamento, cobrança de retorno e passagem de dados ficam para expansão.
+- **Entregáveis da instalação:** mapeamento do atendimento, atendente de WhatsApp com IA, agenda automática, passagem para humano com resumo e treinamento da equipe, no ar em 14 dias.
+- **Prazo mínimo:** 6 meses. Saída antes só pela garantia de funcionamento, que devolve a instalação se no dia 60 o atendente não resolver sozinho metade das conversas de rotina.
 
 ## Brand Commitments
 

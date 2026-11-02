@@ -19,6 +19,10 @@
 - [ ] **LinkedIn, renovação:** token vence em 07/11/2026. Rodar `node .claude/skills/postar-linkedin/scripts/auth.js --servidor` quando o `status.js` avisar. Ele reenvia o token pro Worker sozinho
 - [x] **Agendamento de post:** Worker na Cloudflare com cron de 5 minutos, publica com o PC desligado. Grátis. Subdomínio `anticustos.workers.dev`
 
+## Investimentos
+
+- [ ] **Subir a carteira real** em `financas/carteira/` (CSV no modelo `.claude/skills/analista-investimentos/modelos/carteira-exemplo.csv`, com a coluna `risco` preenchida). Fica fora do git. Depois rodar `/analista-investimentos` para o primeiro diagnóstico contra o CDI
+
 ## Marca
 
 - [ ] Definir e criar o logo da Anti Custos (versão para fundo escuro é a prioritária)

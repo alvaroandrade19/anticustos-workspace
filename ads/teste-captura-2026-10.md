@@ -270,3 +270,54 @@ grandeza. Esta rodada é a primeira chance de gerar número próprio.
 3. Contar as conversas na caixa do WhatsApp, separando por abertura de mensagem.
 4. Ler na ordem da seção 6, nunca pelo resultado final: principais primeiro para saber
    SE há problema, secundárias depois para saber ONDE.
+
+---
+
+## 10. Leitura e veredito (14/10/2026)
+
+Dados de 13 e 14/10, CSVs por campanha e por conjunto em `ads/`. A regra de parada
+disparou no segundo dia: a sessão saiu a R$ 0,08, um quinto do previsto, e as duas
+campanhas passaram de 250 sessões antes do dia 2.
+
+| | A (`/diagnostico`) | B (`/diagnostico-b`) |
+|---|---|---|
+| Gasto | R$ 33,13 | R$ 33,04 |
+| CPM | R$ 9,54 | R$ 9,24 |
+| CTR de link | 12,58% | 11,52% |
+| Carregamento | 93,8% | 95,6% |
+| Sessões | 410 | 394 |
+| Começou o quiz (`QuizStart`) | 0 (telefone na etapa 0) | 9 (2,3%) |
+| Chegou ao resultado (`Lead`) | 0 | 4 |
+| Tocou no WhatsApp (`Contact`) | 0 | 0 |
+| Conversas no WhatsApp | 0 | 0 |
+
+`ViewContent` no Gerenciador de Eventos: 879 (inclui testes e tráfego fora do anúncio).
+Na A o Pixel só carrega depois do telefone, então os eventos do quiz são todos da B.
+
+**Veredito: nenhuma página vence** (linha 3 da tabela da seção 7). São 804 sessões e
+zero conversas, com limite superior de 95% em 0,37%. O funil quebra **na chegada**:
+97,7% dos visitantes da B saem da primeira tela sem tocar em nada, e na A ninguém
+deixou telefone. A carga começou bem (93% a 96%, a troca para otimização por
+visualização da página se pagou), mas o tráfego que ela comprou não tem intenção:
+CTR de 12% junto com visita a R$ 0,08 e nenhuma ação é retrato de toque curioso.
+O quiz em si não foi condenado (4 de 9 que começaram chegaram ao resultado), e a
+oferta também não, porque 4 resultados com zero contato é amostra pequena demais.
+
+**O que a A ensinou mesmo sem vencer:** pedir telefone na entrada leva o início do
+quiz de 2,3% para zero. Base da rodada seguinte é a B.
+
+**Criativo:** 07 com 13,25% de CTR contra 10,99% do 06 (z ≈ 2,9), mesma ordem da
+rodada 01. Não elege vencedor: com CTR nesse patamar, ele mede clique, não intenção.
+
+**Furo de instrumentação:** `QuizStep` não apareceu no Gerenciador de Eventos, embora
+o `Lead` tenha chegado (quem chega ao resultado passa pelas etapas). Investigar antes
+da rodada 04, porque é o evento que mostra em qual pergunta a pessoa desiste.
+
+Rodadas 01 e 03 somadas: R$ 173,66 gastos, 1.410 sessões, zero conversas reais.
+
+**Posicionamento (confirmado pelo Alvaro em 14/10):** quase 100% da entrega foi para
+Reels, com Feed e Stories praticamente sem impressão. É a peça que explica o resto:
+otimizando por visualização da página, a Meta foi para o inventário onde a visita
+sai mais barata, e no Reels o botão de chamada fica sobreposto ao vídeo e a pessoa
+está rolando para se distrair. O CTR de 12% e o início de 2,3% vêm daí. Campanhas
+pausadas no mesmo dia.

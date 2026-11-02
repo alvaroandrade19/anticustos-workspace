@@ -54,3 +54,13 @@ dados/audio/*
 conteudo/**/_prancha/
 conteudo/**/_busca*/
 *.revisao.jpg
+
+# Carteira real e diario de decisoes (/analista-investimentos): dado financeiro pessoal, nunca sobe
+financas/carteira/*
+!financas/carteira/.gitkeep
+
+# Cache do Python dos scripts das skills
+__pycache__/
+
+# Materiais de terceiros (e-books, artigos) usados como referência pela /analista-investimentos: uso interno, não redistribuir
+financas/referencias/*.pdf

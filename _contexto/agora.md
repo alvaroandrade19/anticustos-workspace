@@ -5,6 +5,12 @@
 > Mantenha curto: o que passou de ~30 dias sai daqui (vai pro histórico ou some).
 
 ## Onde paramos
+Guinada de aquisição em 29/10/2026. A rodada 04 (só Feed, 21 a 28/10) fechou com 245 sessões, 4 quizzes começados (1,6%, igual ao Reels) e zero conversas: o posicionamento não era o problema, a falha está na passagem do anúncio para a primeira tela ou em quem clica. Somadas as rodadas 01, 03 e 04: R$ 264,57, 1.762 sessões, zero conversas. Tráfego para conversão pausado. A aquisição passou para prospecção ativa (motor), conteúdo orgânico e parcerias com contadores, detalhado em `estrategia.md`. Uma rodada de prospecção já estava em andamento antes da guinada. Na mesma sessão, a `/ofertaos` foi chamada de novo para avaliar o negócio inteiro e buscar um low ticket, partindo da ficha do MOTOR. Protocolos e vereditos das rodadas em `ads/teste-captura-2026-10.md` e `ads/teste-posicionamento-2026-10.md`.
+
+<!-- anterior -->
+Oferta fechada pela `/ofertaos` em 15/10/2026: **MOTOR Anti Custos**, ficha em `propostas/ofertas/motor-anti-custos.md`. Atendimento e agenda do WhatsApp no ar em 14 dias, acompanhamento mensal, R$ 3.000 + R$ 1.500/mês, prazo mínimo de 6 meses, garantia que devolve a instalação e 3 vagas de fundador. No tráfego, a rodada 03 rodou em 13 e 14/10 e foi pausada com zero conversas (funil quebrou na chegada, entrega quase toda em Reels); a rodada 04, só Feed do Instagram, está montada em `ads/teste-posicionamento-2026-10.md` para a semana de 19/10.
+
+<!-- anterior -->
 Teste A/B de captura montado e programado para subir na terça, 13/10/2026. Duas páginas no ar (`/diagnostico` com captura na etapa 0, `/diagnostico-b` sem captura nenhuma), fatorial 2x2 com dois criativos, R$40/dia, R$280 previstos. O protocolo completo, com a base de comparação, a regra de parada e como ler, está em **`ads/teste-captura-2026-10.md`**: ler esse arquivo antes de analisar qualquer dado. A copy das duas páginas passou por dois planos de revisão aplicados e verificados (16 edições, 54 critérios automáticos). Campanhas antigas pausadas, carrossel e criativo 03 aposentados do tráfego pago.
 
 <!-- anterior -->
@@ -81,16 +87,23 @@ Skill `/carrossel` criada, com o método editorial da BrandsDecoded adaptado à 
 - 2026-10-11: CopyOS e OfertaOS instalados e adaptados ao workspace (originais no commit `8f0c053`). Do CopyOS ficaram `copy-de-conversao` (motor, SKILL enxugado de 55KB para 32KB), `revisor-chefe`, `checagem-de-alegacoes`, `checagem-pre-lancamento`, `voz-do-cliente` e `biblioteca-dos-mestres` (os 14 volumes mantidos inteiros: medido, não há conteúdo duplicado). Saíram `briefing-inteligente`, `memoria-e-checagem` e `posicionamento-de-marca`, porque duplicavam `_contexto/` e o `/setup`; o que tinham de valor foi resgatado (diagnóstico de restrição na OfertaOS, teste de posicionamento próprio e inimigo no motor). Roteamento no `AGENTS.md`, seção "Copy e oferta".
 - 2026-10-11: o `revisor-chefe` virou a passada final de ofício do `/carrossel`, do `/postar-linkedin` e do `/reels` (neste, só no texto de tela e na legenda; a fala é verbatim). O modo `--extreme` do CopyOS deixou de ser padrão: vale o tom da casa, e extremo só quando pedido. Na OfertaOS, a esteira obrigatória de 4 order bumps, upsell e downsell virou opcional, porque order bump é mecânica de checkout de infoproduto e a venda aqui é consultiva.
 - 2026-10-11: aprimoramentos automáticos de texto do criativo da Meta confirmados desligados nas campanhas do teste de captura, para a copy dos dois criativos rodar como foi escrita.
+- 2026-10-14: rodada 03 pausada. R$ 66,17, 804 sessões, zero conversas; 2,3% começaram o quiz na B e zero telefones na A. Base passa a ser a `/diagnostico-b`, e a causa apontada é o posicionamento (Reels), não a oferta nem a página. Rodada 04 testa só Feed do Instagram com o criativo 07.
+- 2026-10-15: oferta MOTOR Anti Custos fechada pela `/ofertaos`. Primeiros processos são atendimento no WhatsApp e agenda. Prazo mínimo de 6 meses. Garantia de funcionamento devolve a **instalação**, não as mensalidades, por decisão do Alvaro: a instalação é renda sem custo mensal comprometido. 3 vagas de fundador com instalação de R$ 1.500, em troca de números, depoimento sincero e estudo de caso.
+- 2026-10-15: custo de ferramenta por cliente reestimado pelo Alvaro em R$ 600 a 700 no máximo. A meta de 20 clientes passa a render cerca de R$ 17.000 líquidos antes de imposto, não R$ 20.000.
+- 2026-10-21: QuizStep corrigido na `/diagnostico-b`. Ele mandava o texto da resposta ("Clínica ou consultório") e o Meta filtrava como possível dado de saúde; agora vai a posição da opção. Eventos automáticos do Pixel desligados (`autoConfig` false) nas três páginas, pelo mesmo motivo. Conversão personalizada `QuizStart - DIAG-B - anuncio` criada.
+- 2026-10-29: rodada 04 fechada. O Feed começa o quiz na mesma taxa do Reels (1,6% contra 2,3%), então o posicionamento não era o problema. Tráfego para conversão pausado até haver mensagem validada em conversa real.
+- 2026-10-29: aquisição reorganizada em prospecção ativa (cerca de 60% do tempo, meta de 5 conversas com dono por semana), conteúdo orgânico (cerca de 30%) e parcerias com contadores (cerca de 10%). Ponto de decisão em 20/11.
+- 2026-10-29: dois ajustes aprovados pelo Alvaro sobre a proposta dele. Os R$ 6/dia de tráfego vão para impulsionar o melhor post orgânico, não para comprar seguidor, porque a Meta entrega a ação pedida pelo menor preço e seguidor sem interação derruba o alcance orgânico. A segunda conta de Instagram, de economia, fica adiada para dezembro: o case dela provaria produção de conteúdo, que não é o que a Anti Custos vende, e a economia entra antes como linha editorial da própria marca, 1 post por semana.
 
 ## Pendências
 
-- Terminar a segunda página de destino e religar as campanhas em teste A/B de página, um teste novo e não a continuação do de 17/09. Antes de religar, fechar o teto de CAC com a mensalidade de R$ 1.500 e ler pela coluna de serviço do Gerencial (CTR bom acima de 2%, corte abaixo de 1,5%).
+- Produzir o que a oferta precisa antes da primeira call: vídeo de demonstração do atendente, modelo de relatório mensal, mensagem de reativação e contrato com garantia e condição de fundador.
+- Levar 14 dias, garantia e vagas de fundador para a `/diagnostico-b` pelo `copy-de-conversao`, agora que nenhuma rodada de tráfego está no ar.
+- Montar o roteiro de abordagem da prospecção usando o quiz como ferramenta da conversa, e um registro simples de cada conversa (o que o dono disse, objeção, se avançou).
+- Conversar com 3 ou 4 escritórios de contabilidade sobre indicação comissionada até 20/11.
+- A partir de ~13/11: escolher o melhor post orgânico do período e impulsionar com R$ 6/dia.
 
-- Apurar o custo real de operação por cliente. A estimativa de R$ 500/mês nunca foi verificada, e ela decide se o lucro por cliente é R$ 1.000 ou bem menos.
-- Nomear os entregáveis da instalação. Sabe-se que ela compra tempo de projeto, falta dizer o que o cliente recebe por escrito no fim.
-- Definir se existe prazo mínimo de contrato. O modelo só fecha a partir do mês 3.
-- As três pendências acima (custo por cliente, entregáveis, prazo mínimo) têm ferramenta desde 11/10: rodar `/ofertaos` sobre a oferta atual. A taxa de instalação dispensada para quem assina prazo mínimo é a primeira hipótese a avaliar.
-- Definir quais processos atacar primeiro dentro da PME de serviço.
+- Apurar no primeiro cliente o custo real de ferramenta (estimado em R$ 600 a 700) e as horas reais de instalação (premissa de cerca de 20h).
 
 - Rodar `/mapear` para criar as skills do dia a dia.
 - Rodar `/syncar` para conectar ao GitHub.
@@ -99,8 +112,8 @@ Skill `/carrossel` criada, com o método editorial da BrandsDecoded adaptado à 
 
 ## Quente agora
 
-Teste A/B de captura sobe na terça, 13/10/2026, e é a primeira medição séria do funil. Duas campanhas irmãs (`diag-a-ct-03` em `/diagnostico`, com captura na etapa 0; `diag-b-ct-03` em `/diagnostico-b`, sem captura), dois conjuntos cada, criativos 06 e 07, R$10/dia por conjunto, R$40/dia, R$280 previstos. Público Aberto 25-55, Instagram puro sem Audience Network, otimizado por visualização de página.
+Fase de 30/10 a 20/11/2026: prospecção ativa como motor, conteúdo e parcerias como apoio, tráfego para conversão pausado. **O número que manda é conversas com dono de empresa por semana (meta: 5).** Seguidor, alcance e mensagem enviada são secundários. Revisão toda sexta. Em 20/11 o ponto de decisão de `estrategia.md` diz se o problema que sobra é abordagem ou oferta. As três rodadas de tráfego (R$ 264,57, 1.762 sessões, zero conversas) não condenaram a oferta: nenhuma delas levou tráfego com intenção até ela.
 
-**Todo o protocolo está em `ads/teste-captura-2026-10.md`, e ele precisa ser lido antes de olhar qualquer número.** O risco dominante mudou de lugar: não é mais decidir antes do piso de impressões, é **comparar coisa que não se compara**. O evento otimizado e os posicionamentos mudaram junto com a copy, então CPC, CTR, CPM e custo por sessão da rodada 01 não servem de referência. Planejar com R$ 0,40 por sessão (2,6x a base antiga, e o salto é o efeito pretendido). Acima de R$ 1,00 é defeito, não efeito.
+Se uma conversa chegar, a oferta para fechar já existe: MOTOR Anti Custos, em `propostas/ofertas/motor-anti-custos.md`. As 3 vagas de fundador são o caminho para a marca ter os primeiros casos.
 
 A restrição de fundo continua valendo em tudo: não existe prova nenhuma (nem case, nem número, nem cliente), e fabricar prova está proibido no `PRODUCT.md`. A única prova de primeira mão é a auditoria do próprio ambiente, de 34 para 3 ferramentas, e ela ainda não entrou em nenhuma peça.

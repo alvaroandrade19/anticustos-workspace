@@ -1,0 +1,8 @@
+ticker,classe,quantidade,preco_medio,valor_atual,custo,setor,risco
+PETR4,acao,200,30.00,,,Petroleo,medio
+VALE3,acao,100,65.00,,,Mineracao,medio
+ITUB4,acao,300,28.00,,,Bancos,baixo
+WEGE3,acao,150,38.00,,,Industria,baixo
+BOVA11,etf,50,115.00,,,Indice,baixo
+Tesouro Selic 2029,rf,,,15000,14000,Renda fixa,baixo
+CDB liquidez diaria,caixa,,,5000,5000,Caixa,baixo
