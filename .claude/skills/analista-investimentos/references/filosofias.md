@@ -52,13 +52,18 @@ Empreendedor e criador do canal Investidor Sardinha (perfil do Investidor10); ve
 - Evita estatais, prejuízo recorrente, e prefere empresa com histórico e investimento consistente em P&D.
 - Como checamos: cinco perguntas em `criterios-pre-definidos.md`; `comparar.py` cego; coluna `risco` e alertas no `carteira.py`.
 
-### Tiago Reis, fundador da Suno (camada 3, evidência B)
+### Tiago Reis, fundador da Suno (camada 3, evidência B, com fala própria)
 - **Value investing**: comprar abaixo do que vale e manter. Menciona o modelo de dotações de Yale como inspiração (uma única fonte; tratar com cautela).
-- **Critérios indispensáveis** (InfoMoney): balanço forte, baixo endividamento, rentabilidade sobre o capital acima da média, boa administração e várias avenidas de crescimento, de preferência acima do PIB. Riscos toleráveis e valuation interessante.
+- **Os seis critérios, na voz dele** (live Terra e Suno, out/2022, transcrição em `financas/referencias/`): (1) rentabilidade **acima do custo de capital**, (2) crescimento pelo menos igual ao PIB, (3) gestão boa na operação **e na alocação de capital**, (4) balanço forte, (5) riscos toleráveis, (6) valuation interessante. A versão do InfoMoney dizia "rentabilidade acima da média"; a fala própria diz custo de capital, que é a régua desta skill (ROIC contra a Selic e contra o WACC). Vale a fala própria.
+- **O método de valuation depende do moat.** Empresa sem diferencial competitivo: múltiplo, valor patrimonial e valor de liquidação (exemplo dele: comprar a R$ 3,12 uma ação com patrimônio de R$ 7,50 por ação). Empresa com diferencial forte: fluxo de caixa descontado até a perpetuidade. A lógica: perpetuidade pressupõe retorno acima do custo de capital para sempre, e sem moat esse retorno é competido até sumir. Aplicado em `valuation.md`.
+- **Trabalho de campo** antes de tese contrária ao consenso (o exemplo dele é uma estatal, vetada aqui; vale o método, não o caso): no caso do Banco do Brasil, entrevistaram 15 funcionários (comitê de crédito, gestora, TI) e checaram nota do aplicativo nas lojas. É o "scuttlebutt" de Philip Fisher. Aplicado em `fundamentos-e-qualidade.md`.
+- **Limites do fundo dele**: no máximo 20% numa empresa e 30% num setor; perto de 40 posições, as 10 maiores somando uns 65%; entre duas indicadas muito correlacionadas, fica uma. Aplicado no `carteira.py`.
+- **Autocrítica de vantagem**: mercado é competitivo, e quem analisa melhor leva o retorno acima da média. Pergunta antes de escolher ação: tenho vantagem aqui? Em small cap pouco acompanhada a disputa é menor; em blue chip, você compete com os maiores do mundo. Se não há vantagem, a alternativa honesta é índice ou fundo, comparado contra o CDI.
+- **Margem estrutural contra conjuntural**: separar a margem que veio de preço de commodity (passa) da que veio de corte de custo e eficiência (fica).
 - **Dividendo é consequência, não objetivo**: vem de alocação eficiente de capital, caixa e resiliência. Alerta contra ranking passado de dividendos sem checar se são recorrentes.
 - A casa publica checklist numérico (ROE acima de 10%, P/L abaixo de 20, dívida líquida abaixo de 100% do patrimônio) e, em lista de dividendos de 2024, aplicou o método Bazin (DY acima de 6% e dívida baixa). Os autores avisam que passar não significa comprar todas.
 - Como checamos: tela `suno_checklist` e `bazin_barsi` no `triagem.py`; os critérios qualitativos entram no passo de moat e gestão de `fundamentos-e-qualidade.md`.
-- Cuidado de fonte: casa de research vive de assinatura. Houve em 2023 acusações públicas contra a casa por parte de uma gestora e investigações noticiadas; são alegações, não condenações, e não as verifiquei.
+- Cuidado de fonte: a live de 2022 é peça de venda de fundo (SunoFIA distribuído pela Terra), com "a hora é agora", "coragem" e rodada de "compro ou vendo" ticker a ticker. Os critérios valem como método; o timing e as indicações, não. Casa de research vive de assinatura. Houve em 2023 acusações públicas contra a casa por parte de uma gestora e investigações noticiadas; são alegações, não condenações, e não as verifiquei.
 
 ## Referências complementares (preenchem lacunas das cinco)
 
@@ -83,10 +88,26 @@ Ficaram de fora de propósito: Barsi e Bazin, porque o Alvaro decidiu que divide
 6. **Efeito Lindy é necessário, não suficiente.** Mede a sobrevivência do setor, não da empresa nem o retorno. Varejo e aviação são setores velhos e cemitério de empresas.
 7. **Buy and hold sem gatilho de saída vira ancoragem.** Três gatilhos escritos antes da compra: tese quebrada, preço bem acima da faixa de valor, alternativa claramente melhor.
 8. **Contrário à manada contra armadilha de valor.** Comprar o impopular exige provar que a empresa não está piorando de fato.
-9. **Incentivo de quem ensina.** Casa de research vende assinatura, e influenciadores vendem curso e audiência; carteira declarada em vídeo não é auditada. Isso não invalida o conteúdo, mas rebaixa a evidência: ideia vira hipótese e passa pela Prova. Vale também o viés de sobrevivência: vemos quem deu certo, não quanto foi método e quanto foi época.
+10. **Veto a estatal contra Tiago Reis. DECIDIDO em 02/11/2026: o veto fica.** A maior posição do fundo do Tiago em 2022 era o Banco do Brasil, e ele chama de preguiça o "estatal é uma droga, nem olho". O Alvaro ouviu o argumento e manteve o veto: aceita perder casos assim em troca de não carregar um risco (interferência política em preço, crédito e dividendo) que nenhum modelo da skill mede. Não reabrir por causa de um caso que deu certo; só se o Alvaro pedir.
+11. **"Bolsa sobe depois do pico da Selic."** Tese central da live. Testado em 02/11/2026 com Banco Central (série 432 e CDI) e Yahoo, nos 8 picos da Selic desde 2000, Ibovespa só preço contra CDI a partir do dia em que a Selic chegou ao pico:
+
+    | Pico | Selic | Ibov 12m | CDI 12m | Ibov 24m | CDI 24m |
+    |---|---|---|---|---|---|
+    | jul/2001 | 19,00% | -19,1% | 18,6% | 18,2% | 45,8% |
+    | fev/2003 | 26,50% | 96,4% | 22,1% | 136,0% | 41,8% |
+    | mai/2005 | 19,75% | 46,2% | 18,3% | 117,1% | 34,3% |
+    | set/2008 | 13,75% | 65,2% | 11,5% | 89,7% | 21,7% |
+    | jul/2011 | 12,50% | 1,0% | 10,4% | -11,5% | 18,4% |
+    | jul/2015 | 14,25% | 24,2% | 14,1% | 51,9% | 28,4% |
+    | ago/2022 | 13,75% | 5,9% | 13,6% | 19,8% | 26,6% |
+    | jun/2025 | 15,00% | 33,8% | 14,8% | n/d | n/d |
+
+    Leitura: o Ibovespa bateu o CDI em 12 meses em 5 dos 8 picos e em 24 meses em 4 dos 7. Quando ganhou, ganhou por muito; quando perdeu, também. 2011, que a live cita como bom período, perdeu para o CDI em 24 meses, e o pico de 2022, o próprio momento da live, também (só preço; com dividendos, estimados e não medidos aqui em uns 10 pontos em dois anos, fica perto do empate). Vale como taxa de base favorável, não como gatilho: pico de juro melhora as chances, não garante, e o que decide continua sendo o preço de cada ativo contra a Régua.
+12. **Incentivo de quem ensina.** Casa de research vende assinatura, e influenciadores vendem curso e audiência; carteira declarada em vídeo não é auditada. Isso não invalida o conteúdo, mas rebaixa a evidência: ideia vira hipótese e passa pela Prova. Vale também o viés de sobrevivência: vemos quem deu certo, não quanto foi método e quanto foi época.
 
 ## Fontes (acessadas em 02/11/2026)
 
+- Tiago Reis, fala própria: transcrição da live "Aprenda o jeito do Tiago Reis de investir em ações" (Terra Investimentos e Suno Asset, outubro de 2022, Selic em 13,75%), em `financas/referencias/`. Números citados por ele na live (retorno das carteiras, múltiplos de Banco do Brasil e Boa Safra, dívida líquida/EBITDA agregada) não foram conferidos.
 - Tiago Reis, critérios: [InfoMoney](https://www.infomoney.com.br/?p=1908347); checklist numérico: [Suno, como selecionar ações](https://www.suno.com.br/artigos/como-selecionar-acoes/amp/); modelo de Yale: [fiis.com.br](https://fiis.com.br/noticias/fiis-oportunidade-diversificacao-tiago-reis-suno/).
 - Bruno Perini: [Investidor10](https://investidor10.com.br/conteudo/bruno-perini-conheca-a-trajetoria/) e [Nord Investimentos](https://www.nordinvestimentos.com.br/blog/quem-e-bruno-perini/) (perfis, sem citação primária).
 - Tio Huli: [EQI, Money Week](https://www.euqueroinvestir.com/tio-huli-hulisses-dias-money-week/).

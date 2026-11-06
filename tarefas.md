@@ -19,6 +19,10 @@
 - [ ] **LinkedIn, renovação:** token vence em 07/11/2026. Rodar `node .claude/skills/postar-linkedin/scripts/auth.js --servidor` quando o `status.js` avisar. Ele reenvia o token pro Worker sozinho
 - [x] **Agendamento de post:** Worker na Cloudflare com cron de 5 minutos, publica com o PC desligado. Grátis. Subdomínio `anticustos.workers.dev`
 
+## Pesquisa e ICP
+
+- [ ] **Validar o ICP v1** (`dados/pesquisa/icp-v1.md`, hoje hipótese com perfis fictícios): registrar em cada conversa os campos da seção 3 do arquivo, revisar para v2 em 20/11/2026, rodar `voz-do-cliente` com ~15 conversas e fazer a análise de padrões quando houver 50 leads no CRM
+
 ## Investimentos
 
 - [ ] **Subir a carteira real** em `financas/carteira/` (CSV no modelo `.claude/skills/analista-investimentos/modelos/carteira-exemplo.csv`, com a coluna `risco` preenchida). Fica fora do git. Depois rodar `/analista-investimentos` para o primeiro diagnóstico contra o CDI

@@ -8,7 +8,7 @@
 **Equipe:** solo. Hoje é só o Alvaro tocando tudo.
 **Ferramentas:** Google Drive, Instagram, LinkedIn, Canva, WhatsApp Business, Meta Ads. Instagram e LinkedIn publicam por API oficial direto do Claude Code, de graça.
 **Principais entregas:** conteúdo para redes sociais, propostas comerciais, apresentações
-**Modelo comercial:** R$ 3.000 de instalação (uma vez) + R$ 1.500/mês de recorrência (manter no ar, atualizar, propor melhorias), prazo mínimo de 6 meses. Oferta: MOTOR Anti Custos, ficha em `propostas/ofertas/motor-anti-custos.md`
+**Modelo comercial:** R$ 3.000 de instalação (uma vez) + R$ 1.500/mês de recorrência (manter no ar, atualizar, propor melhorias), prazo mínimo de 6 meses. Oferta: Método 99 (chamada MOTOR até 04/11/2026), ficha em `propostas/ofertas/ficha-metodo-99.md`
 **Meta de capacidade:** 20 clientes ativos, patamar em que entra contratação de equipe
 
 ## Contexto adicional

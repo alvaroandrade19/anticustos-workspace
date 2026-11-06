@@ -14,7 +14,7 @@ Decisão: **HTML e CSS estático**, sem build e sem framework. Motivos: as peça
 
 ## Users
 
-Donos de pequenas e médias empresas de serviço: clínica, escritório de contabilidade, advocacia, agência, consultoria.
+Donos de negócio de serviço com horário marcado e atendimento pelo WhatsApp: clínica e consultório de consulta agendada, estética, veterinária, salão de ticket alto e escritório de advocacia de varejo, com faturamento a partir de R$ 30 mil por mês. Contabilidade é canal de indicação, não cliente. Perfil completo e status de hipótese em `dados/pesquisa/icp-v1.md`.
 
 O decisor é o próprio dono, que opera dentro do negócio em vez de só administrar. Ele sente o custo operacional na pele, não através de relatório. Avalia a compra no meio do expediente, geralmente pelo celular, sem tempo para material longo e sem repertório técnico para julgar arquitetura de solução. Compra alívio de uma dor que ele consegue nomear.
 
@@ -63,11 +63,11 @@ Decisões explicitamente em aberto, a não serem inventadas por trabalhos futuro
 
 - Custo real de operação por cliente. A estimativa de R$ 600 a 700 nunca foi apurada; apurar no primeiro cliente, junto com as horas reais de instalação.
 
-Decididas em 15/10/2026 pela `/ofertaos` (ficha em `propostas/ofertas/motor-anti-custos.md`):
+Decididas em 15/10/2026 pela `/ofertaos` (ficha em `propostas/ofertas/ficha-metodo-99.md`):
 
 - **Primeiros processos:** atendimento no WhatsApp e agenda (marcar, confirmar, remarcar). Orçamento, cobrança de retorno e passagem de dados ficam para expansão.
 - **Entregáveis da instalação:** mapeamento do atendimento, atendente de WhatsApp com IA, agenda automática, passagem para humano com resumo e treinamento da equipe, no ar em 14 dias.
-- **Prazo mínimo:** 6 meses. Saída antes só pela garantia de funcionamento, que devolve a instalação se no dia 60 o atendente não resolver sozinho metade das conversas de rotina.
+- **Prazo mínimo:** 6 meses. Saída antes só pela garantia de atendimento, que devolve a instalação se no dia 60 a equipe ainda estiver recebendo mais da metade das conversas do WhatsApp. Revisado em 04/11/2026, junto com a garantia de 99 segundos e a promessa nova (ficha em `propostas/ofertas/ficha-metodo-99.md`).
 
 ## Brand Commitments
 

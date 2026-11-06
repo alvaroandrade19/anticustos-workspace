@@ -24,7 +24,7 @@ Compare sempre com o CDI acumulado do mesmo período (`bcb.py macro`) e com o ju
 - **Correlação**: o script mostra a média e o par mais parecido. Em crise, correlação sobe. Correlação média acima de 0,6 em calmaria significa que a diversificação é menor do que o número de ativos sugere.
 - **Moeda e indexador**: quanto da carteira depende do dólar, quanto de inflação, quanto de pré-fixado.
 
-Faixas de partida (heurística, ajuste ao seu perfil): posição individual de renda variável costuma ficar entre 3% e 10% da carteira de risco; teto de 15% a 20% só com convicção alta e negócio de baixo risco; o script alerta em 20%.
+Faixas de partida (heurística, ajuste ao seu perfil): posição individual de renda variável costuma ficar entre 3% e 10% da carteira de risco; teto de 15% a 20% só com convicção alta e negócio de baixo risco; o script alerta em 20% por posição e em 30% por setor (os mesmos tetos que o Tiago Reis declara no fundo dele). Diversifique também por motor de resultado, não só por setor: uma exportadora de grão depende mais da renda da Ásia que do PIB brasileiro, e isso descorrelaciona a carteira de verdade, enquanto banco, varejo e construtora dependem todos do mesmo ciclo doméstico de juro.
 
 ## 4. Tamanho de posição
 

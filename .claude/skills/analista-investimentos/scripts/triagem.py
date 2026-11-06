@@ -125,9 +125,9 @@ def main():
     print("  Tela elimina, nao recomenda. Quem passa ainda precisa de entendimento do negocio e valor em faixa.")
     print(f"  Janela de {m['_n_anos']} exercicio(s): regras que pedem 10 ou 20 anos ficam N/D ou fracas.")
     if a.selic:
-        print(f"  Selic de {pct(a.selic, 2)}: um P/L de 15x equivale a lucro/preco de {pct(1 / 15, 1)}, "
-              f"{'abaixo' if 1 / 15 < a.selic else 'acima'} da Selic; P/L de 20x, {pct(1 / 20, 1)}.")
-        print("  Limiar de P/L e DY nascido com juro baixo exige crescimento do lucro para se pagar. Recalibre contra a Regua.")
+        print(f"  Selic de {pct(a.selic, 2)}: um P/L de 15x equivale a lucro/preco de {pct(1 / 15, 1)}; P/L de 20x, {pct(1 / 20, 1)}.")
+        print("  Lucro/preco e retorno aproximadamente real: compare com a NTN-B longa (juro real), ou some a inflacao")
+        print("  esperada antes de comparar com a Selic. Limiar nascido com juro baixo exige crescimento do lucro. Recalibre contra a Regua.")
 
 
 if __name__ == "__main__":

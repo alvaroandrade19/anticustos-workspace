@@ -35,7 +35,7 @@ Consequência editorial: post de LinkedIn é escrito em primeira pessoa do singu
 
 Preço: R$ 3.000 de instalação, R$ 1.500 por mês de recorrência. Com 20 ativos isso é R$ 30.000 por mês de receita recorrente bruta. Descontando a estimativa de R$ 650 de custo mensal de ferramenta por cliente (o Alvaro estima de R$ 600 a 700 no máximo, ainda não apurado), sobram cerca de R$ 17.000 líquidos antes de imposto, e restam por volta de 8 horas mensais por cliente numa semana cheia. Prazo mínimo de contrato: 6 meses.
 
-Oferta fechada em 15/10/2026: **MOTOR Anti Custos**, atendimento e agenda do WhatsApp no ar em 14 dias, com acompanhamento mensal. Garantia de prazo e garantia de funcionamento (devolve a instalação), 3 vagas de cliente fundador com instalação de R$ 1.500. Ficha completa em `propostas/ofertas/motor-anti-custos.md`.
+Oferta fechada em 15/10/2026 como MOTOR e renomeada em 04/11/2026 para **Método 99**: atendimento e agenda do WhatsApp no ar em 14 dias, com acompanhamento mensal. Revisada em 04/11/2026: promessa "Todo cliente respondido em até 99 segundos. No seu celular, só chega quem quer fechar." (agendamento como apoio, principalmente fora do horário), três garantias (prazo de 14 dias, resposta em 99 segundos, atendimento no dia 60 com devolução da instalação), Raio-x do Vácuo em vídeo como porta de entrada, franquia de 1.500 conversas por mês e 3 vagas de cliente fundador com instalação de R$ 1.500. O problema que ela ataca se chama o Vácuo: o tempo entre a pergunta do cliente e a resposta. Ficha completa em `propostas/ofertas/ficha-metodo-99.md`.
 
 A instalação de R$ 3.000 compra tempo de projeto: desenhar e montar a automação e a integração de IA do cliente.
 

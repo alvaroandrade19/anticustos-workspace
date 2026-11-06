@@ -142,6 +142,13 @@ def main():
     risco = [p["valor"] / total for p in pos if p["classe"] not in ("rf", "caixa")]
     if risco and max(risco) > 0.20:
         alertas.append(f"posicao de renda variavel acima de 20% da carteira ({pct(max(risco), 0)}): um evento so decide o resultado")
+    setores = {}
+    for p in pos:
+        if p["classe"] not in ("rf", "caixa") and p["setor"] != "n/i":
+            setores[p["setor"]] = setores.get(p["setor"], 0) + p["valor"] / total
+    for s, w in setores.items():
+        if w > 0.30:
+            alertas.append(f"setor {s} soma {pct(w, 0)} da carteira (teto de referencia: 30%): um choque no setor decide o resultado")
     rv = sum(risco)
     if rv > 0.70:
         alertas.append(f"{pct(rv, 0)} da carteira em ativos de risco: sem colchao de renda fixa/caixa para aguentar queda")

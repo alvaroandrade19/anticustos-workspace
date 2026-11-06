@@ -13,6 +13,9 @@ Leia quando a pergunta é "quanto vale" ou "está caro ou barato". Regra mestra:
 | Cíclica (commodity) | lucro normalizado pelo ciclo, EV/EBITDA médio de ciclo | P/L no pico engana |
 | Crescimento sem lucro | cenários sobre receita futura e margem-alvo | quase tudo é especulação, rotule |
 | Empresa madura e lucrativa, filtro rápido | número de Graham (`valuation.py graham`) | triagem, não valor |
+| Sem vantagem competitiva | P/VP, valor de liquidação (ativos a valor de venda menos todo passivo) contra o valor de mercado | DCF não se aplica |
+
+**O moat decide entre DCF e patrimônio** (regra do Tiago Reis, ver `filosofias.md`). A perpetuidade do DCF pressupõe retorno acima do custo de capital para sempre, e só vantagem competitiva sustenta isso. Sem moat, o retorno converge para o custo de capital e o crescimento deixa de criar valor: a âncora honesta é o patrimônio ou o valor de liquidação, e a margem de segurança é comprar abaixo dele. Responda o teste de moat de `fundamentos-e-qualidade.md` antes de escolher o método. Usar DCF numa empresa sem moat é projetar uma vantagem que ela não tem.
 
 ## DCF em reais, passo a passo
 
@@ -38,7 +41,9 @@ Leia quando a pergunta é "quanto vale" ou "está caro ou barato". Regra mestra:
 
 ## Múltiplos relativos
 
-P/L, EV/EBIT, EV/EBITDA, P/VP, FCF yield contra pares do mesmo setor e contra a própria história. Três regras: compare só empresas comparáveis (mesmo modelo, mesmo ciclo, mesma alavancagem); barato contra o par pode só significar que o par está caro; e múltiplo é consequência, o que importa é por que ele está onde está. **Earnings yield** (inverso do P/L) deve ser lido contra a Selic: ação com earnings yield abaixo da juro livre de risco só se paga se o lucro crescer.
+P/L, EV/EBIT, EV/EBITDA, P/VP, FCF yield contra pares do mesmo setor e contra a própria história. Três regras: compare só empresas comparáveis (mesmo modelo, mesmo ciclo, mesma alavancagem); barato contra o par pode só significar que o par está caro; e múltiplo é consequência, o que importa é por que ele está onde está. **Earnings yield** (inverso do P/L) é retorno aproximadamente **real**, porque o lucro acompanha a inflação. Por isso a comparação justa é contra o juro real longo (NTN-B de prazo longo, taxa no site do Tesouro Direto), não contra a Selic nominal. Contra a Selic, só depois de somar a inflação esperada (`bcb.py focus`) ao earnings yield. Ação com earnings yield abaixo do juro real longo só se paga se o lucro crescer acima da inflação.
+
+**Prêmio de ações do mercado** (termômetro da live do Tiago Reis): earnings yield do índice menos a NTN-B longa. Em out/2022 ele estimava 16% menos uns 6%, perto de 10 pontos, entre os maiores da série. Serve para a decisão de alocação (quanto em renda variável), não para escolher ação. O P/L do índice vem de fonte de mercado, não dos scripts daqui: cite a fonte e a data, e lembre que o índice brasileiro pesa commodity, cujo lucro no pico infla o earnings yield (calcule também sem elas, quando a fonte permitir). Marcos históricos e o que aconteceu depois de out/2022 em `numeros-de-base.md`.
 
 ## Margem de segurança
 

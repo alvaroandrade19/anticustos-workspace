@@ -141,6 +141,7 @@ Em `references/biblioteca-de-marketing/`, roteada por `INDICE.md`. Mapa rápido:
 - **Estratégia:** `livros/breakthrough-advertising-schwartz.md` (sofisticação e consciência; decide headline e quanto educar).
 - **Gancho, lead e voz:** `livros/cartas-boron-halbert.md` e `livros/psicologia-de-wundt.md` (ajuste de novidade).
 - **Prova, objeção, oferta, urgência, CTA:** `livros/armas-da-persuasao-cialdini.md` e `livros/taticas-de-resposta-direta-kennedy.md`.
+- **Gatilhos mentais aplicados:** `livros/gatilhos-mentais.md` (os 15 do digital com a versão honesta para serviço, proibições e pilha por peça). Toda oferta, página, proposta e call passa pela checagem do fim desse arquivo.
 - **Avatar e voz do cliente:** `livros/guia-de-pesquisa-de-avatar.md`; consulta rápida em `livros/resumo-rapido.md`.
 - **Esqueletos comprovados:** `biblioteca-de-padroes/padroes.json` (8 famílias de padrão de anúncio vindas de e-commerce;
   as transferíveis para serviço são contraste jeito antigo e jeito novo, monólogo interno, diálogo com cético,

@@ -13,6 +13,8 @@ Os repositórios de origem usavam "ROE acima de 15%" como bom. No Brasil com Sel
 - **ROIC** (NOPAT sobre capital investido): o indicador principal. Compare com a Selic e com o custo de capital que você usou no valuation.
 - **ROE** com DuPont: margem líquida × giro do ativo × alavancagem. Pergunta: o ROE alto vem de margem, de eficiência ou de dívida? ROE que sobe só por alavancagem é risco, não qualidade.
 - **Margens** em série de 3 a 5 anos e contra pares. Margem caindo ano após ano com receita subindo é preço ou custo saindo do controle.
+- **Margem estrutural ou conjuntural** (Tiago Reis): margem que subiu por preço de commodity ou ciclo favorável passa; a que subiu por corte de custo, fechamento de agência ou ganho de escala tende a ficar. Separe as duas antes de projetar, e projete só a estrutural.
+- **Alocação de capital** é critério de gestão, não detalhe: veja o histórico do que a empresa fez com o lucro (aquisição, obra, recompra, dividendo) e se o retorno desses investimentos ficou acima do custo de capital. Obra que custou várias vezes o orçado destrói valor mesmo com operação boa.
 
 ## Qualidade do lucro
 
@@ -28,7 +30,7 @@ Lucro que não vira caixa é opinião contábil.
 
 ## Endividamento
 
-- **Dívida líquida / EBITDA**: acima de 3x pede atenção, mas depende do setor (utility regulada aguenta mais, cíclica aguenta menos). Empresa com caixa maior que a dívida tem dívida líquida negativa: ótimo, e ainda assim confira se o caixa está disponível ou preso.
+- **Dívida líquida / EBITDA**: acima de 3x pede atenção (é o nível agregado da bolsa na crise de 2015; em 2022 o agregado estava perto de 1x, ver `numeros-de-base.md`), mas depende do setor (utility regulada aguenta mais, cíclica aguenta menos). Empresa com caixa maior que a dívida tem dívida líquida negativa: ótimo, e ainda assim confira se o caixa está disponível ou preso.
 - **Cobertura de juros** (EBIT / despesa financeira): abaixo de 3x é pouca folga com Selic alta.
 - **Cronograma de vencimento**: a dívida que vence nos próximos 12 meses contra o caixa. É onde empresa quebra, não na razão média.
 - **Moeda**: dívida em dólar sem receita em dólar é aposta cambial que a empresa não declarou.
@@ -62,6 +64,12 @@ Os indicadores acima enganam nesses casos. Não aplique o `fundamentos.py` sem r
 ## Moat (vantagem competitiva)
 
 Cinco fontes: marca com preço premium, custo de troca alto, efeito de rede, vantagem de custo, ativo intangível ou regulatório (licença, patente, concessão). Teste: o que impede um concorrente bem financiado de tomar essa receita em cinco anos? Se a resposta é "nada", não há moat, e margem alta tende a ser competida para baixo. Para o ciclo de vida do setor (nascimento, crescimento, maturidade, declínio), o múltiplo aceitável muda: pagar caro por crescimento só vale se o crescimento é real.
+
+**Setor fragmentado com ganho de escala** é uma avenida de crescimento a checar: se o líder tem 6% do mercado e em mercados maduros o líder tem 20% a 25%, e escala dá vantagem real (compra, crédito, acesso a capital), há espaço para consolidar. A tese exige mostrar a vantagem de escala nos números (margem ou ROIC do líder acima dos pares), não só a fragmentação.
+
+## Trabalho de campo (o que o balanço não mostra)
+
+Tese que contraria o consenso precisa de evidência que o mercado não está olhando. Fontes gratuitas e checáveis: nota e comentários do aplicativo nas lojas, Reclame Aqui, avaliação de funcionários em sites de vagas, conversa com cliente, fornecedor ou funcionário, visita à loja ou ao produto. Regras: registre a fonte, a data e quantas pessoas ou avaliações, e rotule como **interpretação**, nunca como fato da empresa. Amostra pequena e conversas escolhidas a dedo confirmam o que você já queria achar (ver viés de confirmação em `vieses-e-armadilhas.md`). O trabalho de campo serve para derrubar ou fortalecer uma pergunta específica, escrita antes.
 
 ## Armadilha de valor
 

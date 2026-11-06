@@ -33,7 +33,7 @@ Leitura: o Ibovespa perdeu para o CDI em 15 anos, e as carteiras da fórmula bat
 
 ## Calibragem contra a Régua
 
-Limiar de P/L e de DY nasceu quando a renda fixa pagava pouco. Com Selic em 13,75%, um P/L de 15x equivale a lucro/preço de 6,7% e um de 20x, a 5,0%: ambos abaixo do que o Tesouro Selic paga sem risco. Isso não torna a regra errada, mas obriga a pergunta: **quanto o lucro precisa crescer para esse preço se pagar contra o CDI?** Uma tela de valor com limiar de juro baixo reprova quase tudo num país de juro alto, e quem relaxa o limiar por conforto deve registrar a decisão (`criterios-pre-definidos.md`). O `triagem.py --selic` imprime esse alerta.
+Limiar de P/L e de DY nasceu quando a renda fixa pagava pouco. Um P/L de 15x equivale a lucro/preço de 6,7% e um de 20x, a 5,0%. Esse rendimento é aproximadamente real (o lucro acompanha a inflação), então a comparação justa é com o juro real longo (NTN-B), não com a Selic nominal; comparar 6,7% com 13,75% subestima a ação em toda a inflação do período. Com NTN-B longa na faixa de 6% a 7% real (ordem de grandeza dos últimos anos; confira a taxa do dia no Tesouro Direto), P/L de 15x mal empata sem crescimento, e 20x perde. Isso não torna a regra errada, mas obriga a pergunta: **quanto o lucro precisa crescer acima da inflação para esse preço se pagar contra o juro real?** Uma tela de valor com limiar de juro baixo reprova quase tudo num país de juro alto, e quem relaxa o limiar por conforto deve registrar a decisão (`criterios-pre-definidos.md`). O `triagem.py --selic` imprime esse alerta.
 
 ## O que o artigo de Graham no IBrX 100 prova e não prova
 
